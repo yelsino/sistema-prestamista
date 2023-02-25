@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 function SidebarLinkGroup ({
   children,
   activecondition
-}) {
+}:any) {
   const [open, setOpen] = useState(activecondition)
 
   const handleClick = () => {

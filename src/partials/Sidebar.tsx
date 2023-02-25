@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 
 import SidebarLinkGroup from './SidebarLinkGroup'
 
-function Sidebar ({ sidebarOpen, setSidebarOpen }) {
+function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
   const location = useLocation()
   const { pathname } = location
 
@@ -35,7 +35,7 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }) {
   })
 
   useEffect(() => {
-    localStorage.setItem('sidebar-expanded', sidebarExpanded)
+    localStorage.setItem('sidebar-expanded', JSON.stringify(sidebarExpanded))
     if (sidebarExpanded) {
       document.querySelector('body').classList.add('sidebar-expanded')
     } else {

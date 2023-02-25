@@ -5,7 +5,7 @@ function Info ({
   children,
   className,
   containerClassName
-}) {
+}:any) {
   const [infoOpen, setInfoOpen] = useState(false)
 
   return (
@@ -28,6 +28,7 @@ function Info ({
       </button>
       <div className="z-10 absolute bottom-full left-1/2 transform -translate-x-1/2">
         <Transition
+          appear={true}
           show={infoOpen}
           tag="div"
           className={`bg-white border border-slate-200 p-3 rounded shadow-lg overflow-hidden mb-2 ${containerClassName}`}

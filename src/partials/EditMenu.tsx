@@ -4,7 +4,7 @@ import Transition from '../utils/Transition'
 function EditMenu ({
   children,
   ...rest
-}) {
+}:any) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const trigger = useRef(null)
@@ -47,6 +47,7 @@ function EditMenu ({
         </svg>
       </button>
       <Transition
+        appear={true}
         show={dropdownOpen}
         tag="div"
         className="origin-top-right z-10 absolute top-full right-0 min-w-36 bg-white border border-slate-200 py-1.5 rounded shadow-lg overflow-hidden mt-1"

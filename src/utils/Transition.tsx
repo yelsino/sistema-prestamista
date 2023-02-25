@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { CSSTransition as ReactCSSTransition } from 'react-transition-group'
 
 const TransitionContext = React.createContext({
@@ -26,7 +26,7 @@ function CSSTransition ({
   tag = 'div',
   children,
   ...rest
-}) {
+}:any) {
   const enterClasses = enter.split(' ').filter((s) => s.length)
   const enterStartClasses = enterStart.split(' ').filter((s) => s.length)
   const enterEndClasses = enterEnd.split(' ').filter((s) => s.length)
@@ -83,16 +83,16 @@ function CSSTransition ({
   )
 }
 
-function Transition ({ show, appear, ...rest }) {
-  const { parent } = useContext(TransitionContext)
+function Transition ({ show, appear, ...rest }:any) {
+  // const { parent } = useContext(TransitionContext)
   const isInitialRender = useIsInitialRender()
   const isChild = show === undefined
 
   if (isChild) {
     return (
       <CSSTransition
-        appear={parent.appear || !parent.isInitialRender}
-        show={parent.show}
+        // appear={parent.appear || !parent.isInitialRender}
+        // show={parent.show}
         {...rest}
       />
     )

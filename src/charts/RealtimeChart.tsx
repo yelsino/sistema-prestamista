@@ -14,7 +14,7 @@ function RealtimeChart ({
   data,
   width,
   height
-}) {
+}:any) {
   const canvas = useRef(null)
   const chartValue = useRef(null)
   const chartDeviation = useRef(null)
@@ -86,7 +86,6 @@ function RealtimeChart ({
       }
     })
     return () => chart.destroy()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   // Update header values
@@ -112,7 +111,7 @@ function RealtimeChart ({
         </div>
       </div>
       <div className="grow">
-        <canvas ref={canvas} data={data} width={width} height={height}></canvas>
+        {/* <canvas ref={canvas} data={data} width={width} height={height}></canvas> */}
       </div>
     </React.Fragment>
   )

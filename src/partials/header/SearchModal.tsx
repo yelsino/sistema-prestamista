@@ -7,7 +7,7 @@ function SearchModal ({
   searchId,
   modalOpen,
   setModalOpen
-}) {
+}:any) {
   const modalContent = useRef(null)
   const searchInput = useRef(null)
 

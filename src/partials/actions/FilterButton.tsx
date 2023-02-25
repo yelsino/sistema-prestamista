@@ -42,6 +42,7 @@ function FilterButton () {
         </svg>
       </button>
       <Transition
+        appear={true}
         show={dropdownOpen}
         tag="div"
         className="origin-top-right z-10 absolute top-full left-0 right-auto md:left-auto md:right-0 min-w-56 bg-white border border-slate-200 pt-1.5 rounded shadow-lg overflow-hidden mt-1"

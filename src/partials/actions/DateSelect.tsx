@@ -72,6 +72,7 @@ function DateSelect () {
         </svg>
       </button>
       <Transition
+        appear={true}
         show={dropdownOpen}
         tag="div"
         className="z-10 absolute top-full right-0 w-full bg-white border border-slate-200 py-1.5 rounded shadow-lg overflow-hidden mt-1"
@@ -93,7 +94,7 @@ function DateSelect () {
               return (
                 <button
                   key={option.id}
-                  tabIndex="0"
+                  tabIndex={0}
                   className={`flex items-center w-full hover:bg-slate-50 py-1 px-3 cursor-pointer ${option.id === selected && 'text-indigo-500'}`}
                   onClick={() => { setSelected(option.id); setDropdownOpen(false) }}
                 >

@@ -33,7 +33,7 @@ function DashboardCard05 () {
     const now = new Date()
     const dates = []
     data.forEach((v, i) => {
-      dates.push(new Date(now - 2000 - i * 2000))
+      dates.push(new Date(Number(now) - 2000 - i * 2000))
     })
     return dates
   }
@@ -59,7 +59,6 @@ function DashboardCard05 () {
     }
     setSlicedLabels(([x, ...slicedLabels]) => [...slicedLabels, new Date()])
     return () => setIncrement(0)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [counter])
 
   const chartData = {

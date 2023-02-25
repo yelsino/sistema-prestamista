@@ -113,13 +113,13 @@ function LineChart02 ({
               box.style.borderRadius = tailwindConfig().theme.borderRadius.full
               box.style.marginRight = tailwindConfig().theme.margin[2]
               box.style.borderWidth = '3px'
-              box.style.borderColor = c.data.datasets[item.datasetIndex].borderColor
+              // box.style.borderColor = c.data.datasets[item.datasetIndex].borderColor
               box.style.pointerEvents = 'none'
               // Label
               const label = document.createElement('span')
               label.style.color = tailwindConfig().theme.colors.slate[500]
               label.style.fontSize = tailwindConfig().theme.fontSize.sm[0]
-              label.style.lineHeight = tailwindConfig().theme.fontSize.sm[1].lineHeight
+              // label.style.lineHeight = tailwindConfig().theme.fontSize.sm[1].lineHeight
               const labelText = document.createTextNode(item.text)
               label.appendChild(labelText)
               li.appendChild(button)
@@ -132,7 +132,6 @@ function LineChart02 ({
       ]
     })
     return () => chart.destroy()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

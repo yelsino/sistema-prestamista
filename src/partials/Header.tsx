@@ -7,7 +7,7 @@ import UserMenu from './header/UserMenu'
 function Header ({
   sidebarOpen,
   setSidebarOpen
-}) {
+}:any) {
   const [searchModalOpen, setSearchModalOpen] = useState(false)
 
   return (

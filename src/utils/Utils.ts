@@ -2,13 +2,13 @@ import resolveConfig from 'tailwindcss/resolveConfig'
 
 export const tailwindConfig = () => {
   // Tailwind config
-  return resolveConfig('./src/css/tailwind.config.js')
+  return resolveConfig('./src/css/tailwind.config.js' as any)
 }
 
 export const hexToRGB = (h) => {
-  let r = 0
-  let g = 0
-  let b = 0
+  let r = '0'
+  let g = '0'
+  let b = '0'
   if (h.length === 4) {
     r = `0x${h[1]}${h[1]}`
     g = `0x${h[2]}${h[2]}`
