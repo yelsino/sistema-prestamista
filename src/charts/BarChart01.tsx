@@ -14,12 +14,12 @@ function BarChart01 ({
   data,
   width,
   height
-}) {
+}:any) {
   const canvas = useRef(null)
   const legend = useRef(null)
 
   useEffect(() => {
-    const ctx = canvas.current
+    const ctx = canvas.current as any
     // eslint-disable-next-line no-unused-vars
     const chart = new Chart(ctx, {
       type: 'bar',
@@ -66,7 +66,8 @@ function BarChart01 ({
           },
           tooltip: {
             callbacks: {
-              title: () => false, // Disable tooltip title
+              // title: () => false, // comentado
+              title: (context) => context[0].label,
               label: (context) => formatValue(context.parsed.y)
             }
           }
@@ -84,7 +85,7 @@ function BarChart01 ({
       plugins: [{
         id: 'htmlLegend',
         afterUpdate (c, args, options) {
-          const ul = legend.current
+          const ul = legend.current as any
           if (!ul) return
           // Remove old legend items
           while (ul.firstChild) {
@@ -112,7 +113,7 @@ function BarChart01 ({
             box.style.borderRadius = tailwindConfig().theme.borderRadius.full
             box.style.marginRight = tailwindConfig().theme.margin[2]
             box.style.borderWidth = '3px'
-            box.style.borderColor = item.fillStyle
+            box.style.borderColor = item.fillStyle as any
             box.style.pointerEvents = 'none'
             // Label
             const labelContainer = document.createElement('span')
@@ -121,15 +122,15 @@ function BarChart01 ({
             const value = document.createElement('span')
             value.style.color = tailwindConfig().theme.colors.slate[800]
             value.style.fontSize = tailwindConfig().theme.fontSize['3xl'][0]
-            value.style.lineHeight = tailwindConfig().theme.fontSize['3xl'][1].lineHeight
+            // value.style.lineHeight = tailwindConfig().theme.fontSize['3xl'][1].lineHeight as any
             value.style.fontWeight = tailwindConfig().theme.fontWeight.bold
             value.style.marginRight = tailwindConfig().theme.margin[2]
             value.style.pointerEvents = 'none'
             const label = document.createElement('span')
             label.style.color = tailwindConfig().theme.colors.slate[500]
             label.style.fontSize = tailwindConfig().theme.fontSize.sm[0]
-            label.style.lineHeight = tailwindConfig().theme.fontSize.sm[1].lineHeight
-            const theValue = c.data.datasets[item.datasetIndex].data.reduce((a, b) => a + b, 0)
+            // label.style.lineHeight = tailwindConfig().theme.fontSize.sm[1].lineHeight as any
+            const theValue = c.data.datasets[item.datasetIndex].data.reduce((a, b) => (Number(a) + Number(b)), 0)
             const valueText = document.createTextNode(formatValue(theValue))
             const labelText = document.createTextNode(item.text)
             value.appendChild(valueText)
@@ -143,9 +144,8 @@ function BarChart01 ({
           })
         }
       }]
-    })
+    }) as any
     return () => chart.destroy()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
