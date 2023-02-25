@@ -14,7 +14,7 @@ function LineChart02 ({
   data,
   width,
   height
-}) {
+}:any) {
   const canvas = useRef(null)
   const legend = useRef(null)
 
@@ -33,9 +33,9 @@ function LineChart02 ({
             border: {
               display: false
             },
-            grid: {
-              beginAtZero: true
-            },
+            // grid: {
+            //   beginAtZero: true
+            // },
             ticks: {
               maxTicksLimit: 5,
               callback: (value) => formatValue(value)
@@ -68,7 +68,8 @@ function LineChart02 ({
           },
           tooltip: {
             callbacks: {
-              title: () => false, // Disable tooltip title
+              // title: () => false, // Disable tooltip title
+              title: (context) => {},
               label: (context) => formatValue(context.parsed.y)
             }
           }

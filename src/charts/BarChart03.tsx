@@ -14,7 +14,7 @@ function BarChart03 ({
   data,
   width,
   height
-}) {
+}:any) {
   const canvas = useRef(null)
   const legend = useRef(null)
 
@@ -56,8 +56,9 @@ function BarChart03 ({
           },
           tooltip: {
             callbacks: {
-              title: () => false, // Disable tooltip title
-              label: (context) => context.parsed.x
+              // title: () => false, // Disable tooltip title
+              title: (context) => {}
+              // label: (context) => context.parsed.x
             }
           }
         },
@@ -97,16 +98,16 @@ function BarChart03 ({
             box.style.height = tailwindConfig().theme.width[3]
             box.style.borderRadius = tailwindConfig().theme.borderRadius.sm
             box.style.marginRight = tailwindConfig().theme.margin[3]
-            box.style.backgroundColor = item.fillStyle
+            // box.style.backgroundColor = item.fillStyle
             const label = document.createElement('div')
             const value = document.createElement('div')
             value.style.fontWeight = tailwindConfig().theme.fontWeight.medium
             value.style.marginLeft = tailwindConfig().theme.margin[3]
             value.style.color = item.text === 'Other' ? tailwindConfig().theme.colors.slate[400] : item.fillStyle
-            const theValue = c.data.datasets[item.datasetIndex].data.reduce((a, b) => a + b, 0)
-            const valueText = document.createTextNode(`${parseInt(theValue / max * 100)}%`)
+            // const theValue = c.data.datasets[item.datasetIndex].data.reduce((a, b) => Number(a) + Number(b), 0)
+            // const valueText = document.createTextNode(`${parseInt(theValue / max * 100)}%`)
             const labelText = document.createTextNode(item.text)
-            value.appendChild(valueText)
+            // value.appendChild(valueText)
             label.appendChild(labelText)
             ul.appendChild(li)
             li.appendChild(wrapper)
@@ -118,7 +119,6 @@ function BarChart03 ({
       }]
     })
     return () => chart.destroy()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

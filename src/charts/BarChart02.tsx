@@ -14,7 +14,7 @@ function BarChart02 ({
   data,
   width,
   height
-}) {
+}:any) {
   const canvas = useRef(null)
 
   useEffect(() => {
@@ -72,7 +72,8 @@ function BarChart02 ({
           },
           tooltip: {
             callbacks: {
-              title: () => false, // Disable tooltip title
+              // title: () => false,
+              title: (context) => {},
               label: (context) => formatValue(context.parsed.y)
             }
           }
@@ -89,7 +90,6 @@ function BarChart02 ({
       }
     })
     return () => chart.destroy()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

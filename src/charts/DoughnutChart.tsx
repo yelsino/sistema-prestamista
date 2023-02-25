@@ -14,7 +14,7 @@ function DoughnutChart ({
   data,
   width,
   height
-}) {
+}:any) {
   const canvas = useRef(null)
   const legend = useRef(null)
 
@@ -61,14 +61,14 @@ function DoughnutChart ({
             // Button element
             const button = document.createElement('button')
             button.classList.add('btn-xs')
-            button.style.backgroundColor = tailwindConfig().theme.colors.white
+            // button.style.backgroundColor = tailwindConfig().theme.colors.white
             button.style.borderWidth = tailwindConfig().theme.borderWidth[1]
             button.style.borderColor = tailwindConfig().theme.colors.slate[200]
             button.style.color = tailwindConfig().theme.colors.slate[500]
             button.style.boxShadow = tailwindConfig().theme.boxShadow.md
             button.style.opacity = item.hidden ? '.3' : ''
             button.onclick = () => {
-              c.toggleDataVisibility(item.index, !item.index)
+              // c.toggleDataVisibility(item.index, !item.index)
               c.update()
             }
             // Color box
@@ -76,7 +76,7 @@ function DoughnutChart ({
             box.style.display = 'block'
             box.style.width = tailwindConfig().theme.width[2]
             box.style.height = tailwindConfig().theme.height[2]
-            box.style.backgroundColor = item.fillStyle
+            // box.style.backgroundColor = item.fillStyle
             box.style.borderRadius = tailwindConfig().theme.borderRadius.sm
             box.style.marginRight = tailwindConfig().theme.margin[1]
             box.style.pointerEvents = 'none'
@@ -95,7 +95,6 @@ function DoughnutChart ({
       }]
     })
     return () => chart.destroy()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
