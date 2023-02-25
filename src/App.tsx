@@ -1,6 +1,7 @@
 import {
   Routes,
-  Route
+  Route,
+  BrowserRouter
   // useLocation
 } from 'react-router-dom'
 
@@ -21,11 +22,13 @@ function App () {
   // }, [location.pathname])
 
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-      </Routes>
-    </>
+      <>
+          <BrowserRouter>
+              <Routes>
+                  <Route path="/" element={<Dashboard />} />
+              </Routes>
+          </BrowserRouter>
+      </>
   )
 }
 
