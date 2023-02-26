@@ -20,4 +20,10 @@ After the installation of the dependencies run:
 npm run dev
 ```
 
-Made with ❤️ by Daniel Serrano Cobos
+Made with ❤️ YELSIÑO
+
+INSPIRADO EN : 
+	https://sistemasenoferta.com/sistemas/sys-cobranza/admin/dashboard
+	https://mosaic.cruip.com/
+
+
