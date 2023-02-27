@@ -1,0 +1,19 @@
+.ant-table {
+}
+  
+.ant-table-thead {
+}
+  
+.ant-table-thead > tr > th {
+  background-color: #F8FAFC !important;
+  color: #94A3B8 !important;
+}
+
+.ant-table-tbody > tr > td {
+text-align: center;
+}
+
+.ant-pagination {
+  margin-top: 24px;
+}
+

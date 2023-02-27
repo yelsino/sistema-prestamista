@@ -26,4 +26,6 @@ INSPIRADO EN :
 	https://sistemasenoferta.com/sistemas/sys-cobranza/admin/dashboard
 	https://mosaic.cruip.com/
 
+#94A3B8
+#F8FAFC
 

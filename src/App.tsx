@@ -12,6 +12,7 @@ import Clientes from './pages/Clientes'
 import Monedas from './pages/Monedas'
 import Prestamos from './pages/Prestamos'
 import Cobranzas from './pages/Cobranzas'
+import FormCliente from './partials/clientes/FormCliente'
 
 function App () {
   const location = useLocation()
@@ -26,11 +27,12 @@ function App () {
       <>
           <Background>
               <Routes>
-                  <Route path="/" element={<Dashboard/>} />
-                  <Route path="/clientes" element={<Clientes/>} />
-                  <Route path="/monedas" element={<Monedas/>} />
-                  <Route path="/prestamos" element={<Prestamos/>} />
-                  <Route path="/cobranzas" element={<Cobranzas/>} />
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/clientes" element={<Clientes />} />
+                  <Route path="/clientes/nuevo" element={<FormCliente />} />
+                  <Route path="/monedas" element={<Monedas />} />
+                  <Route path="/prestamos" element={<Prestamos />} />
+                  <Route path="/cobranzas" element={<Cobranzas />} />
               </Routes>
           </Background>
       </>
