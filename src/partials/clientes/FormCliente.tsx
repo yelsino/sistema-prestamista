@@ -291,7 +291,7 @@ const FormCliente: React.FC = () => {
                                 .filter(({ errors }) => errors.length).length
                           }
                       >
-                          Log in
+                          Registrar
                       </Button>
                   )}
               </Form.Item>
@@ -613,3 +613,14 @@ console.log(departamentosPeru)
 // { nombre: "Tacna" },
 // { nombre: "Tumbes" },
 // { nombre: "Ucayali" }
+
+// crear 3 tablas en la base de datos para registrar los datos de los departamentos, provincias y distritos
+
+// departamentos: con un identificador (id) y un nombre (nombre).
+// provincias: con un identificador (id), un nombre (nombre) y el identificador del departamento al que pertenece (departamento_id).
+// distritos: con un identificador (id), un nombre (nombre) y el identificador de la provincia a la que pertenece (provincia_id).
+// En cuanto a la relación entre las tablas, podrías establecer las siguientes:
+
+// Cada registro en la tabla provincias debe estar asociado a un registro en la tabla departamentos, a través del campo departamento_id.
+// Cada registro en la tabla distritos debe estar asociado a un registro en la tabla provincias, a través del campo provincia_id.
+// Con estas relaciones establecidas, podrías hacer consultas a la base de datos para obtener los datos de los departamentos, provincias y distritos, y luego usarlos para llenar los inputs en tu aplicación.
