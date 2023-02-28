@@ -1,0 +1,406 @@
+{
+	"info": {
+		"_postman_id": "87809e13-7a56-474f-b587-5be9432ea877",
+		"name": "NS-TYPESCRIPT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12311952"
+	},
+	"item": [
+		{
+			"name": "usuario",
+			"item": [
+				{
+					"name": "nuevo usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sobreNombre\": \"juancito\",\r\n  \"nombres\": \"juancito\",\r\n  \"apellidos\": \"juancito juancito\",\r\n  \"documento\": \"123456789\",\r\n  \"celular\": \"123456789\",\r\n  \"correo\": \"juancito@gmail.com\",\r\n  \"password\": \"juancito\",\r\n  \"roles\": [\"USUARIO\",\"CASERO\",\"TRABAJADOR\",\"ADMIN\"],\r\n  \"foto\": \"\",\r\n  \"online\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correo\": \"yelsino321@gmail.com\",\r\n    \"password\": \"contraseña\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "productos",
+			"item": [
+				{
+					"name": "nuevo producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre",
+									"value": "11112222",
+									"type": "text"
+								},
+								{
+									"key": "tipoVenta",
+									"value": "KILOGRAMOS",
+									"type": "text"
+								},
+								{
+									"key": "envoltorio",
+									"value": "CAJAS",
+									"type": "text"
+								},
+								{
+									"key": "unidades",
+									"value": "10 ",
+									"type": "text"
+								},
+								{
+									"key": "cantidadPorUnidad",
+									"value": "15 ",
+									"type": "text"
+								},
+								{
+									"key": "precioCompra",
+									"value": "75 ",
+									"type": "text"
+								},
+								{
+									"key": "precioVenta",
+									"value": "85",
+									"type": "text"
+								},
+								{
+									"key": "alertaCantidad",
+									"value": "15 ",
+									"type": "text"
+								},
+								{
+									"key": "sobrante",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "categoria",
+									"value": "FRUTASsS",
+									"type": "text"
+								},
+								{
+									"key": "descripcion",
+									"value": "La mandarina es una fruta tropical de la familia de las Rutáceas, con un color amarillo pálido, una sutil textura y una gran pureza. Su sabor es dulce y su aroma es fresco. La mandarina es una fruta de gran calidad, que se cultiva en todo el mundo.",
+									"type": "text"
+								},
+								{
+									"key": "estados",
+									"value": "CON_STOCK",
+									"type": "text"
+								},
+								{
+									"key": "marca",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "anaranjado",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "fruta",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "citrico",
+									"type": "text"
+								},
+								{
+									"key": "visibilidad",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "precios",
+									"value": "[{ peso: 1000, precio: 5.0 },{ peso: 500, precio: 2.5 },{ peso: 250, precio: 1.3 }]",
+									"type": "text"
+								},
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": "/C:/Users/yelsino/Desktop/Mandarina.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3002/producto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"producto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener todo",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/productos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correo\": \"yelsino321@gmail.com\",\r\n    \"password\": \"contraseña\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/productos/637c1b50c599c0ea19aafa0a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"productos",
+								"637c1b50c599c0ea19aafa0a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener por id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correo\": \"yelsino321@gmail.com\",\r\n    \"password\": \"contraseña\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/productos/637c1b50c599c0ea19aafa0a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"productos",
+								"637c1b50c599c0ea19aafa0a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualziar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"GUINDAS\",\r\n  \"tipoVenta\": \"KILOGRAMOS\",\r\n  \"envoltorio\": \"CAJAS\",\r\n  \"unidades\": 10,\r\n  \"cantidadPorUnidad\": 15,\r\n  \"precioCompra\": 75,\r\n  \"precioVenta\": 85,\r\n  \"alertaCantidad\": 15,\r\n  \"sobrante\": 5,\r\n  \"categoria\": {\r\n    \"nombre\": \"FRUTAS\"\r\n  },\r\n  \"descripcion\": \"La mandarina es una fruta tropical de la familia de las Rutáceas, con un color amarillo pálido, una sutil textura y una gran pureza. Su sabor es dulce y su aroma es fresco. La mandarina es una fruta de gran calidad, que se cultiva en todo el mundo.\",\r\n  \"estados\": \"CON_STOCK\",\r\n  \"imagen\": \"https://res.cloudinary.com/dwkfj5sxb/image/upload/v1651534997/productos/recorte%20200/mandarina-min-min_o2pqys.png\",\r\n  \"marca\": \"\",\r\n  \"tags\": [\r\n    \"anaranjado\",\r\n    \"fruta\",\r\n    \"citrico\"\r\n  ],\r\n  \"visibilidad\": true,\r\n  \"precios\": [\r\n    {\r\n      \"peso\": 1000,\r\n      \"precio\": 5\r\n    },\r\n    {\r\n      \"peso\": 500,\r\n      \"precio\": 2.5\r\n    },\r\n    {\r\n      \"peso\": 250,\r\n      \"precio\": 1.3\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/productos/637c1d198679613a8372b2b0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"productos",
+								"637c1d198679613a8372b2b0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Direcciones",
+			"item": [
+				{
+					"name": "crear direccion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Jron manuel prado\",\r\n    \"referencia\": \"al costado de la tienda\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/direccion",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"direccion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener direccion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/direccion/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"direccion",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Jron manuel prado\",\r\n    \"referencia\": \"al costado de la tienda\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/direccion/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"direccion",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

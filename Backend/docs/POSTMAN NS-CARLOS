@@ -1,0 +1,906 @@
+{
+	"info": {
+		"_postman_id": "87809e13-7a56-474f-b587-5be9432ea877",
+		"name": "NS-TYPESCRIPT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12311952"
+	},
+	"item": [
+		{
+			"name": "usuario",
+			"item": [
+				{
+					"name": "nuevo usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sobreNombre\": \"yelsiño\",\r\n  \"nombres\": \"yelsin\",\r\n  \"apellidos\": \"caso alanya\",\r\n  \"documento\": \"77068777\",\r\n  \"celular\": \"939616300\",\r\n  \"correo\": \"cuenta6@gmail.com\",\r\n  \"password\": \"yelsin312@231\",\r\n  \"roles\": [\r\n      {\"nombre\":\"USUARIO\"}, \r\n      {\"nombre\":\"CASERO\"}, \r\n      {\"nombre\":\"TRABAJADOR\"}, \r\n      {\"nombre\":\"ADMIN\"}\r\n    ],\r\n  \"foto\": \"https://res.cloudinary.com/dwkfj5sxb/image/upload/v1650590795/yelsin_rp8zyt.jpg\",\r\n  \"online\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/auth/register",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registrar con correo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"correo\": \"yelsinocaso@gmail.com\",\r\n  \"password\": \"123456\",\r\n  \"codigo\": \"GPQB\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/auth/registro-correo",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"auth",
+								"registro-correo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login google",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n  \"googleId\": \"103347789912837116836\",\r\n  \"imageUrl\": \"https://lh3.googleusercontent.com/a/AEdFTp729i2LlPiqCUd6nQ8z7xihvHLUkC494OJvpSfV=s96-c\",\r\n  \"email\": \"elsinkuro@gmail.com\",\r\n  \"name\": \"yelsiño BLOG\",\r\n  \"givenName\": \"yelsiño\",\r\n  \"familyName\": \"BLOG\",\r\n  \"expires_in\": 3599,\r\n  \"access_token\": \"ya29.a0AX9GBdXS3Q5Awf0muGcghDn_1po7-dx-HvNgN575pdKmVBynzwYYmOxMigXuK9CxS7oM9aB4CyQ0_F3w_jJ9NBoyBi6jr71sTz-wqswK2GupjkBE-EXBuO60BTo5EoASF9hvhbvDBsqK9FQ2D9Bt03k_iVbFl_gaCgYKAXYSARMSFQHUCsbCW55KIBDJB8irUpaBv5h4Zg0166\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/auth/login-google",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"auth",
+								"login-google"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login phone",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n  \"celular\": \"939616350\",\r\n  \"password\": \"mi contraseña!!!!!!!!!!!!!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/auth/login-mobile",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"auth",
+								"login-mobile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registro con movil",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n  \"celular\": \"939616350\",\r\n  \"password\": \"mi contraseña!!!!!!!!!!!!!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/auth/registro-mobile",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"auth",
+								"registro-mobile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login facebook",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Yelsiño Caso Alanya\",\r\n  \"email\": \"yelsino321@gmail.com\",\r\n  \"picture\": {\r\n    \"data\": {\r\n      \"height\": 50,\r\n      \"is_silhouette\": false,\r\n      \"url\": \"https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=854118062642255&height=50&width=50&ext=1673974099&hash=AeTVsxJvcj8uJAR9Jcc\",\r\n      \"width\": 50\r\n    }\r\n  },\r\n  \"id\": \"854118062642255\",\r\n  \"accessToken\": \"EAAgz9yOzrpUBAPzuP3H0ANcXT4pPd5Lgkx808t9TWLIm2Bp1kyEvX8qHz4qKzDctA8VIYIvUNDEz5Blm754T0IasXkZBQs0LkQtDcFXa52KtFT68B33Q3FtoSikZC9mNlDZCaiskgxtWprXcR4G3dubdUBNnL9O4CJXrOyrZBzsBpT8liopuHejJYF7RFgjReDZAhZBXfyuG1LHzbNE6mp\",\r\n  \"userID\": \"854118062642255\",\r\n  \"expiresIn\": 4301,\r\n  \"signedRequest\": \"vUGjj4_-F_4IY0mr_--EQaes7BFLUl2NLGw3xcjj7GY.eyJ1c2VyX2lkIjoiODU0MTE4MDYyNjQyMjU1IiwiY29kZSI6IkFRQ0xLVlprd1ozTGZpc3JQVnM4SDUxaGN1a1FpTVpOZlU5cWFUbjRkY3g5ZXc3ODhobkRLMFhnbFB2T1o4VnNmcEdBdWQzVWZfZWZQR3NMUzdDZ2plSkZfbF96dUFMcjRxUGc2SEkzRXh6cWRmWVlPZEVLelo3eEFyOGlSRDN2ZlpPRGxLbmFqZkduZXQzUmZfNzBXWU55dVVzVEdYdWNFVUVVZWQ3VklRUW5PQVlRQUVtUHBuR011TlpaM3ZaOW5SOFRjMV9lc3lJR2dOZ1hiTEZRNDFhaUwwVUtiRVZqUGV2OGtlSjdUUkJBX2Z1YzJ5Rnd3Uk9aSHhGWGRtOFhsTlFfMnZDRUYzSmZQeF9DQlpuMDE5YXlrRkZYVHdIMkl0UFJpN05hdDB2Qkk1anhOemMyRGZTbHI4eHRmU19ZZjlXLVZBODFfQXVoYjdwTWpSM3RXZjJPIiwiYWxnb3JpdGhtIjoiSE1BQy1TSEEyNTYiLCJpc3N1ZWRfYXQiOjE2NzEzODIwOTl9\",\r\n  \"graphDomain\": \"facebook\",\r\n  \"data_access_expiration_time\": 1679158098\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/auth/login-facebook",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"auth",
+								"login-facebook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validar token google",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://oauth2.googleapis.com/tokeninfo?access_token=ya29.a0AeTM1ieXfbh_lvwxpQB3VaTtIdJ9B9Rurgp4y-Rx7e1pkaj8TcOAHAy3BV9JwaED4PoT3J4xPl1mVdRNYeYcsmYOvVhjB4wsRMdXZ0a8eNxzlGOUSpiiFkzwi4GsjOgXsGrjG1jJoiOphu7Y8VWOYNNCUmHVR7waCgYKAZoSARMSFQHWtWOmDBZEuXzSjYz6xZoDrIaxIA0166",
+							"protocol": "https",
+							"host": [
+								"oauth2",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"tokeninfo"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "ya29.a0AeTM1ieXfbh_lvwxpQB3VaTtIdJ9B9Rurgp4y-Rx7e1pkaj8TcOAHAy3BV9JwaED4PoT3J4xPl1mVdRNYeYcsmYOvVhjB4wsRMdXZ0a8eNxzlGOUSpiiFkzwi4GsjOgXsGrjG1jJoiOphu7Y8VWOYNNCUmHVR7waCgYKAZoSARMSFQHWtWOmDBZEuXzSjYz6xZoDrIaxIA0166"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correo\": \"yelsin@gmail.com\",\r\n    \"password\": \"yelsin312@231\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/auth/login",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verificar y enviar a movil",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"celular\": \"939616350\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/auth/verificar-mobile",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"auth",
+								"verificar-mobile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verificar y enviar correo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correo\": \"yelsinocaso@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}} /auth/verificar-correo",
+							"host": [
+								"{{LOC}} "
+							],
+							"path": [
+								"auth",
+								"verificar-correo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registrar con movil",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"celular\": \"939616350\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/auth/verificar-mobile",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"auth",
+								"verificar-mobile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "re auth",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOTNiMTA1Y2U2ZTRhOWJhMDQzYjBhNCIsImlhdCI6MTY3MTI5MzI3MywiZXhwIjoxNjcxMzAwNDczfQ.sjpR1mEaOcZ3WC1ygiiKAGKQulHjJofQGlzyGsVBLwg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/auth/re-login",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"auth",
+								"re-login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "notificaciones",
+			"item": [
+				{
+					"name": "to movil",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"celular\": \"939616350\",\r\n    \"mensaje\": \"HOLA YELSIÑO4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/notificacion/notificacion-movil",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"notificacion",
+								"notificacion-movil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "to email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"from\": \"yelsino321@gmail.com\",\r\n\t\"to\": \"yelsinkuro@gmail.com\",\r\n\t\"subject\": \"PRUEBAS DE ENVIO DE CORREO!\",\r\n\t\"text\": \"Prueba exitosa.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/notificacion/notificacion-correo",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"notificacion",
+								"notificacion-correo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "productos",
+			"item": [
+				{
+					"name": "nuevo producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre",
+									"value": "11112222",
+									"type": "text"
+								},
+								{
+									"key": "tipoVenta",
+									"value": "KILOGRAMOS",
+									"type": "text"
+								},
+								{
+									"key": "envoltorio",
+									"value": "CAJAS",
+									"type": "text"
+								},
+								{
+									"key": "unidades",
+									"value": "10 ",
+									"type": "text"
+								},
+								{
+									"key": "cantidadPorUnidad",
+									"value": "15 ",
+									"type": "text"
+								},
+								{
+									"key": "precioCompra",
+									"value": "75 ",
+									"type": "text"
+								},
+								{
+									"key": "precioVenta",
+									"value": "85",
+									"type": "text"
+								},
+								{
+									"key": "alertaCantidad",
+									"value": "15 ",
+									"type": "text"
+								},
+								{
+									"key": "sobrante",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "categoria",
+									"value": "FRUTASsS",
+									"type": "text"
+								},
+								{
+									"key": "descripcion",
+									"value": "La mandarina es una fruta tropical de la familia de las Rutáceas, con un color amarillo pálido, una sutil textura y una gran pureza. Su sabor es dulce y su aroma es fresco. La mandarina es una fruta de gran calidad, que se cultiva en todo el mundo.",
+									"type": "text"
+								},
+								{
+									"key": "estados",
+									"value": "CON_STOCK",
+									"type": "text"
+								},
+								{
+									"key": "marca",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "anaranjado",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "fruta",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "citrico",
+									"type": "text"
+								},
+								{
+									"key": "visibilidad",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "precios",
+									"value": "[{ peso: 1000, precio: 5.0 },{ peso: 500, precio: 2.5 },{ peso: 250, precio: 1.3 }]",
+									"type": "text"
+								},
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": "/C:/Users/yelsino/Desktop/Mandarina.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3002/producto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"producto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener todo",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/productos",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correo\": \"yelsino321@gmail.com\",\r\n    \"password\": \"contraseña\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/productos/637c1b50c599c0ea19aafa0a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"productos",
+								"637c1b50c599c0ea19aafa0a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener por id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correo\": \"yelsino321@gmail.com\",\r\n    \"password\": \"contraseña\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/productos/637c1b50c599c0ea19aafa0a",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"productos",
+								"637c1b50c599c0ea19aafa0a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualziar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"GUINDAS\",\r\n  \"tipoVenta\": \"KILOGRAMOS\",\r\n  \"envoltorio\": \"CAJAS\",\r\n  \"unidades\": 10,\r\n  \"cantidadPorUnidad\": 15,\r\n  \"precioCompra\": 75,\r\n  \"precioVenta\": 85,\r\n  \"alertaCantidad\": 15,\r\n  \"sobrante\": 5,\r\n  \"categoria\": {\r\n    \"nombre\": \"FRUTAS\"\r\n  },\r\n  \"descripcion\": \"La mandarina es una fruta tropical de la familia de las Rutáceas, con un color amarillo pálido, una sutil textura y una gran pureza. Su sabor es dulce y su aroma es fresco. La mandarina es una fruta de gran calidad, que se cultiva en todo el mundo.\",\r\n  \"estados\": \"CON_STOCK\",\r\n  \"imagen\": \"https://res.cloudinary.com/dwkfj5sxb/image/upload/v1651534997/productos/recorte%20200/mandarina-min-min_o2pqys.png\",\r\n  \"marca\": \"\",\r\n  \"tags\": [\r\n    \"anaranjado\",\r\n    \"fruta\",\r\n    \"citrico\"\r\n  ],\r\n  \"visibilidad\": true,\r\n  \"precios\": [\r\n    {\r\n      \"peso\": 1000,\r\n      \"precio\": 5\r\n    },\r\n    {\r\n      \"peso\": 500,\r\n      \"precio\": 2.5\r\n    },\r\n    {\r\n      \"peso\": 250,\r\n      \"precio\": 1.3\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/productos/637c1d198679613a8372b2b0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"productos",
+								"637c1d198679613a8372b2b0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post order",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"id\": \"4\",\r\n   \"date\": \"2021-11-05\",\r\n   \"total\": \"$13.00\",\r\n   \"status\": \"Pending\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/v1/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Direcciones",
+			"item": [
+				{
+					"name": "crear direccion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Jron manuel prado\",\r\n    \"referencia\": \"al costado de la tienda\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/direccion",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"direccion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener direccion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/direccion/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"direccion",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/direccion/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"direccion",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Jron manuel prado\",\r\n    \"referencia\": \"al costado de la tienda\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/direccion/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"direccion",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lista",
+			"item": [
+				{
+					"name": "detalle de lista",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOC}}/lista/obtener-lista/63cbf94af4a99923f23ea427",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"lista",
+								"obtener-lista",
+								"63cbf94af4a99923f23ea427"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "detalle de lista Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOC}}/lista/obtener-lista/63af5f3c62e57a14c64d0c74",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"lista",
+								"obtener-lista",
+								"63af5f3c62e57a14c64d0c74"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "todas las listas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{LOC}}/lista/obtener-lista/63af5f3c62e57a14c64d0c74",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"lista",
+								"obtener-lista",
+								"63af5f3c62e57a14c64d0c74"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crear lista",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"LISTA 2 YELSIÑO\",\r\n    \"usuario\": \"63ae1169f71982ed513d0e95\",\r\n    \"itemsLista\": [\r\n        {\r\n            \"cantidades\": [\r\n                {\"peso\":250 , \"precio\": 2.5, \"cantidad\": 5, \"_id\": \"63cb67a3babdc6840341ae30\"},\r\n                {\"peso\":500 , \"precio\": 5, \"cantidad\": 1,\"_id\": \"63cb67a3babdc6840341ae31\"},\r\n                {\"peso\":1000 , \"precio\": 10, \"cantidad\": 5, \"_id\": \"63cb67a3babdc6840341ae32\"}\r\n            ],\r\n            \"producto\": \"63cb67a3babdc6840341ae2f\"\r\n        }\r\n    ]\r\n}\r\n\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/lista/crear-lista",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"lista",
+								"crear-lista"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "agregar Producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"LISTA YELSIÑO\",\r\n    \"usuario\": \"63ae1169f71982ed513d0e95\",\r\n    \"itemsLista\": [\r\n        {\r\n            \"cantidades\": [{\"peso\":250 , \"precio\": 2.5, \"cantidad\": 5},{\"peso\":500 , \"precio\": 5, \"cantidad\": 1},{\"peso\":1000 , \"precio\": 10, \"cantidad\": 5}],\r\n            \"producto\": \"63cb67a3babdc6840341ae2f\"\r\n        },\r\n        {\r\n            \"cantidades\": [{\"peso\":250 , \"precio\": 2.5, \"cantidad\": 5},{\"peso\":500 , \"precio\": 5, \"cantidad\": 1},{\"peso\":1000 , \"precio\": 10, \"cantidad\": 5}],\r\n            \"producto\": \"63cb67a3babdc6840341ae34\"\r\n        },\r\n        {\r\n            \"cantidades\": [{\"peso\":250 , \"precio\": 2.5, \"cantidad\": 5},{\"peso\":500 , \"precio\": 5, \"cantidad\": 1},{\"peso\":1000 , \"precio\": 10, \"cantidad\": 5}],\r\n            \"producto\": \"63cb67a3babdc6840341ae39\"\r\n        },\r\n        {\r\n            \"cantidades\": [{\"peso\":250 , \"precio\": 2.5, \"cantidad\": 5},{\"peso\":500 , \"precio\": 5, \"cantidad\": 1},{\"peso\":1000 , \"precio\": 10, \"cantidad\": 5}],\r\n            \"producto\": \"63cb67a3babdc6840341ae3e\"\r\n        },\r\n        {\r\n            \"cantidades\": [{\"peso\":250 , \"precio\": 2.5, \"cantidad\": 5},{\"peso\":500 , \"precio\": 5, \"cantidad\": 1},{\"peso\":1000 , \"precio\": 10, \"cantidad\": 5}],\r\n            \"producto\": \"63cb67a3babdc6840341ae43\"\r\n        }\r\n    ]\r\n}\r\n\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{LOC}}/lista/crear-lista",
+							"host": [
+								"{{LOC}}"
+							],
+							"path": [
+								"lista",
+								"crear-lista"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

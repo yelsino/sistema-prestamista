@@ -1,0 +1,8 @@
+{
+	"port": 8080,
+	"baseUrl": "http://localhost",
+	"host": "localhost",
+	"corsOrigin": "*",
+	"db_coneccion": "mongodb://localhost:27017/bdprestamos",
+	"mysql_db": "127.0.0.1"
+}

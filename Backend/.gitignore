@@ -1,0 +1,8 @@
+node_modules
+storage/*
+!storage/.gitkeep
+
+dist
+yarn.lock
+
+config/production.json
