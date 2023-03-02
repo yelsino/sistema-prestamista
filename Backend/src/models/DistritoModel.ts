@@ -5,12 +5,14 @@ import { IProvincia } from "./ProvinciaModel";
 interface IDistrito {
     nombre: string;
     provincia: IProvincia;
+    codigo: number;
 }
 
 const DistritoSchema = new Schema<IDistrito>(
   {
    nombre: String,
-   provincia: {type: Schema.Types.ObjectId, ref: "provincias"}
+   provincia: {type: Schema.Types.ObjectId, ref: "provincias"},
+   codigo: Number,
   }
 );
 

@@ -1,7 +1,46 @@
+import Departamento from "../models/DepartamentoModel";
+import Distrito from "../models/DistritoModel";
+import Provincia from "../models/ProvinciaModel";
 import Rol from "../models/RolModel";
 import Usuario from "../models/UsuarioModel";
 import { encrypt } from "../utils";
+import { departamentos, distritos, provincias } from "./dataDirecciones";
 import { usuariosTienda } from "./usuariosTienda";
+
+export const crearDirecciones = async () => {
+  try {
+    const numDepartamentos = await Departamento.estimatedDocumentCount();
+    const numProvincias = await Provincia.estimatedDocumentCount();
+    const numDistritos = await Distrito.estimatedDocumentCount();
+
+    if(numDepartamentos > 0 && numProvincias > 0 && numDistritos > 0) return;
+
+    const departamentosGenerados = departamentos.map(async (v) => {
+      const nuevo = new Departamento({nombre: v.nombre, codigo: v.id});
+      return  Departamento.create(nuevo);
+    });
+    
+    const departamentosDB = await Promise.all(departamentosGenerados);
+
+    const provinciasGeneradas = provincias.map(async (v) => {
+      const nuevo = new Provincia({nombre: v.nombre, codigo: v.id, departamento: departamentosDB.find(d => d.codigo === v.id)?._id});
+      return  Provincia.create(nuevo);
+    });
+
+    const provinciasDB = await Promise.all(provinciasGeneradas);
+
+    const distritosGenerados = distritos.map(async (v) => {
+      const nuevo = new Distrito({nombre: v.nombre, codigo: v.id, provincia: provinciasDB.find(p => p.codigo === v.id)?._id});
+      return  Distrito.create(nuevo);
+    });
+
+    await Promise.all(distritosGenerados);
+
+    console.log('Data para direcciones creada')
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export const crearRoles = async () => {
   try {
@@ -20,8 +59,6 @@ export const crearRoles = async () => {
     console.log(error);
   }
 }
-
-
 
 
 export const crearUsuarios = async () => {
@@ -59,6 +96,7 @@ export const crearUsuarios = async () => {
 export const generarData = async () => {
   Promise.all([
     await crearRoles(),
-    await crearUsuarios()
+    await crearUsuarios(),
+    await crearDirecciones()
   ])
 }

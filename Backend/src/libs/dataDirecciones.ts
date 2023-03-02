@@ -27,7 +27,7 @@ export const departamentos = [
   { id: 25, nombre: 'Ucayali' }
 ]
 
-const provincias = [
+export const provincias = [
   { id: 1, nombre: 'Bagua', departamento: 1 },
   { id: 2, nombre: 'Bongará', departamento: 1 },
   { id: 3, nombre: 'Chachapoyas', departamento: 1 },
@@ -47,7 +47,7 @@ const provincias = [
   { id: 16, nombre: 'Yauli', departamento: 12 }
 ]
 
-const distritos = [
+export const distritos = [
   //
   { id: 1, nombre: 'Aramango', provincia: 1 },
   { id: 2, nombre: 'Bagua', provincia: 1 },
@@ -275,4 +275,3 @@ const distritos = [
   { id: 209, nombre: 'Yauli', provincia: 16 }
 ]
 
-console.log(departamentos, provincias, distritos)

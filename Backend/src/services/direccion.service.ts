@@ -1,4 +1,5 @@
 import { IDireccion, IRespuesta } from "types-yola";
+import Departamento, { IDepartamento } from "../models/DepartamentoModel";
 import Direccion from "../models/DireccionModel";
 import { Respuesta } from "../models/Respuesta";
 import Usuario from "../models/UsuarioModel";
@@ -44,12 +45,12 @@ export class DireccionService{
         return {...respuesta, code: 500, ok: false, data: null};
     };
 
-    obtenerDepartamentos = async ():Promise<IRespuesta<string[]>> => {
+    obtenerDepartamentos = async ():Promise<IRespuesta<IDepartamento[]>> => {
         const respuesta = new Respuesta();
 
         try {
             
-            const departamentos = await Direccion.distinct("departamento");
+            const departamentos = await Departamento.find();
             return  {...respuesta, code: 200, ok: true, data: departamentos, mensaje: "DEPARTAMENTOS OBTENIDOS"};
 
         } catch (error: any) {

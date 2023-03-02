@@ -1,5 +1,4 @@
 import "dotenv/config";
-import config from "config";
 import { connect } from "mongoose";
 import logger from "../utils/logger";
 import * as dotenv from 'dotenv' 
