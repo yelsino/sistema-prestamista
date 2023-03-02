@@ -4,5 +4,5 @@ Backend/dist
 Frontend/node_modules
 Frontend/dist
 
-type-prestamista/node_modules
-type-prestamista/dist
+types/node_modules
+types/dist
