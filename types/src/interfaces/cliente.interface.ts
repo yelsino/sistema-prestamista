@@ -1,3 +1,4 @@
+import { IUsuario } from "./usuario.interface";
 
 export interface ICliente {
     _id?: string;
@@ -12,4 +13,5 @@ export interface ICliente {
     ruc: string;
     razonSocial: string;
     estado: string;
+    agente: IUsuario
   }

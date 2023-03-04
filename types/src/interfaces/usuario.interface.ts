@@ -8,7 +8,7 @@ export interface IUsuario extends IAuth {
     roles: Array<IRol>;
     foto: string;
     documento: string;
-    idExterno?: string;
+    correo: string;
     estado?: Boolean;
 }
 
@@ -29,7 +29,7 @@ export interface IRol {
     nombre: Roles;
   }
   
-  type Roles = 
-    | 'ADMIN'
-    | 'AGENTE'
+type Roles = 
+  | 'ADMIN'
+  | 'AGENTE'
   
