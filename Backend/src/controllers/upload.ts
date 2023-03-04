@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { IStorage } from "types-yola";
+import { IStorage } from "types-prestamista";
 import { RequestExt } from "../interfaces/req-ext";
 import { registerUpload } from "../services/storage";
 import { handleHttp } from "../utils/error.handle";

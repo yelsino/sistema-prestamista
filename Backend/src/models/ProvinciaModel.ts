@@ -8,6 +8,7 @@ const ProvinciaSchema = new Schema<IProvincia>(
    nombre: String,
    departamento: {type: Schema.Types.ObjectId, ref: "departamentos"},
    codigo: Number,
+   uuid: Number,
   }
 );
 

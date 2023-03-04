@@ -1,7 +1,7 @@
 import { Schema,  model } from "mongoose";
 import { ICliente } from "types-prestamista";
 
-const UserSchema = new Schema<ICliente>(
+const ClienteSchema = new Schema<ICliente>(
   {
     nombres: String,
     apellidos: String,
@@ -22,5 +22,5 @@ const UserSchema = new Schema<ICliente>(
   }
 );
 
-const Usuario = model("usuarios", UserSchema);
-export default Usuario;
+const Cliente = model("clientes", ClienteSchema);
+export default Cliente;

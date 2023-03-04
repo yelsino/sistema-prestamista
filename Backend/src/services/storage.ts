@@ -1,4 +1,4 @@
-import { IStorage } from "types-yola";
+import { IStorage } from "types-prestamista";
 import StorageModel from "../models/storage";
 
 const registerUpload = async ({ fileName, idUser, path }: IStorage) => {

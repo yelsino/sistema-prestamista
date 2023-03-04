@@ -11,5 +11,14 @@ export interface IPrestamo {
     montoTotal: number;
     moneda: IMoneda;
     estado: string;
-    agente: IUsuario
+    agente: IUsuario;
+    numeroCuotas: number;
+    formaPago: FormaPago;
 }
+
+type FormaPago = 
+    | 'DIARIO' 
+    | 'SEMANAL' 
+    | 'QUINCENAL'
+    | 'MENSUAL'
+    | 'ANUAL'

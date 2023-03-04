@@ -11,7 +11,7 @@ const UserSchema = new Schema<IUsuario>(
     foto: String,
     documento: String,
     correo: String,
-    estado: Boolean,
+    estado: String,
     nombreUsuario: String,
     password: String,
     codigo: String,

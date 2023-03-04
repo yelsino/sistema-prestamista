@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IRespuesta, IRol, IUsuario } from "types-yola";
+import { IRespuesta, IRol, IUsuario } from "types-prestamista";
 import { Respuesta } from "../models/Respuesta";
 import Rol from "../models/RolModel";
 import Usuario from "../models/UsuarioModel";

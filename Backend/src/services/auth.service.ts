@@ -1,7 +1,7 @@
 import * as randomstring from 'randomstring';
 import CodigoTemporal from "../models/CodigoTemporalModel";
 import { Respuesta } from "../models/Respuesta";
-import Rol, { ROLES } from "../models/RolModel";
+import Rol from "../models/RolModel";
 import Usuario from "../models/UsuarioModel";
 import { encrypt, verified } from "../utils/bcrypt.handle";
 import { generateToken } from "../utils/jwt.handle";
@@ -12,8 +12,8 @@ import { NotificacionService } from "./notificacion.service";
 import fs from 'fs';
 import path from 'path';
 import * as Mustache from 'mustache';
-import { IAuth, IAuthFacebook, IAuthGoogle, IAuthOperario, IAuthRest, IMensajeToCorreo, IMobile, IRespuesta, IRol, IUsuario, Operario } from 'types-yola';
-import Direccion from '../models/DireccionModel';
+import { IMensajeToCorreo, IRespuesta, IUsuario } from 'types-prestamista';
+import { IAuth, IAuthRest } from 'types-prestamista/dist/interfaces/usuario.interface';
 
 export class AuthService {
   
@@ -63,7 +63,7 @@ export class AuthService {
   };
 
   registrarConEmail = async ({
-    correo,
+    nombreUsuario,
     password,
     codigo
   }: IAuth): Promise<IRespuesta<IAuthRest>> => {
@@ -75,11 +75,11 @@ export class AuthService {
 
       if(!existeCodigo) return {...respuesta, mensaje: 'CÓDIGO INVALIDO'}
 
-      const existeUsuario = await Usuario.findOne({ correo });
+      const existeUsuario = await Usuario.findOne({ nombreUsuario });
       if (existeUsuario) return { ...respuesta, mensaje: "USUARIO YA EXISTE" };
 
-      const nuevoUsuario = this.mapper.fromDataEmailToUsuario({correo,password,codigo});
-      return this.registrarUsuario(nuevoUsuario);
+      // const nuevoUsuario = this.mapper.fromDataEmailToUsuario({nombreUsuario,password,codigo});
+      // return this.registrarUsuario(nuevoUsuario);
       
     } catch (error: any) {
       logger.info("REGISTRAR CON MOVIL SERVICE ERROR: " + error.message);
@@ -88,46 +88,16 @@ export class AuthService {
     return {...respuesta, mensaje: 'ERROR AL REGISTRARSE CON NÚMERO MOVÍL'};
   };
 
-  loginOperario = async ({
-    documento,
-    password,
-  }: IAuthOperario): Promise<IRespuesta<IAuthRest>> => {
-   
-    const respuesta = new Respuesta<IAuthRest>();
-
-    try {
-      const usuario = await Usuario.findOne({ documento });
-
-      if (!usuario) return { ...respuesta, mensaje: "OPERARIO NO ENCONTRADO" };
-
-      const passwordHash = usuario.password;
-      const isCorrect = await verified(password ?? "", passwordHash);
-
-      if (!isCorrect) return { ...respuesta, mensaje: "PASSWORD INCORRECTO" };
-
-      const token = generateToken(usuario.id);
-
-      return {
-        ok: true,
-        code: 200,
-        mensaje: "DATOS VÁLIDOS",
-        data: { token, usuario },
-      };
-    } catch (error) {
-      logger.info("AUTH SERVICE ERROR: " + error);
-    }
-    return { ...respuesta, code: 500, mensaje: "ERROR EN LOGIN_OPERARIO SERVICE" };
-  };
 
   loginUsuario = async ({
-    correo,
+    nombreUsuario,
     password,
   }: IAuth): Promise<IRespuesta<IAuthRest>> => {
    
     const respuesta = new Respuesta<IAuthRest>();
 
     try {
-      const usuario = await Usuario.findOne({ correo });
+      const usuario = await Usuario.findOne({ nombreUsuario });
 
       if (!usuario) return { ...respuesta, mensaje: "USUARIO NO ENCONTRADO" };
 
@@ -172,48 +142,6 @@ export class AuthService {
     }
 
     return { ...respuesta, code: 500, mensaje: "ERROR EN RE_LOGIN SERVICE" };
-  };
-
-  loginGoogle = async (data: IAuthGoogle): Promise<IRespuesta<IAuthRest>> => {
-
-    const respuesta = new Respuesta<IAuthRest>()
-    const {profileObj:{email:correo},googleId:password} = data;
-
-    try {
-      const usuario = await Usuario.findOne({ idExterno: password });
-      const nuevoUsuario = this.mapper.fromDataGoogleToUsuario(data);
-      
-      if (usuario) 
-        return this.loginUsuario({correo, password });
-      else 
-        return this.registrarUsuario(nuevoUsuario);
-  
-    } catch (error: any) {
-      logger.info("REGISTRAR USUARIO SERVICE ERROR: " + error.message);
-    }
-
-    return {...respuesta, mensaje: "ERROR EN LOGIN_GOOGLE SERVICE", code: 500};
-  };
-
-  loginFacebook = async (data: IAuthFacebook): Promise<IRespuesta<IAuthRest>> => {
-  
-    const respuesta = new Respuesta<IAuthRest>()
-    const {email:correo, userID:password} = data;
-
-    try {
-      const usuario = await Usuario.findOne({ idExterno: data.userID });
-      const nuevoUsuario = this.mapper.fromDataFacebookToUsuario(data);
-
-      if (usuario)
-        return this.loginUsuario({correo, password});
-      else
-        return this.registrarUsuario(nuevoUsuario);
-      
-    } catch (error: any) {
-      logger.info("REGISTRAR USUARIO SERVICE ERROR: " + error.message);
-    }
-
-    return {...respuesta, mensaje: "ERROR EN LOGIN_FACEBOOK SERVICE", code: 500};
   };
 
   verificarExisteMovil = async (celular:string): Promise<IRespuesta<boolean>> => {
@@ -314,49 +242,7 @@ export class AuthService {
 
   }
 
-  registrarConMovil = async ({
-    celular,
-    password,
-    codigo
-  }: IMobile): Promise<IRespuesta<IAuthRest>> => {
   
-    const respuesta = new Respuesta<IAuthRest>()
-
-    try {
-      const existeCodigo = await CodigoTemporal.findOne({codigo});
-      if(existeCodigo) return {...respuesta, mensaje: 'CÓDIGO INVALIDO'}
-
-      const existeUsuario = await Usuario.findOne({ celular });
-      if (existeUsuario) return { ...respuesta, mensaje: "USUARIO YA EXISTE" };
-
-      const nuevoUsuario = this.mapper.fromDataMobileToUsuario({celular,password});
-      return this.registrarUsuario(nuevoUsuario);
-      
-    } catch (error: any) {
-      logger.info("REGISTRAR CON MOVIL SERVICE ERROR: " + error.message);
-    }
-
-    return {...respuesta, mensaje: 'ERROR AL REGISTRARSE CON NÚMERO MOVÍL'};
-  };
-
-  loginConMovil = async (data: IMobile): Promise<IRespuesta<IAuthRest>> => {
-    
-    const {celular:correo, password} = data;
-    const respuesta = new Respuesta<IAuthRest>()
-
-    try {
-
-      const usuario = await Usuario.findOne({ celular: correo });
-      if(!usuario) return {...respuesta, mensaje: 'USUARIO NO REGISTRADO'}
-
-      return this.loginUsuario({correo, password});
-     
-    } catch (error: any) {
-      logger.info("REGISTRAR USUARIO SERVICE ERROR: " + error.message);
-    }
-
-    return {...respuesta, mensaje: "ERROR AL INICIAR CON NUMERO MOVIL", code: 500};
-  };
 
   usuarioConectado = async (id: string) => {
     try {
@@ -438,49 +324,5 @@ export class AuthService {
     return {...respuesta, mensaje: 'ERROR AL RESTAURAR CUENTA OPERARIO', code: 500}
 
   }
-
-  registrarOperario = async (operario: Operario): Promise<IRespuesta<IAuthRest>> => {
-    const respuesta = new Respuesta<IAuthRest>();
-
-    try {
-
-      const existeUsuarioDocumento = await Usuario.findOne({documento: operario.documento});
-      if(existeUsuarioDocumento) return {...respuesta, mensaje: 'OPERARIO YA REGISTRADO'}
-      
-      const rolBD = await Rol.findOne({nombre: "TRABAJADOR"}).lean();
-
-      const dataUsuario = this.mapper.convertirDataParaUsuario({
-        ...operario,
-        estado: false,
-        password: await encrypt(operario.password as string),
-        roles: [rolBD?._id]
-      });
-
-      const nuevoUsuario = await Usuario.create(dataUsuario);
-      if (!nuevoUsuario)
-      return {...respuesta,mensaje: "ERROR: DATOS INCORRECTOS AL REGISTRAR OPERARIO"};
-
-      
-      await Direccion.create({nombre: operario.direccion, usuario: nuevoUsuario._id});
-
-      return {
-        ok: true,
-        code: 200,
-        mensaje: 'OPERARIO REGISTRADO',
-        data: {
-          token: "",
-          usuario: nuevoUsuario
-        }
-      }
-        
-    } catch (error:any) {
-      logger.error("REGISTRAR OPERARIO SERVICE ERROR: " + error.message);
-    }
-
-    return {...respuesta, mensaje: 'ERROR AL REGISTRAR OPERARIO', code: 500}
-
-  }
-
-
 
 }

@@ -3,7 +3,7 @@ import { CodigoTemporalService } from "./codigoTemporal.service";
 import * as nodemailer from 'nodemailer';
 
 import logger from "../utils/logger";
-import { IMensajeToCorreo, IMensajeToMovil } from "types-yola";
+import { IMensajeToCorreo, IMensajeToMovil } from "types-prestamista";
 
 export class NotificacionService {
   codigoService: CodigoTemporalService;

@@ -11,6 +11,7 @@ export interface IProvincia {
     nombre: string;
     departamento: IDepartamento;
     codigo: number;
+    uuid: number;
 }
 
 export interface IDistrito {
@@ -18,6 +19,7 @@ export interface IDistrito {
     nombre: string;
     provincia: IProvincia;
     codigo: number;
+    uuid: number;
 }
 
 export interface IDireccion {

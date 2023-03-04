@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { IZodFail } from "types-yola";
+import { IZodFail } from "types-prestamista";
 import { AnyZodObject, ZodError } from "zod";
 import { Respuesta } from "../../models/Respuesta";
 import logger from "../../utils/logger";

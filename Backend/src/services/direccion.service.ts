@@ -1,6 +1,8 @@
-import { IDireccion, IRespuesta } from "types-yola";
-import Departamento, { IDepartamento } from "../models/DepartamentoModel";
+import { IDepartamento, IDireccion, IDistrito, IProvincia, IRespuesta } from "types-prestamista";
+import Departamento from "../models/DepartamentoModel";
 import Direccion from "../models/DireccionModel";
+import Distrito from "../models/DistritoModel";
+import Provincia from "../models/ProvinciaModel";
 import { Respuesta } from "../models/Respuesta";
 import Usuario from "../models/UsuarioModel";
 import logger from "../utils/logger";
@@ -17,8 +19,8 @@ export class DireccionService{
 
         try {
             
-            const usuario = await Usuario.findById(String(data.usuario));
-            if(!usuario) return {...respuesta, code: 404, ok: false, data: null, mensaje: "NO SE ENCONTRO EL USUARIO"};
+            const usuario = await Usuario.findById(String(data.cliente));
+            if(!usuario) return {...respuesta, code: 404, ok: false, data: null, mensaje: "NO SE ENCONTRO AL CLIENTE"};
             
             const nuevaDireccion =  await  Direccion.create(data);
             return  {...respuesta, code: 200, ok: true, data: nuevaDireccion, mensaje: "DIRECCION REGISTRADA"};
@@ -59,12 +61,12 @@ export class DireccionService{
         return {...respuesta, code: 500, ok: false, data: null};
     };
 
-    obtenerProvincias = async (departamento:String):Promise<IRespuesta<string[]>> => {
+    obtenerProvincias = async (departamento:String):Promise<IRespuesta<IProvincia[]>> => {
         const respuesta = new Respuesta();
 
         try {
             
-            const provincias = await Direccion.distinct("provincia", {departamento});
+            const provincias = await Provincia.find({departamento}).lean();
             return  {...respuesta, code: 200, ok: true, data: provincias, mensaje: "PROVINCIAS OBTENIDAS"};
 
         } catch (error: any) {
@@ -73,12 +75,11 @@ export class DireccionService{
         return {...respuesta, code: 500, ok: false, data: null};
     }
 
-    obtenerDistritos = async (provincia:String):Promise<IRespuesta<string[]>> => {
+    obtenerDistritos = async (provincia:String):Promise<IRespuesta<IDistrito[]>> => {
         const respuesta = new Respuesta();
 
         try {
-            
-            const distritos = await Direccion.distinct("distrito", {provincia});
+            const distritos = await Distrito.find({provincia}).lean();
             return  {...respuesta, code: 200, ok: true, data: distritos, mensaje: "DISTRITOS OBTENIDOS"};
 
         } catch (error: any) {

@@ -1,4 +1,4 @@
-import { ICodigoTemporal } from "types-yola";
+import { ICodigoTemporal } from "types-prestamista";
 import CodigoTemporal from "../models/CodigoTemporalModel";
 import logger from "../utils/logger";
 

@@ -3,6 +3,7 @@ export { IMensajeToMovil, IMensajeToCorreo } from './interfaces/notificacion.int
 export { IStorage } from './interfaces/storage';
 export { ICodigoTemporal }	from './interfaces/codigoTemporal.interface';
 export { IRespuesta }	from './interfaces/response.interface';
+export { IZodFail }	from './interfaces/zod.interface';
 
 export { ICliente } from './interfaces/cliente.interface'
 export { ICuota } from './interfaces/cuota.interface'

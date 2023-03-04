@@ -1,6 +1,5 @@
 import { nanoid } from "nanoid";
 import { Server, Socket } from "socket.io";
-import { Cantidad } from "types-yola";
 import { AuthService } from "./services/auth.service";
 import { DireccionService } from "./services/direccion.service";
 import { UsuarioService } from "./services/usuario.service";
@@ -44,12 +43,6 @@ type EventLists =
 interface Payload <DATA, EVENTO> {
   data: DATA;
   evento: EVENTO;
-}
-
-interface DataEventList {
-  listaId: string;
-  productoId: string;
-  cantidad: Cantidad;
 }
 
 

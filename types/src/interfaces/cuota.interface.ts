@@ -1,4 +1,5 @@
 import { ICliente } from "./cliente.interface"
+import { IPrestamo } from "./prestamo.interface";
 import { IUsuario } from "./usuario.interface";
 
 export interface ICuota {
@@ -6,5 +7,7 @@ export interface ICuota {
     cliente: ICliente;
     agente: IUsuario;
     fechaPago: Date;
+    fechaLimite: Date;
+    prestamo: IPrestamo;
     monto: number;
 }
