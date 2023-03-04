@@ -1,3 +1,4 @@
+import { IDireccion } from "types-prestamista"
 
 export const departamentos = [
   { id: 1, nombre: 'Amazonas' },
@@ -48,7 +49,6 @@ export const provincias = [
 ]
 
 export const distritos = [
-  //
   { id: 1, nombre: 'Aramango', provincia: 1 },
   { id: 2, nombre: 'Bagua', provincia: 1 },
   { id: 3, nombre: 'Copallín', provincia: 1 },
@@ -275,3 +275,85 @@ export const distritos = [
   { id: 209, nombre: 'Yauli', provincia: 16 }
 ]
 
+export const direcciones: IDireccion[] = [
+  {
+    nombre: 'Av. La Marina 456',
+    referencia: 'Frente al hospital central',
+    departamento: '' as any,
+    provincia: '' as any,
+    distrito: '' as any,
+    cliente: '' as any,
+  },
+  {
+    nombre: 'Calle Las Flores 789',
+    referencia: 'Al costado del parque central',
+    departamento: '' as any,
+    provincia: '' as any,
+    distrito: '' as any,
+    cliente: '' as any,
+  },
+  {
+    nombre: 'Jr. Los Pinos 1011',
+    referencia: 'Cerca al centro histórico',
+    departamento: '' as any,
+    provincia: '' as any,
+    distrito: '' as any,
+    cliente: '' as any,
+  },
+  {
+    nombre: 'Av. Brasil 1213',
+    referencia: 'Frente al centro deportivo',
+    departamento: '' as any,
+    provincia: '' as any,
+    distrito: '' as any,
+    cliente: '' as any,
+  },
+  {
+    nombre: 'Jr. Las Azucenas 1415',
+    referencia: 'Cerca al mercado central',
+    departamento: '' as any,
+    provincia: '' as any,
+    distrito: '' as any,
+    cliente: '' as any,
+  },
+  {
+    nombre: 'Calle Los Pájaros 1617',
+    referencia: 'Cerca al aeropuerto',
+    departamento: '' as any,
+    provincia: '' as any,
+    distrito: '' as any,
+    cliente: '' as any,
+  },
+  {
+    nombre: 'Av. Los Olivos 1819',
+    referencia: 'Cerca a la estación de tren',
+    departamento: '' as any,
+    provincia: '' as any,
+    distrito: '' as any,
+    cliente: '' as any,
+  },
+  {
+    nombre: 'Jr. Las Rosas 2021',
+    referencia: 'Cerca al centro comercial',
+    departamento: '' as any,
+    provincia: '' as any,
+    distrito: '' as any,
+    cliente: '' as any,
+  },
+  {
+    nombre: 'Av. El Sol 2223',
+    referencia: 'Cerca al parque principal',
+    departamento: '' as any,
+    provincia: '' as any,
+    distrito: '' as any,
+    cliente: '' as any,
+  },
+  {
+    nombre: 'Calle Las Palmeras 2425',
+    referencia: 'Cerca a la plaza de la iglesia',
+    departamento: '' as any,
+    provincia: '' as any,
+    distrito: '' as any,
+    cliente: '' as any,
+  },
+];

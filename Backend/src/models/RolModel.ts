@@ -1,7 +1,6 @@
 import { Schema,  model } from "mongoose";
-import { IRol } from "types-yola";
+import { IRol } from "types-prestamista";
 
-export const ROLES = ['USUARIO', 'CASERO', 'TRABAJADOR', 'ADMIN'];
 
 const RolSchema = new Schema<IRol>(
   {

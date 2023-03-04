@@ -1,5 +1,5 @@
 import { Schema,  model } from "mongoose";
-import { ICodigoTemporal } from "types-yola";
+import { ICodigoTemporal } from "types-prestamista";
 
 
 const CodigoTemporalSchema = new Schema<ICodigoTemporal>(

@@ -1,12 +1,15 @@
 import { Schema,  model } from "mongoose";
-import { IDireccion } from "types-yola";
+import { IDireccion } from "types-prestamista";
 
 
 const DireccionSchema = new Schema<IDireccion>(
   {
    nombre: String,
-   referencia: String,
-   usuario: {type: Schema.Types.ObjectId}
+    referencia: String,
+    departamento: { type: Schema.Types.ObjectId, ref: "departamentos" },
+    provincia: { type: Schema.Types.ObjectId, ref: "provincias" },
+    distrito: { type: Schema.Types.ObjectId, ref: "distritos" },
+    cliente: { type: Schema.Types.ObjectId, ref: "clientes" },
   },
   {
     timestamps: true

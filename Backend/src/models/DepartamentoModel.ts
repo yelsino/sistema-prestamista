@@ -1,10 +1,6 @@
 
 import { Schema,  model } from "mongoose";
-
-export interface IDepartamento {
-    nombre: string;
-    codigo: number;
-}
+import { IDepartamento } from "types-prestamista";
 
 const DepartamentoSchema = new Schema<IDepartamento>(
   {

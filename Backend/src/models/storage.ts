@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { IStorage } from "types-yola";
+import { IStorage } from "types-prestamista";
 
 const StorageSchema = new Schema<IStorage>(
   {

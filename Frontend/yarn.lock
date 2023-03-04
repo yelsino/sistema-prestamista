@@ -3749,6 +3749,11 @@ typed-array-length@^1.0.4:
     for-each "^0.3.3"
     is-typed-array "^1.1.9"
 
+types-prestamista@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/types-prestamista/-/types-prestamista-0.1.4.tgz#15b5bdb48582834c06c3acca708e3410851d6ad7"
+  integrity sha512-xcoRg+55t8MQdHziXYfeQsBq9C0JD5famzs+nHFy3cpvipdUG2X8Q8tFNBsQj8Ya2bnHs7VSYqGps7nXIo9JYA==
+
 typescript@^4.6.4:
   version "4.9.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"

@@ -3,6 +3,7 @@ import { IMoneda } from "./moneda.interface"
 import { IUsuario } from "./usuario.interface";
 
 export interface IPrestamo {
+    _id?: string;
     numero: number;
     cliente: ICliente;
     monto: number;

@@ -1,19 +1,20 @@
 import { Schema,  model } from "mongoose";
-import { IUsuario } from "types-yola";
+import { IUsuario } from "types-prestamista";
 
 const UserSchema = new Schema<IUsuario>(
   {
     nombres: String,
     apellidos: String,
-    sobreNombre: String,
-    correo: {type: String, required: true},
     celular: String,
-    password: {type: String, required: true},
     online: Boolean,
-    roles: [{type: Schema.Types.ObjectId, ref: 'roles'}],
+    roles: [{ type: Schema.Types.ObjectId, ref: "roles" }],
     foto: String,
     documento: String,
-    idExterno: {type: String, default: null}
+    correo: String,
+    estado: Boolean,
+    nombreUsuario: String,
+    password: String,
+    codigo: String,
   },
   {
     versionKey: false,

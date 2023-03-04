@@ -1,12 +1,8 @@
 
 import { Schema,  model } from "mongoose";
-import { IProvincia } from "./ProvinciaModel";
+import { IDistrito } from "types-prestamista";
 
-interface IDistrito {
-    nombre: string;
-    provincia: IProvincia;
-    codigo: number;
-}
+
 
 const DistritoSchema = new Schema<IDistrito>(
   {

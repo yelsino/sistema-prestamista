@@ -1,4 +1,4 @@
-import { IRespuesta } from "types-yola";
+import { IRespuesta } from "types-prestamista";
 
 export class Respuesta<T> implements IRespuesta<T> {
   mensaje: string = "";
