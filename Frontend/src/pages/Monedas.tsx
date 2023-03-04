@@ -10,6 +10,7 @@ const Monedas = () => {
     simbolo: string
     estado: string
     descripcion: string
+    acciones: string
   }
 
   const columns: ColumnsType<DataType> = [
@@ -24,19 +25,25 @@ const Monedas = () => {
       title: 'Abreviatura',
       dataIndex: 'abreviatura',
       key: 'abreviatura',
-      align: 'left'
+      align: 'center'
     },
     {
       title: 'Simbolo',
       dataIndex: 'simbolo',
       key: 'simbolo',
-      align: 'left'
+      align: 'center'
     },
     {
       title: 'Descripción',
       dataIndex: 'descripcion',
       key: 'descripcion',
       align: 'left'
+    },
+    {
+      title: 'Acciones',
+      dataIndex: 'acciones',
+      key: 'acciones',
+      align: 'center'
     }
   ]
 
@@ -47,7 +54,8 @@ const Monedas = () => {
       abreviatura: 'USD',
       simbolo: '$',
       estado: 'ACTIVO',
-      descripcion: 'Moneda oficial de los Estados Unidos de América'
+      descripcion: 'Moneda oficial de los Estados Unidos de América',
+      acciones: 'Boton Editar'
     },
     {
       id: '2',
@@ -55,7 +63,8 @@ const Monedas = () => {
       abreviatura: 'EUR',
       simbolo: '€',
       estado: 'ACTIVO',
-      descripcion: 'Moneda oficial de la Unión Europea'
+      descripcion: 'Moneda oficial de la Unión Europea',
+      acciones: 'Boton Editar'
     },
     {
       id: '3',
@@ -63,7 +72,8 @@ const Monedas = () => {
       abreviatura: 'GBP',
       simbolo: '£',
       estado: 'ACTIVO',
-      descripcion: 'Moneda oficial del Reino Unido'
+      descripcion: 'Moneda oficial del Reino Unido',
+      acciones: 'Boton Editar'
     },
     {
       id: '4',
@@ -71,7 +81,8 @@ const Monedas = () => {
       abreviatura: 'JPY',
       simbolo: '¥',
       estado: 'ACTIVO',
-      descripcion: 'Moneda oficial de Japón'
+      descripcion: 'Moneda oficial de Japón',
+      acciones: 'Boton Editar'
     },
     {
       id: '5',
@@ -79,7 +90,8 @@ const Monedas = () => {
       abreviatura: 'CAD',
       simbolo: '$',
       estado: 'ACTIVO',
-      descripcion: 'Moneda oficial de Canadá'
+      descripcion: 'Moneda oficial de Canadá',
+      acciones: 'Boton Editar'
     },
     {
       id: '6',
@@ -87,7 +99,8 @@ const Monedas = () => {
       abreviatura: 'CHF',
       simbolo: 'CHF',
       estado: 'ACTIVO',
-      descripcion: 'Moneda oficial de Suiza'
+      descripcion: 'Moneda oficial de Suiza',
+      acciones: 'Boton Editar'
     },
     {
       id: '7',
@@ -95,7 +108,8 @@ const Monedas = () => {
       abreviatura: 'AUD',
       simbolo: '$',
       estado: 'ACTIVO',
-      descripcion: 'Moneda oficial de Australia'
+      descripcion: 'Moneda oficial de Australia',
+      acciones: 'Boton Editar'
     },
     {
       id: '8',
@@ -103,7 +117,8 @@ const Monedas = () => {
       abreviatura: 'MXN',
       simbolo: '$',
       estado: 'ACTIVO',
-      descripcion: 'Moneda oficial de México'
+      descripcion: 'Moneda oficial de México',
+      acciones: 'Boton Editar'
     },
     {
       id: '9',
@@ -111,7 +126,8 @@ const Monedas = () => {
       abreviatura: 'CNY',
       simbolo: '¥',
       estado: 'ACTIVO',
-      descripcion: 'Moneda oficial de China'
+      descripcion: 'Moneda oficial de China',
+      acciones: 'Boton Editar'
     }
 
   ]

@@ -14,6 +14,7 @@ const Clientes = () => {
     celular: string;
     empresa: string;
     estado: string;
+    acciones: string;
   }
 
   const columns: ColumnsType<DataType> = [
@@ -53,19 +54,19 @@ const Clientes = () => {
       title: 'Celular',
       key: 'celular',
       dataIndex: 'celular',
-      align: 'left'
+      align: 'center'
     },
     {
       title: 'Empresa',
       key: 'empresa',
       dataIndex: 'empresa',
-      align: 'left'
+      align: 'center'
     },
     {
       title: 'Estado',
       key: 'estado',
       dataIndex: 'estado',
-      align: 'left',
+      align: 'center',
       render: (estado) => {
         return (
           <div key={estado} className='text-2xl'>
@@ -73,6 +74,12 @@ const Clientes = () => {
           </div>
         )
       }
+    },
+    {
+      title: 'Acciones',
+      key: 'acciones',
+      dataIndex: 'acciones',
+      align: 'right'
     }
   ]
 
@@ -85,7 +92,8 @@ const Clientes = () => {
       genero: 'F',
       celular: '987654321',
       empresa: 'Empresa 1',
-      estado: 'CREDITO_ACTIVO'
+      estado: 'CREDITO_ACTIVO',
+      acciones: 'Editar'
     },
     {
       id: '2',
@@ -95,7 +103,8 @@ const Clientes = () => {
       genero: 'M',
       celular: '987654322',
       empresa: 'Empresa 2',
-      estado: 'CREDITO_ACTIVO'
+      estado: 'CREDITO_ACTIVO',
+      acciones: 'Editar'
     },
     {
       id: '3',
@@ -105,7 +114,8 @@ const Clientes = () => {
       genero: 'F',
       celular: '987654323',
       empresa: 'Empresa 3',
-      estado: 'CREDITO_INACTIVO'
+      estado: 'CREDITO_INACTIVO',
+      acciones: 'Editar'
     },
     {
       id: '4',
@@ -115,7 +125,8 @@ const Clientes = () => {
       genero: 'M',
       celular: '987654324',
       empresa: 'Empresa 4',
-      estado: 'CREDITO_ACTIVO'
+      estado: 'CREDITO_ACTIVO',
+      acciones: 'Editar'
     },
     {
       id: '5',
@@ -125,7 +136,8 @@ const Clientes = () => {
       genero: 'F',
       celular: '987654325',
       empresa: 'Empresa 5',
-      estado: 'CREDITO_INACTIVO'
+      estado: 'CREDITO_INACTIVO',
+      acciones: 'Editar'
     },
     {
       id: '6',
@@ -135,7 +147,8 @@ const Clientes = () => {
       genero: 'M',
       celular: '987654326',
       empresa: 'Empresa 6',
-      estado: 'CREDITO_ACTIVO'
+      estado: 'CREDITO_ACTIVO',
+      acciones: 'Editar'
     },
     {
       id: '7',
@@ -145,7 +158,8 @@ const Clientes = () => {
       genero: 'F',
       celular: '987654327',
       empresa: 'Empresa 7',
-      estado: 'CREDITO_INACTIVO'
+      estado: 'CREDITO_INACTIVO',
+      acciones: 'Editar'
     },
     {
       id: '8',
@@ -155,7 +169,8 @@ const Clientes = () => {
       genero: 'M',
       celular: '987654328',
       empresa: 'Empresa 8',
-      estado: 'CREDITO_ACTIVO'
+      estado: 'CREDITO_ACTIVO',
+      acciones: 'Editar'
     },
     {
       id: '9',
@@ -165,7 +180,8 @@ const Clientes = () => {
       genero: 'F',
       celular: '987654329',
       empresa: 'Empresa 9',
-      estado: 'CREDITO_INACTIVO'
+      estado: 'CREDITO_INACTIVO',
+      acciones: 'Editar'
     },
     {
       id: '10',
@@ -175,7 +191,8 @@ const Clientes = () => {
       genero: 'M',
       celular: '987654330',
       empresa: 'Empresa 10',
-      estado: 'CREDITO_ACTIVO'
+      estado: 'CREDITO_ACTIVO',
+      acciones: 'Editar'
     }
   ]
 
