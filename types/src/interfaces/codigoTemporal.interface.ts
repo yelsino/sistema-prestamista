@@ -8,4 +8,4 @@ export interface ICodigoTemporal {
   estado?: boolean
 }
 
-type Tipo = 'EMAIL' | 'MOVIL' | 'PEDIDO'
+type Tipo = 'EMAIL' | 'MOVIL'

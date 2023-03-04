@@ -1,10 +1,8 @@
-import { IAuth } from "./auth.interface";
 
 export interface IUsuario extends IAuth {
     _id?: string;
     nombres: string;
     apellidos: string;
-    sobreNombre: string;
     celular: string;
     online: Boolean;
     roles: Array<IRol>;
@@ -14,10 +12,17 @@ export interface IUsuario extends IAuth {
     estado?: Boolean;
 }
 
-type PartialIUsuario = Partial<IUsuario>;
-export interface Operario extends PartialIUsuario {
-  direccion: string;
+export interface IAuth {
+  nombreUsuario: string;
+  password: string;
+  codigo?: string;
 }
+
+export interface IAuthRest {
+  token: string;
+  usuario: IUsuario;
+}
+
 
 export interface IRol {
     _id?: string;
@@ -25,8 +30,6 @@ export interface IRol {
   }
   
   type Roles = 
-    | 'USUARIO'
-    | 'CASERO'
-    | 'TRABAJADOR'
     | 'ADMIN'
+    | 'AGENTE'
   

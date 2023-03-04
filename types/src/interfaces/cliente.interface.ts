@@ -1,6 +1,6 @@
 
 export interface ICliente {
-    _id: string;
+    _id?: string;
     nombres: string;
     apellidos: string;
     documento: string;
