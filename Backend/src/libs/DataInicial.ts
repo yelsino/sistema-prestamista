@@ -9,7 +9,6 @@ import Provincia from "../models/ProvinciaModel";
 import Rol from "../models/RolModel";
 import Usuario from "../models/UsuarioModel";
 import { encrypt } from "../utils";
-import logger from "../utils/logger";
 import { clientes } from "./dataClientes";
 import { cuotas } from "./dataCuotas";
 import { departamentos, direcciones, distritos, provincias } from "./dataDirecciones";

@@ -1,25 +1,42 @@
-import { ICliente, ICodigoTemporal } from "types-prestamista";
-import CodigoTemporal from "../models/CodigoTemporalModel";
+import { ICliente, ICodigoTemporal, IRespuesta } from "types-prestamista";
+import Cliente from "../models/ClienteModel";
 import { Respuesta } from "../models/Respuesta";
 import logger from "../utils/logger";
 
 export class ClienteService {
 
-  // registrarCliente = async (data:ICliente):Promise<ICliente> => {
+    obtenerClientes = async (): Promise<IRespuesta<ICliente[]>> => {
+        const respuesta = new Respuesta();
+        try {
+            const clientes = await Cliente.find();
+            return {
+                ...respuesta,
+                code: 200,
+                ok: true,
+                data: clientes,
+                mensaje: "CLIENTES OBTENIDOS",
+            };
+        } catch (error: any) {
+            logger.info("ERROR AL OBTENER DIRECCIONES" + error.message);
+            return { ...respuesta, code: 500, ok: false, data: null };
+        }
+    };
 
-  //   const respuesta = new Respuesta<ICliente>();
-  //   try {
-        
-  //       return null as any;
-  //   } catch (error:any) {
-  //       console.log(error.message);
-  //       logger.error("ERROR AL REGISTRAR CLIENTE: " + error.message);
-        
-  //   }
-  // }
-
-  
-
-
-
+    crearCliente = async (cliente: ICliente): Promise<IRespuesta<ICliente>> => {
+        const respuesta = new Respuesta();
+        try {
+            const nuevoCliente = new Cliente(cliente);
+            const clienteCreado = await nuevoCliente.save();
+            return {
+                ...respuesta,
+                code: 200,
+                ok: true,
+                data: clienteCreado,
+                mensaje: "CLIENTE CREADO",
+            };
+        } catch (error: any) {
+            logger.info("ERROR AL CREAR CLIENTE" + error.message);
+            return { ...respuesta, code: 500, ok: false, data: null };
+        }
+    };
 }

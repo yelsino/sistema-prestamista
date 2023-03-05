@@ -105,4 +105,43 @@ export class UsuarioService {
 	
 		return {...respuesta, mensaje: 'ERROR AL OBTENER USUARIO', code: 500}
 	}
+
+	obtenerUsuarios = async ():Promise<IRespuesta<IUsuario[]>> => {
+		const respuesta = new Respuesta<IUsuario[]>();
+	
+		try {
+		  const usuarios = await Usuario.find();
+		  if(!usuarios) return {...respuesta, mensaje: 'USUARIOS NO ENCONTRADOS'}
+	
+		  return {
+			ok: true,
+			code: 200,
+			mensaje: 'USUARIOS OBTENIDOS',
+			data: usuarios
+		  }    
+		} catch (error: any) {
+		   logger.info("OBTENER USUARIOS SERVICE ERROR: " + error.message);
+		   return {...respuesta, mensaje: 'ERROR AL OBTENER USUARIOS', code: 500}
+		}
+	
+	}
+
+	crearUsuario = async (usuario: IUsuario):Promise<IRespuesta<IUsuario>> => {
+		const respuesta = new Respuesta<IUsuario>();
+	
+		try {
+		  const nuevoUsuario = await Usuario.create(usuario);
+		  if(!nuevoUsuario) return {...respuesta, mensaje: 'ERROR AL CREAR USUARIO'}
+	
+		  return {
+			ok: true,
+			code: 200,
+			mensaje: 'USUARIO CREADO',
+			data: nuevoUsuario
+		  }    
+		} catch (error: any) {
+		   logger.info("CREAR USUARIO SERVICE ERROR: " + error.message);
+		   return {...respuesta, mensaje: 'ERROR AL CREAR USUARIO', code: 500}
+		}
+	}
 }

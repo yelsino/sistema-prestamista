@@ -14,11 +14,11 @@ export class UsuarioController {
     this.usuario = new UsuarioService();
   }
 
-  filtrarUsuarios = async (req: RQ, res: RES) => {
-	return responder(await this.usuario.filtrarUsuarios(req.body), res)
-  }
+  obtenerUsuarios = async (req: RQ, res: RES) => responder(await this.usuario.obtenerUsuarios(), res);
 
-  obtenerUsuario = async (req: RQ, res: RES) => responder(await this.usuario.obtenerUsuario(req.params.id), res);
+  crearUsuario = async (req: RQ, res: RES) => responder(await this.usuario.crearUsuario(req.body), res);
+
+
 
 }
 
