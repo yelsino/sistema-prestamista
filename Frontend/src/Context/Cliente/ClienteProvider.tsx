@@ -1,13 +1,15 @@
-import { useReducer } from 'react'
-import { fetchConToken } from 'helpers/fetch'
-
+import React, { useReducer } from 'react'
+import { ICliente, IRespuesta } from 'types-prestamista'
+import { fetchConToken } from '../../helpers/fetch'
+import { ClienteContext } from './ClienteContext'
+import { clienteReducer } from './clienteReducer'
 
 export interface ClienteState {
   cliente: ICliente
   clientes: Array<ICliente>
 }
 interface Props {
-  children: JSX.Element | JSX.Element[]
+  children: React.ReactNode
 }
 
 const INITIAL_STATE: ClienteState = {
@@ -22,20 +24,19 @@ export const ClienteProvider = ({ children }: Props) => {
     const respuesta = await fetchConToken<IRespuesta<ICliente>>({
       endpoint: 'clientes/registrar',
       method: 'POST',
-      body: cliente,
-    });
+      body: cliente
+    })
 
     return respuesta
   }
 
-  const obtenerClientes = async (usuario: string):Promise<IRespuesta<Array<ICliente>>>  => {
+  const obtenerClientes = async ():Promise<IRespuesta<Array<ICliente>>> => {
     const respuesta = await fetchConToken<IRespuesta<Array<ICliente>>>({
-      endpoint: `clientes`,
-      method: 'GET',
-    });
+      endpoint: 'clientes',
+      method: 'GET'
+    })
 
-    console.log(respuesta);
-    
+    console.log(respuesta)
 
     return respuesta
   }
@@ -46,11 +47,10 @@ export const ClienteProvider = ({ children }: Props) => {
         ...state,
         dispatch,
         generarCliente,
-        obtenerClientes,
+        obtenerClientes
       }}
     >
       {children}
     </ClienteContext.Provider>
   )
 }
-
