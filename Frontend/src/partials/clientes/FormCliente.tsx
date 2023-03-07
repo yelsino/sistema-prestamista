@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Form, Input, Select } from 'antd'
+import { Button, Form, Input, Select, Switch } from 'antd'
+import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
 
 const FormCliente: React.FC = () => {
+  const [empresaState, setEmpresa] = useState(false)
+
   const [form] = Form.useForm()
   const [, forceUpdate] = useState({})
 
-  // To disable submit button at the beginning.
   useEffect(() => {
     forceUpdate({})
   }, [])
-
-  const onFinish = (values: any) => {
-    console.log('Finish:', values)
-  }
 
   return (
       <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200  py-4 px-5">
@@ -21,13 +19,36 @@ const FormCliente: React.FC = () => {
               <h2 className="font-semibold text-slate-800 text-lg">
                   NUEVO CLIENTE
               </h2>
+                  <Switch
+                      checkedChildren="CON EMPRESA"
+                      unCheckedChildren="SIN EMPRESA"
+                      className="bg-gray-400 text-gray-800"
+                      onChange={() => setEmpresa(!empresaState)}
+                  />
           </header>
           <Form
               form={form}
               name="horizontal_login"
               layout="vertical"
-              onFinish={onFinish}
               className=""
+              initialValues={{
+                ducumento: '',
+                nombres: '',
+                apellidos: '',
+                genero: '',
+                departamento: '',
+                provincia: '',
+                distrito: '',
+                direccion: '',
+                referencia: '',
+                celular: '',
+                telefono: '',
+                razonSocial: '',
+                ruc: '',
+                nombreComercial: ''
+
+              }}
+              onFinish={(values) => console.log(values)}
           >
               <div className="pt-5 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
                   <Form.Item
@@ -88,27 +109,38 @@ const FormCliente: React.FC = () => {
                   </Form.Item>
 
                   <Form.Item
-                    label="Genero"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Este campo es requerido!'
-                      }
-                    ]}
-                    >
-                      <Select size='large'>
+                      label="Genero"
+                      name="genero"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Este campo es requerido!'
+                        }
+                      ]}
+                  >
+                      <Select size="large">
                           <Select.Option value="masculino">
-                              Masculino
+                              <div className="flex items-center text-blue-400">
+                                  <span>Masculino</span>
+                                  <span>
+                                      <TbGenderMale />
+                                  </span>
+                              </div>
                           </Select.Option>
                           <Select.Option value="femenino">
-                              Femenino
+                              <div className="flex items-center text-pink-500">
+                                  <span>Femenino</span>
+                                  <span>
+                                      <TbGenderFemale />
+                                  </span>
+                              </div>
                           </Select.Option>
                       </Select>
                   </Form.Item>
 
                   <Form.Item
-                      name="departamento"
                       label="Departamento"
+                      name="departamento"
                       rules={[
                         {
                           required: true,
@@ -116,18 +148,24 @@ const FormCliente: React.FC = () => {
                         }
                       ]}
                   >
-                      <Input
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
-                          }
-                          type="text"
-                          placeholder="EJ: Junin"
+                      <Select
                           size="large"
+                          options={[
+                            {
+                              value: 'junin',
+                              label: 'Junín'
+                            },
+                            {
+                              value: 'lima',
+                              label: 'Lima'
+                            }
+                          ]}
                       />
                   </Form.Item>
+
                   <Form.Item
-                      name="provincia"
                       label="Provincia"
+                      name="provincia"
                       rules={[
                         {
                           required: true,
@@ -135,18 +173,24 @@ const FormCliente: React.FC = () => {
                         }
                       ]}
                   >
-                      <Input
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
-                          }
-                          type="text"
-                          placeholder="EJ: Huancayo"
+                      <Select
                           size="large"
+                          options={[
+                            {
+                              value: 'junin',
+                              label: 'Junín'
+                            },
+                            {
+                              value: 'lima',
+                              label: 'Lima'
+                            }
+                          ]}
                       />
                   </Form.Item>
+
                   <Form.Item
-                      name="distrito"
                       label="Distrito"
+                      name="distrito"
                       rules={[
                         {
                           required: true,
@@ -154,15 +198,21 @@ const FormCliente: React.FC = () => {
                         }
                       ]}
                   >
-                      <Input
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
-                          }
-                          type="text"
-                          placeholder="EJ: Huancayo"
+                      <Select
                           size="large"
+                          options={[
+                            {
+                              value: 'junin',
+                              label: 'Junín'
+                            },
+                            {
+                              value: 'lima',
+                              label: 'Lima'
+                            }
+                          ]}
                       />
                   </Form.Item>
+
                   <Form.Item
                       name="direccion"
                       label="Dirección"
@@ -182,6 +232,27 @@ const FormCliente: React.FC = () => {
                           size="large"
                       />
                   </Form.Item>
+
+                  <Form.Item
+                      name="referencia"
+                      label="Referencia"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Este campo es requerido!'
+                        }
+                      ]}
+                  >
+                      <Input
+                          prefix={
+                              <LockOutlined className="site-form-item-icon" />
+                          }
+                          type="text"
+                          placeholder="EJ: Jr Los Alamos 123"
+                          size="large"
+                      />
+                  </Form.Item>
+
                   <Form.Item
                       name="celular"
                       label="Celular"
@@ -220,7 +291,11 @@ const FormCliente: React.FC = () => {
                           size="large"
                       />
                   </Form.Item>
-                  <Form.Item
+
+                {
+                    empresaState && (
+                        <>
+                        <Form.Item
                       name="razonSocial"
                       label="Razon Social"
                       rules={[
@@ -277,6 +352,10 @@ const FormCliente: React.FC = () => {
                           size="large"
                       />
                   </Form.Item>
+                        </>
+                    )
+                }
+
               </div>
 
               <Form.Item shouldUpdate>
@@ -284,12 +363,13 @@ const FormCliente: React.FC = () => {
                       <Button
                           type="primary"
                           htmlType="submit"
-                          disabled={
-                              !form.isFieldsTouched(true) ||
-                              !!form
-                                .getFieldsError()
-                                .filter(({ errors }) => errors.length).length
-                          }
+                          className="bg-blue-500 text-white"
+                          // disabled={
+                          //     !form.isFieldsTouched(true) ||
+                          //     !!form
+                          //       .getFieldsError()
+                          //       .filter(({ errors }) => errors.length).length
+                          // }
                       >
                           Registrar
                       </Button>

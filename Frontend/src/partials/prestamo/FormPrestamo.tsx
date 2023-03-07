@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Form, Input, Select } from 'antd'
+import { Button, Form, Input, Select, Space } from 'antd'
+import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
+import Search from 'antd/es/input/Search'
+import { IconoClienteOut } from '../../Components/iconos'
 
-const FormPrestamo: React.FC = () => {
+const FormMoneda: React.FC = () => {
+//   const [empresaState, setEmpresa] = useState(false)
+
   const [form] = Form.useForm()
   const [, forceUpdate] = useState({})
 
-  // To disable submit button at the beginning.
   useEffect(() => {
     forceUpdate({})
   }, [])
-
-  const onFinish = (values: any) => {
-    console.log('Finish:', values)
-  }
 
   return (
       <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200  py-4 px-5">
@@ -21,18 +21,45 @@ const FormPrestamo: React.FC = () => {
               <h2 className="font-semibold text-slate-800 text-lg">
                   NUEVO PRESTAMO
               </h2>
+
+              <Space>
+                  <Search
+                      placeholder="Buscar cliente"
+                      allowClear
+                      enterButton={
+                          <div className="flex gap-x-2 items-center">
+                              <IconoClienteOut estilo="h-5 w-5" /> Buscar
+                          </div>
+                      }
+                      size="large"
+                      //   onSearch={onSearch}
+                  />
+              </Space>
           </header>
           <Form
               form={form}
               name="horizontal_login"
               layout="vertical"
-              onFinish={onFinish}
               className=""
+              initialValues={{
+                documento: '',
+                nombreCompleto: '',
+                monto: '',
+                formaPago: '',
+                interes: '',
+                cuotas: 0,
+                moneda: '',
+                fechaEmision: '',
+                volorCuota: '',
+                valorInteres: '',
+                montoTotal: ''
+              }}
+              onFinish={(values) => console.log(values)}
           >
               <div className="pt-5 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
                   <Form.Item
-                      name="ducumento"
-                      label="Número Documento"
+                      name="documento"
+                      label="N° Documento"
                       rules={[
                         {
                           required: true,
@@ -44,13 +71,13 @@ const FormPrestamo: React.FC = () => {
                           prefix={
                               <UserOutlined className="site-form-item-icon" />
                           }
-                          placeholder="ej: 123456789"
+                          placeholder="ej: Dolar"
                           size="large"
                       />
                   </Form.Item>
                   <Form.Item
-                      name="nombres"
-                      label="Nombres"
+                      name="nombreCompleto"
+                      label="Nombre Completo"
                       rules={[
                         {
                           required: true,
@@ -68,8 +95,8 @@ const FormPrestamo: React.FC = () => {
                       />
                   </Form.Item>
                   <Form.Item
-                      name="apellidos"
-                      label="Apellidos"
+                      name="monto"
+                      label="Monto"
                       rules={[
                         {
                           required: true,
@@ -88,27 +115,87 @@ const FormPrestamo: React.FC = () => {
                   </Form.Item>
 
                   <Form.Item
-                    label="Genero"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Este campo es requerido!'
-                      }
-                    ]}
-                    >
-                      <Select size='large'>
+                      name="interes"
+                      label="Interes"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Este campo es requerido!'
+                        }
+                      ]}
+                  >
+                      <Input
+                          prefix={
+                              <LockOutlined className="site-form-item-icon" />
+                          }
+                          type="text"
+                          placeholder="EJ: Perez Perez"
+                          size="large"
+                      />
+                  </Form.Item>
+
+                  <Form.Item
+                      name="cuotas"
+                      label="N° Coutas"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Este campo es requerido!'
+                        }
+                      ]}
+                  >
+                      <Select size="large">
                           <Select.Option value="masculino">
-                              Masculino
+                              <div className="flex items-center text-blue-400">
+                                  <span>Masculino</span>
+                                  <span>
+                                      <TbGenderMale />
+                                  </span>
+                              </div>
                           </Select.Option>
                           <Select.Option value="femenino">
-                              Femenino
+                              <div className="flex items-center text-pink-500">
+                                  <span>Femenino</span>
+                                  <span>
+                                      <TbGenderFemale />
+                                  </span>
+                              </div>
                           </Select.Option>
                       </Select>
                   </Form.Item>
 
                   <Form.Item
-                      name="departamento"
-                      label="Departamento"
+                      name="moneda"
+                      label="Moneda"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Este campo es requerido!'
+                        }
+                      ]}
+                  >
+                      <Select size="large">
+                          <Select.Option value="masculino">
+                              <div className="flex items-center text-blue-400">
+                                  <span>Masculino</span>
+                                  <span>
+                                      <TbGenderMale />
+                                  </span>
+                              </div>
+                          </Select.Option>
+                          <Select.Option value="femenino">
+                              <div className="flex items-center text-pink-500">
+                                  <span>Femenino</span>
+                                  <span>
+                                      <TbGenderFemale />
+                                  </span>
+                              </div>
+                          </Select.Option>
+                      </Select>
+                  </Form.Item>
+                  <Form.Item
+                      name="fechaEmision"
+                      label="Fecha Emision"
                       rules={[
                         {
                           required: true,
@@ -121,13 +208,13 @@ const FormPrestamo: React.FC = () => {
                               <LockOutlined className="site-form-item-icon" />
                           }
                           type="text"
-                          placeholder="EJ: Junin"
+                          placeholder="EJ: Perez Perez"
                           size="large"
                       />
                   </Form.Item>
                   <Form.Item
-                      name="provincia"
-                      label="Provincia"
+                      name="valorCuota"
+                      label="Valor Cuota"
                       rules={[
                         {
                           required: true,
@@ -140,13 +227,13 @@ const FormPrestamo: React.FC = () => {
                               <LockOutlined className="site-form-item-icon" />
                           }
                           type="text"
-                          placeholder="EJ: Huancayo"
+                          placeholder="EJ: Perez Perez"
                           size="large"
                       />
                   </Form.Item>
                   <Form.Item
-                      name="distrito"
-                      label="Distrito"
+                      name="valorInteres"
+                      label="Valor Interes"
                       rules={[
                         {
                           required: true,
@@ -159,13 +246,13 @@ const FormPrestamo: React.FC = () => {
                               <LockOutlined className="site-form-item-icon" />
                           }
                           type="text"
-                          placeholder="EJ: Huancayo"
+                          placeholder="EJ: Perez Perez"
                           size="large"
                       />
                   </Form.Item>
                   <Form.Item
-                      name="direccion"
-                      label="Dirección"
+                      name="montoTotal"
+                      label="Monto Total"
                       rules={[
                         {
                           required: true,
@@ -178,102 +265,7 @@ const FormPrestamo: React.FC = () => {
                               <LockOutlined className="site-form-item-icon" />
                           }
                           type="text"
-                          placeholder="EJ: Jr Los Alamos 123"
-                          size="large"
-                      />
-                  </Form.Item>
-                  <Form.Item
-                      name="celular"
-                      label="Celular"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
-                      <Input
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
-                          }
-                          type="text"
-                          placeholder="EJ: 987654321"
-                          size="large"
-                      />
-                  </Form.Item>
-                  <Form.Item
-                      name="telefono"
-                      label="Telefono"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
-                      <Input
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
-                          }
-                          type="text"
-                          placeholder="EJ: 987654321"
-                          size="large"
-                      />
-                  </Form.Item>
-                  <Form.Item
-                      name="razonSocial"
-                      label="Razon Social"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
-                      <Input
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
-                          }
-                          type="text"
-                          placeholder="EJ: Los Alamos S.A.C"
-                          size="large"
-                      />
-                  </Form.Item>
-                  <Form.Item
-                      name="ruc"
-                      label="RUC"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
-                      <Input
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
-                          }
-                          type="text"
-                          placeholder="EJ: 207415145454"
-                          size="large"
-                      />
-                  </Form.Item>
-                  <Form.Item
-                      name="empresa"
-                      label="Empresa"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
-                      <Input
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
-                          }
-                          type="text"
-                          placeholder="EJ: LAS MAVINAS"
+                          placeholder="EJ: Perez Perez"
                           size="large"
                       />
                   </Form.Item>
@@ -284,12 +276,13 @@ const FormPrestamo: React.FC = () => {
                       <Button
                           type="primary"
                           htmlType="submit"
-                          disabled={
-                              !form.isFieldsTouched(true) ||
-                              !!form
-                                .getFieldsError()
-                                .filter(({ errors }) => errors.length).length
-                          }
+                          className="bg-blue-500 text-white"
+                          // disabled={
+                          //     !form.isFieldsTouched(true) ||
+                          //     !!form
+                          //       .getFieldsError()
+                          //       .filter(({ errors }) => errors.length).length
+                          // }
                       >
                           Registrar
                       </Button>
@@ -300,4 +293,4 @@ const FormPrestamo: React.FC = () => {
   )
 }
 
-export default FormPrestamo
+export default FormMoneda

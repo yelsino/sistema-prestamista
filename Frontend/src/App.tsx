@@ -18,6 +18,7 @@ import FormPrestamo from './partials/prestamo/FormPrestamo'
 import FormCobranza from './partials/cobranza/FormCobranza'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
+import { StyleProvider } from '@ant-design/cssinjs'
 
 function App () {
   const location = useLocation()
@@ -51,7 +52,8 @@ function App () {
 
   return (
       <>
-          <Background>
+      <StyleProvider hashPriority='high'>
+      <Background>
               <Routes>
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/clientes" element={<Clientes />} />
@@ -64,6 +66,8 @@ function App () {
                   <Route path="/cobranzas/nuevo" element={<FormCobranza />} />
               </Routes>
           </Background>
+      </StyleProvider>
+
       </>
   )
 }
