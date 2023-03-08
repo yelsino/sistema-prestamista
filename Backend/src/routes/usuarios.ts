@@ -8,7 +8,7 @@ const usuario = new UsuarioController();
 const router = Router();
 
 
-router.get("/", usuario.obtenerUsuarios)
+router.get("/", usuario.obtenerUsuarios);
 router.post("/nuevo", usuario.crearUsuario);
 
 export { router };
