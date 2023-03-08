@@ -5,7 +5,7 @@ import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
 import Search from 'antd/es/input/Search'
 import { IconoClienteOut } from '../../Components/iconos'
 
-const FormMoneda: React.FC = () => {
+const FormPrestamos: React.FC = () => {
 //   const [empresaState, setEmpresa] = useState(false)
 
   const [form] = Form.useForm()
@@ -19,7 +19,7 @@ const FormMoneda: React.FC = () => {
       <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200  py-4 px-5">
           <header className=" border-b border-slate-100 flex justify-between  py-4">
               <h2 className="font-semibold text-slate-800 text-lg">
-                  NUEVO PRESTAMO
+                  GENERAR PRESTAMO
               </h2>
 
               <Space>
@@ -57,17 +57,9 @@ const FormMoneda: React.FC = () => {
               onFinish={(values) => console.log(values)}
           >
               <div className="pt-5 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
-                  <Form.Item
-                      name="documento"
-                      label="N° Documento"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
+                  <Form.Item name="documento" label="N° Documento">
                       <Input
+                          disabled
                           prefix={
                               <UserOutlined className="site-form-item-icon" />
                           }
@@ -75,17 +67,9 @@ const FormMoneda: React.FC = () => {
                           size="large"
                       />
                   </Form.Item>
-                  <Form.Item
-                      name="nombreCompleto"
-                      label="Nombre Completo"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
+                  <Form.Item name="nombreCompleto" label="Nombre Completo">
                       <Input
+                          disabled
                           prefix={
                               <LockOutlined className="site-form-item-icon" />
                           }
@@ -212,17 +196,9 @@ const FormMoneda: React.FC = () => {
                           size="large"
                       />
                   </Form.Item>
-                  <Form.Item
-                      name="valorCuota"
-                      label="Valor Cuota"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
+                  <Form.Item name="valorCuota" label="Valor Cuota">
                       <Input
+                          disabled
                           prefix={
                               <LockOutlined className="site-form-item-icon" />
                           }
@@ -231,17 +207,9 @@ const FormMoneda: React.FC = () => {
                           size="large"
                       />
                   </Form.Item>
-                  <Form.Item
-                      name="valorInteres"
-                      label="Valor Interes"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
+                  <Form.Item name="valorInteres" label="Valor Interes">
                       <Input
+                          disabled
                           prefix={
                               <LockOutlined className="site-form-item-icon" />
                           }
@@ -250,17 +218,9 @@ const FormMoneda: React.FC = () => {
                           size="large"
                       />
                   </Form.Item>
-                  <Form.Item
-                      name="montoTotal"
-                      label="Monto Total"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
+                  <Form.Item name="montoTotal" label="Monto Total">
                       <Input
+                          disabled
                           prefix={
                               <LockOutlined className="site-form-item-icon" />
                           }
@@ -293,4 +253,4 @@ const FormMoneda: React.FC = () => {
   )
 }
 
-export default FormMoneda
+export default FormPrestamos

@@ -19,6 +19,8 @@ import FormCobranza from './partials/cobranza/FormCobranza'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { StyleProvider } from '@ant-design/cssinjs'
+import { ClienteProvider } from './Context/Cliente/ClienteProvider'
+import { DireccionesProvider } from './Context/direcciones/DireccionesProvider'
 
 function App () {
   const location = useLocation()
@@ -52,22 +54,43 @@ function App () {
 
   return (
       <>
-      <StyleProvider hashPriority='high'>
-      <Background>
-              <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/clientes" element={<Clientes />} />
-                  <Route path="/clientes/nuevo" element={<FormCliente />} />
-                  <Route path="/monedas" element={<Monedas />} />
-                  <Route path="/monedas/nuevo" element={<FormMoneda />} />
-                  <Route path="/prestamos" element={<Prestamos />} />
-                  <Route path="/prestamos/nuevo" element={<FormPrestamo />} />
-                  <Route path="/cobranzas" element={<Cobranzas />} />
-                  <Route path="/cobranzas/nuevo" element={<FormCobranza />} />
-              </Routes>
-          </Background>
-      </StyleProvider>
-
+          <ClienteProvider>
+              <DireccionesProvider>
+                  <StyleProvider hashPriority="high">
+                      <Background>
+                          <Routes>
+                              <Route path="/" element={<Dashboard />} />
+                              <Route path="/clientes" element={<Clientes />} />
+                              <Route
+                                  path="/clientes/nuevo"
+                                  element={<FormCliente />}
+                              />
+                              <Route path="/monedas" element={<Monedas />} />
+                              <Route
+                                  path="/monedas/nuevo"
+                                  element={<FormMoneda />}
+                              />
+                              <Route
+                                  path="/prestamos"
+                                  element={<Prestamos />}
+                              />
+                              <Route
+                                  path="/prestamos/nuevo"
+                                  element={<FormPrestamo />}
+                              />
+                              <Route
+                                  path="/cobranzas"
+                                  element={<Cobranzas />}
+                              />
+                              <Route
+                                  path="/cobranzas/nuevo"
+                                  element={<FormCobranza />}
+                              />
+                          </Routes>
+                      </Background>
+                  </StyleProvider>
+              </DireccionesProvider>
+          </ClienteProvider>
       </>
   )
 }

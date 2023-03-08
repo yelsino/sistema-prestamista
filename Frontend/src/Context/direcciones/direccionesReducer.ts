@@ -4,6 +4,8 @@ import { DireccionesState } from './DireccionesProvider'
 export type ClienteAction =
   | { type: 'GET_CLIENTES'; payload: Array<IDireccion> }
   | { type: 'SELECT_CLIENTE'; payload: IDireccion }
+  | { type: 'GET_DEPARTAMENTOS'; payload: IDireccion }
+  | { type: 'SELECT_CLIENTE'; payload: IDireccion }
 
 export const clienteReducer = (
   state: ClienteState,
@@ -16,6 +18,11 @@ export const clienteReducer = (
         clientes: action.payload
       }
     case 'SELECT_CLIENTE':
+      return {
+        ...state,
+        cliente: action.payload
+      }
+    case 'GET_DEPARTAMENTOS':
       return {
         ...state,
         cliente: action.payload

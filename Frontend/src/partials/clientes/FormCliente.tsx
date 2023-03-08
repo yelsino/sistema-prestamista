@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Select, Switch } from 'antd'
 import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
+import Texto from './Texto'
 
 const FormCliente: React.FC = () => {
   const [empresaState, setEmpresa] = useState(false)
@@ -376,6 +377,19 @@ const FormCliente: React.FC = () => {
                   )}
               </Form.Item>
           </Form>
+
+{/* componente */}
+         <Texto
+          remitente={'IDEXA'}
+         >
+
+         </Texto>
+
+         <Texto
+          remitente={'PERU'}
+         >
+          <h2>SUB TITULO</h2>
+         </Texto>
       </div>
   )
 }

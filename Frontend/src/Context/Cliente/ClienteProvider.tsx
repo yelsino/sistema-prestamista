@@ -36,7 +36,10 @@ export const ClienteProvider = ({ children }: Props) => {
       method: 'GET'
     })
 
-    console.log(respuesta)
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_CLIENTES'
+    })
 
     return respuesta
   }

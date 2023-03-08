@@ -5,6 +5,9 @@ import { DireccionesContext } from './DireccionesContext'
 import { direccionesReducer } from './direccionesReducer'
 
 export interface DireccionesState {
+  departamentos: IDirecciones[],
+  provincias: IDirecciones[],
+  distritos: IDirecciones[],
   direccion: IDirecciones
   direcciones: Array<IDirecciones>
 }
@@ -13,6 +16,9 @@ interface Props {
 }
 
 const INITIAL_STATE: DireccionesState = {
+  departamentos: [],
+  provincias: [],
+  distritos: [],
   direccion: null,
   direcciones: []
 }
