@@ -18,8 +18,6 @@ export class UsuarioController {
 
   crearUsuario = async (req: RQ, res: RES) => responder(await this.usuario.crearUsuario(req.body), res);
 
-
-
 }
 
 

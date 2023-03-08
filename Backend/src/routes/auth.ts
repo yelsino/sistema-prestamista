@@ -10,12 +10,8 @@ const usuarioValidar = new UsuarioValidar();
 const router = Router();
 
 router.post("/registro", schemaValidator(usuarioValidar.registro()), auth.registro);
-router.post("/registro-correo", schemaValidator(usuarioValidar.registroConEmail()), auth.registrarConEmail);
 router.post("/login", schemaValidator(usuarioValidar.login()), auth.login);
-router.post("/verificar-mobile", schemaValidator(usuarioValidar.verificarExisteMovil()), auth.verificarExisteMovil);
-router.post("/verificar-correo", schemaValidator(usuarioValidar.verificarExisteEmail()), auth.verificarExisteCorreo);
 router.get("/re-login", checkJwt, auth.reLogin);
-router.get("/", auth.obtenerUsuarios)
 router.post("/restaurar-operario/:documento", auth.restaurarCuentaOperario);
 
 
