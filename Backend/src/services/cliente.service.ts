@@ -8,7 +8,7 @@ export class ClienteService {
     obtenerClientes = async (): Promise<IRespuesta<ICliente[]>> => {
         const respuesta = new Respuesta();
         try {
-            const clientes = await Cliente.find();
+            const clientes = await Cliente.find().sort({ _id: -1 });
             return {
                 ...respuesta,
                 code: 200,

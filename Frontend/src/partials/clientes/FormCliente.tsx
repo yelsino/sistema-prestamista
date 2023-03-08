@@ -3,43 +3,19 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Select, Switch } from 'antd'
 import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
 import { DireccionContext } from '../../Context/direcciones/DireccionContext'
+import { ClienteContext, RegistroCliente } from '../../Context/Cliente/ClienteContext'
+import { useNavigate } from 'react-router-dom'
 
 const FormCliente: React.FC = () => {
+  const navigate = useNavigate()
   const [empresaState, setEmpresa] = useState(false)
-
   const [form] = Form.useForm()
   const [provincias, setProvincias] = useState([])
   const [distritos, setDistritos] = useState([])
 
   const { departamentos, obtenerDepartamentos, obtenerProvincias, obtenerDistritos } = useContext(DireccionContext)
 
-  const onFinish = (values: any) => {
-    console.log(values)
-
-    const nuevoCliente = {
-      nombres: values.nombres,
-      apellidos: values.apellidos,
-      ducumento: values.ducumento,
-      genero: values.genero,
-      celular: values.celular,
-      telefono: values.telefono,
-      correo: values.correo,
-      empresa: values.nombreComercial,
-      ruc: values.ruc,
-      razonSocial: values.razonSocial,
-      estado: 'SIN_CREDITO',
-      agente: '321321321312'
-    }
-
-    const nuevaDireccion = {
-      departamento: values.departamento,
-      provincia: values.provincia,
-      distrito: values.distrito,
-      direccion: values.direccion,
-      referencia: values.referencia
-    }
-    console.log(nuevoCliente, nuevaDireccion)
-  }
+  const { generarCliente } = useContext(ClienteContext)
 
   const cargarProvincias = async (value: string) => {
     form.resetFields(['provincia'])
@@ -61,6 +37,11 @@ const FormCliente: React.FC = () => {
     setDistritos(distritoOptions)
   }
 
+  const onFinish = async (values: RegistroCliente) => {
+    await generarCliente(values)
+    navigate('/clientes')
+  }
+
   useEffect(() => {
     obtenerDepartamentos()
   }, [])
@@ -78,39 +59,42 @@ const FormCliente: React.FC = () => {
                       onChange={() => setEmpresa(!empresaState)}
                   />
           </header>
-          <Form
+          <Form<RegistroCliente>
               form={form}
               name="horizontal_login"
               layout="vertical"
               className=""
               initialValues={{
-                ducumento: '',
+                documento: '',
                 nombres: '',
                 apellidos: '',
                 genero: '',
                 departamento: '',
                 provincia: '',
                 distrito: '',
-                direccion: '',
+                nombreDireccion: '',
                 referencia: '',
                 celular: '',
                 telefono: '',
                 razonSocial: '',
                 ruc: '',
-                nombreComercial: '',
+                empresa: '',
                 correo: ''
-
               }}
               onFinish={onFinish}
           >
               <div className="pt-5 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
                   <Form.Item
-                      name="ducumento"
+                      name="documento"
                       label="Número Documento"
                       rules={[
                         {
                           required: true,
                           message: 'Este campo es requerido!'
+                        },
+                        {
+                          pattern: /^[0-9]+$/,
+                          message: 'Este campo solo permite números!'
                         }
                       ]}
                   >
@@ -129,6 +113,10 @@ const FormCliente: React.FC = () => {
                         {
                           required: true,
                           message: 'Este campo es requerido!'
+                        },
+                        {
+                          pattern: /^[a-zA-Z]+$/,
+                          message: 'Este campo solo permite letras!'
                         }
                       ]}
                   >
@@ -148,6 +136,10 @@ const FormCliente: React.FC = () => {
                         {
                           required: true,
                           message: 'Este campo es requerido!'
+                        },
+                        {
+                          pattern: /^[a-zA-Z]+$/,
+                          message: 'Este campo solo permite letras!'
                         }
                       ]}
                   >
@@ -247,7 +239,7 @@ const FormCliente: React.FC = () => {
                   </Form.Item>
 
                   <Form.Item
-                      name="direccion"
+                      name="nombreDireccion"
                       label="Dirección"
                       rules={[
                         {
@@ -293,6 +285,10 @@ const FormCliente: React.FC = () => {
                         {
                           required: true,
                           message: 'Este campo es requerido!'
+                        },
+                        {
+                          pattern: /^[0-9]+$/,
+                          message: 'Este campo solo permite números!'
                         }
                       ]}
                   >
@@ -331,6 +327,10 @@ const FormCliente: React.FC = () => {
                         {
                           required: true,
                           message: 'Este campo es requerido!'
+                        },
+                        {
+                          pattern: /^[0-9]+$/,
+                          message: 'Este campo solo permite números!'
                         }
                       ]}
                   >
@@ -373,6 +373,10 @@ const FormCliente: React.FC = () => {
                         {
                           required: true,
                           message: 'Este campo es requerido!'
+                        },
+                        {
+                          pattern: /^[0-9]+$/,
+                          message: 'Este campo solo permite números!'
                         }
                       ]}
                   >
@@ -416,12 +420,7 @@ const FormCliente: React.FC = () => {
                           type="primary"
                           htmlType="submit"
                           className="bg-blue-500 text-white"
-                          // disabled={
-                          //     !form.isFieldsTouched(true) ||
-                          //     !!form
-                          //       .getFieldsError()
-                          //       .filter(({ errors }) => errors.length).length
-                          // }
+
                       >
                           Registrar
                       </Button>

@@ -17,3 +17,7 @@ text-align: center;
   margin-top: 24px;
 }
 
+
+.ant-input-affix-wrapper .ant-input-prefix {
+  display: none;
+}

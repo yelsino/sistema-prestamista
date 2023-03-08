@@ -13,7 +13,6 @@ const Clientes = () => {
   useEffect(() => {
     obtenerClientes()
   }, [])
-
   return (
       <div>
           <TablaAntidesing
@@ -89,9 +88,12 @@ const columns: ColumnsType<ICliente> = [
     }
   }
   // {
-  //   title: 'Acciones',
-  //   key: 'acciones',
+  //   title: 'Accion',
+  //   key: 'accion',
   //   dataIndex: 'acciones',
-  //   align: 'right'
+  //   fixed: 'right',
+  //   align: 'center',
+  //   width: 100,
+  //   render: () => <a className='w-full flex justify-center py-1 border'>ver</a>
   // }
 ]

@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import { ICliente, IRespuesta } from 'types-prestamista'
 import { fetchConToken } from '../../helpers/fetch'
-import { ClienteContext } from './ClienteContext'
+import { ClienteContext, RegistroCliente } from './ClienteContext'
 import { clienteReducer } from './clienteReducer'
 
 export interface ClienteState {
@@ -20,7 +20,7 @@ const INITIAL_STATE: ClienteState = {
 export const ClienteProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(clienteReducer, INITIAL_STATE)
 
-  const generarCliente = async (cliente: ICliente): Promise<IRespuesta<ICliente>> => {
+  const generarCliente = async (cliente: RegistroCliente): Promise<IRespuesta<ICliente>> => {
     const respuesta = await fetchConToken<IRespuesta<ICliente>>({
       endpoint: 'clientes/registrar',
       method: 'POST',
