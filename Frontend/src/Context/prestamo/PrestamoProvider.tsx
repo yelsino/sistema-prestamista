@@ -6,7 +6,7 @@ import { prestamoReducer } from './prestamoReducer'
 
 export interface PrestamoState {
   prestamo: IPrestamo
-  prestamos: Array<IPrestamo>
+  prestamos: IPrestamo[]
 }
 interface Props {
   children: React.ReactNode
@@ -30,13 +30,16 @@ export const PrestamoProvider = ({ children }: Props) => {
     return respuesta
   }
 
-  const obtenerPrestamo = async ():Promise<IRespuesta<Array<IPrestamo>>> => {
-    const respuesta = await fetchConToken<IRespuesta<Array<IPrestamo>>>({
+  const obtenerPrestamo = async ():Promise<IRespuesta<IPrestamo[]>> => {
+    const respuesta = await fetchConToken<IRespuesta<IPrestamo[]>>({
       endpoint: 'prestamos',
       method: 'GET'
     })
 
-    console.log(respuesta)
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_PRESTAMO'
+    })
 
     return respuesta
   }

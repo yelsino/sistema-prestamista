@@ -6,7 +6,7 @@ import { monedaReducer } from './monedaReducer'
 
 export interface MonedaState {
   moneda: IMoneda
-  monedas: Array<IMoneda>
+  monedas: IMoneda[]
 }
 interface Props {
   children: React.ReactNode
@@ -30,13 +30,16 @@ export const MonedaProvider = ({ children }: Props) => {
     return respuesta
   }
 
-  const obtenerMoneda = async ():Promise<IRespuesta<Array<IMoneda>>> => {
-    const respuesta = await fetchConToken<IRespuesta<Array<IMoneda>>>({
+  const obtenerMoneda = async ():Promise<IRespuesta<IMoneda[]>> => {
+    const respuesta = await fetchConToken<IRespuesta<IMoneda[]>>({
       endpoint: 'monedas',
       method: 'GET'
     })
 
-    console.log(respuesta)
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_MONEDA'
+    })
 
     return respuesta
   }

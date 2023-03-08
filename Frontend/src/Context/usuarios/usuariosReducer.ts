@@ -1,24 +1,24 @@
-import { ICliente } from 'types-prestamista'
-import { ClienteState } from './UsuariosProvider'
+import { IUsuario } from 'types-prestamista'
+import { UsuarioState } from './UsuariosProvider'
 
-export type ClienteAction =
-  | { type: 'GET_CLIENTES'; payload: Array<ICliente> }
-  | { type: 'SELECT_CLIENTE'; payload: ICliente }
+export type UsuarioAction =
+  | { type: 'GET_USUARIOS'; payload: IUsuario[] }
+  | { type: 'SELECT_USUARIO'; payload: IUsuario }
 
 export const clienteReducer = (
-  state: ClienteState,
-  action: ClienteAction
-): ClienteState => {
+  state: UsuarioState,
+  action: UsuarioAction
+): UsuarioState => {
   switch (action.type) {
-    case 'GET_CLIENTES':
+    case 'GET_USUARIOS':
       return {
         ...state,
-        clientes: action.payload
+        usuarios: action.payload
       }
-    case 'SELECT_CLIENTE':
+    case 'SELECT_USUARIO':
       return {
         ...state,
-        cliente: action.payload
+        usuario: action.payload
       }
 
     default:
