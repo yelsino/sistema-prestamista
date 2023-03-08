@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "87809e13-7a56-474f-b587-5be9432ea877",
+		"_postman_id": "8d54147e-99ca-4dbe-a8ed-00ac4a98e90f",
 		"name": "SISTEMA-PRESTAMISTA",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "12311952"
+		"_exporter_id": "15306030"
 	},
 	"item": [
 		{
@@ -577,7 +577,10 @@
 					"name": "filtrar usuarios",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				}
@@ -629,6 +632,112 @@
 							"path": [
 								"clientes",
 								"registrar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Moneda",
+			"item": [
+				{
+					"name": "obtener monedas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/monedas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"monedas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crear moneda",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Soles\",\r\n    \"abreviatura\": \"PEN\",\r\n    \"simbolo\": \"s/\",\r\n    \"descripcion\": \"Moneda oficial de la Republica Peruana\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/monedas/registrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"monedas",
+								"registrar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Prestamo",
+			"item": [
+				{
+					"name": "obtener prestamo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/prestamos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"prestamos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crear prestamo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"numero\": 10,\r\n   \"cliente\": \"6409124b3b430fab34ce75f0\",\r\n   \"monto\": 2000,\r\n   \"interes\": 0.5,\r\n   \"montoTotal\": 3000,\r\n   \"moneda\": \"6409124b3b430fab34ce7614\",\r\n   \"estado\": \"Pendiente\",\r\n   \"agente\": \"6409124b3b430fab34ce73e7\",\r\n   \"numeroCuotas\": 12,\r\n   \"formaPago\": \"MENSUAL\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3002/prestamos/nuevo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"prestamos",
+								"nuevo"
 							]
 						}
 					},

@@ -1,3 +1,4 @@
+
 import Cliente from "../models/ClienteModel";
 import Cuota from "../models/CuotaModel";
 import Departamento from "../models/DepartamentoModel";
