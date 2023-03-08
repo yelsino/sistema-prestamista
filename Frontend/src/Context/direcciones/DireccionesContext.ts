@@ -1,17 +1,20 @@
 
 import React, { createContext } from 'react'
-import { IDireccion, IRespuesta } from 'types-prestamista'
+import { IDepartamento, IDireccion, IDistrito, IProvincia, IRespuesta } from 'types-prestamista'
 import { DireccionAction } from './direccionesReducer'
 
 interface PropsContext {
-  cliente: IDireccion | null
-  clientes: IDireccion[]
+  departamentos: IDepartamento[]
+  provincias: IProvincia[]
+  distritos: IDistrito[]
+  direccion: IDireccion | null
+  direcciones: IDireccion[]
   dispatch: React.Dispatch<DireccionAction>
-  generarDirecciones: (direcciones: IDireccion) => Promise<IRespuesta<IDireccion>>,
-  obtenerDirecciones: (idUsuario) => Promise<IRespuesta<Array<IDireccion>>>,
-  obtenerDepartamentos: () => Promise<IRespuesta<Array<IDireccion>>>,
-  obtenerProvincias: (idDepartamento) => Promise<IRespuesta<Array<IDireccion>>>,
-  obtenerDistritos: (idProvincia) => Promise<IRespuesta<Array<IDireccion>>>
+  generarDirecciones: (direcciones: IDireccion) => Promise<IRespuesta<IDireccion[]>>,
+  obtenerDirecciones: (idUsuario) => Promise<IRespuesta<IDireccion[]>>,
+  obtenerDepartamentos: () => Promise<IRespuesta<IDepartamento[]>>,
+  obtenerProvincias: (idDepartamento) => Promise<IRespuesta<IProvincia[]>>,
+  obtenerDistritos: (idProvincia) => Promise<IRespuesta<IDistrito[]>>
 }
 
 export const DireccionesContext = createContext<PropsContext>({} as PropsContext)
