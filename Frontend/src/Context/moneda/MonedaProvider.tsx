@@ -1,7 +1,6 @@
 import React, { useReducer } from 'react'
 import { IMoneda, IRespuesta } from 'types-prestamista'
 import { fetchConToken } from '../../helpers/fetch'
-import Monedas from '../../pages/Monedas'
 import { MonedaContext } from './MonedaContext'
 import { monedaReducer } from './monedaReducer'
 

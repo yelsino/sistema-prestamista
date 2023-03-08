@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react'
 import { IDepartamento, IDireccion, IDistrito, IProvincia, IRespuesta } from 'types-prestamista'
 import { fetchConToken } from '../../helpers/fetch'
-import { DireccionesContext } from './DireccionesContext'
-import { direccionesReducer } from './direccionesReducer'
+import { DireccionContext } from './DireccionContext'
+import { direccionesReducer } from './direccionReducer'
 
 export interface DireccionState {
   departamentos: IDepartamento[],
@@ -38,7 +38,7 @@ const INITIAL_STATE: DireccionState = {
 //   obtenerDistritos: (idProvincia) => Promise<IRespuesta<Array<IDistrito[]>>>
 // }
 
-export const DireccionesProvider = ({ children }: Props) => {
+export const DireccionProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(direccionesReducer, INITIAL_STATE)
 
   const generarDirecciones = async (direcciones: IDireccion): Promise<IRespuesta<IDireccion[]>> => {
@@ -105,7 +105,7 @@ export const DireccionesProvider = ({ children }: Props) => {
   }
 
   return (
-    <DireccionesContext.Provider
+    <DireccionContext.Provider
       value={{
         ...state,
         dispatch,
@@ -117,6 +117,6 @@ export const DireccionesProvider = ({ children }: Props) => {
       }}
     >
       {children}
-    </DireccionesContext.Provider>
+    </DireccionContext.Provider>
   )
 }

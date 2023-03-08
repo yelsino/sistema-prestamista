@@ -20,7 +20,7 @@ import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { StyleProvider } from '@ant-design/cssinjs'
 import { ClienteProvider } from './Context/Cliente/ClienteProvider'
-import { DireccionesProvider } from './Context/direcciones/DireccionesProvider'
+import { DireccionProvider } from './Context/direcciones/DireccionProvider'
 
 function App () {
   const location = useLocation()
@@ -53,45 +53,37 @@ function App () {
   getAnalytics(app)
 
   return (
-      <>
-          <ClienteProvider>
-              <DireccionesProvider>
-                  <StyleProvider hashPriority="high">
-                      <Background>
-                          <Routes>
-                              <Route path="/" element={<Dashboard />} />
-                              <Route path="/clientes" element={<Clientes />} />
-                              <Route
-                                  path="/clientes/nuevo"
-                                  element={<FormCliente />}
-                              />
-                              <Route path="/monedas" element={<Monedas />} />
-                              <Route
-                                  path="/monedas/nuevo"
-                                  element={<FormMoneda />}
-                              />
-                              <Route
-                                  path="/prestamos"
-                                  element={<Prestamos />}
-                              />
-                              <Route
-                                  path="/prestamos/nuevo"
-                                  element={<FormPrestamo />}
-                              />
-                              <Route
-                                  path="/cobranzas"
-                                  element={<Cobranzas />}
-                              />
-                              <Route
-                                  path="/cobranzas/nuevo"
-                                  element={<FormCobranza />}
-                              />
-                          </Routes>
-                      </Background>
-                  </StyleProvider>
-              </DireccionesProvider>
-          </ClienteProvider>
-      </>
+      <ClienteProvider>
+          <DireccionProvider>
+              <StyleProvider hashPriority="high">
+                  <Background>
+                      <Routes>
+                          <Route path="/" element={<Dashboard />} />
+                          <Route path="/clientes" element={<Clientes />} />
+                          <Route
+                              path="/clientes/nuevo"
+                              element={<FormCliente />}
+                          />
+                          <Route path="/monedas" element={<Monedas />} />
+                          <Route
+                              path="/monedas/nuevo"
+                              element={<FormMoneda />}
+                          />
+                          <Route path="/prestamos" element={<Prestamos />} />
+                          <Route
+                              path="/prestamos/nuevo"
+                              element={<FormPrestamo />}
+                          />
+                          <Route path="/cobranzas" element={<Cobranzas />} />
+                          <Route
+                              path="/cobranzas/nuevo"
+                              element={<FormCobranza />}
+                          />
+                      </Routes>
+                  </Background>
+              </StyleProvider>
+          </DireccionProvider>
+      </ClienteProvider>
   )
 }
 

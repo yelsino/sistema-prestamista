@@ -1,7 +1,7 @@
 
 import React, { createContext } from 'react'
 import { IDepartamento, IDireccion, IDistrito, IProvincia, IRespuesta } from 'types-prestamista'
-import { DireccionAction } from './direccionesReducer'
+import { DireccionAction } from './direccionReducer'
 
 interface PropsContext {
   departamentos: IDepartamento[]
@@ -17,4 +17,4 @@ interface PropsContext {
   obtenerDistritos: (idProvincia) => Promise<IRespuesta<IDistrito[]>>
 }
 
-export const DireccionesContext = createContext<PropsContext>({} as PropsContext)
+export const DireccionContext = createContext<PropsContext>({} as PropsContext)

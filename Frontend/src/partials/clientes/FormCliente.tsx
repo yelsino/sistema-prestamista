@@ -1,17 +1,68 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Select, Switch } from 'antd'
 import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
-import Texto from './Texto'
+import { DireccionContext } from '../../Context/direcciones/DireccionContext'
 
 const FormCliente: React.FC = () => {
   const [empresaState, setEmpresa] = useState(false)
 
   const [form] = Form.useForm()
-  const [, forceUpdate] = useState({})
+  const [provincias, setProvincias] = useState([])
+  const [distritos, setDistritos] = useState([])
+
+  const { departamentos, obtenerDepartamentos, obtenerProvincias, obtenerDistritos } = useContext(DireccionContext)
+
+  const onFinish = (values: any) => {
+    console.log(values)
+
+    const nuevoCliente = {
+      nombres: values.nombres,
+      apellidos: values.apellidos,
+      ducumento: values.ducumento,
+      genero: values.genero,
+      celular: values.celular,
+      telefono: values.telefono,
+      correo: values.correo,
+      empresa: values.nombreComercial,
+      ruc: values.ruc,
+      razonSocial: values.razonSocial,
+      estado: 'SIN_CREDITO',
+      agente: '321321321312'
+    }
+
+    const nuevaDireccion = {
+      departamento: values.departamento,
+      provincia: values.provincia,
+      distrito: values.distrito,
+      direccion: values.direccion,
+      referencia: values.referencia
+    }
+    console.log(nuevoCliente, nuevaDireccion)
+  }
+
+  const cargarProvincias = async (value: string) => {
+    form.resetFields(['provincia'])
+    form.resetFields(['distrito'])
+    setDistritos([])
+    const provincias = await obtenerProvincias(value)
+    const provinciaOptions = provincias.data.map((provincia) => ({
+      label: provincia.nombre,
+      value: provincia._id
+    }))
+    setProvincias(provinciaOptions)
+  }
+  const cargarDistritos = async (value: string) => {
+    const distritos = await obtenerDistritos(value)
+    const distritoOptions = distritos.data.map((distrito) => ({
+      label: distrito.nombre,
+      value: distrito._id
+    }))
+    setDistritos(distritoOptions)
+  }
 
   useEffect(() => {
-    forceUpdate({})
+    obtenerDepartamentos()
   }, [])
 
   return (
@@ -46,10 +97,11 @@ const FormCliente: React.FC = () => {
                 telefono: '',
                 razonSocial: '',
                 ruc: '',
-                nombreComercial: ''
+                nombreComercial: '',
+                correo: ''
 
               }}
-              onFinish={(values) => console.log(values)}
+              onFinish={onFinish}
           >
               <div className="pt-5 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
                   <Form.Item
@@ -149,18 +201,12 @@ const FormCliente: React.FC = () => {
                         }
                       ]}
                   >
+
                       <Select
                           size="large"
-                          options={[
-                            {
-                              value: 'junin',
-                              label: 'Junín'
-                            },
-                            {
-                              value: 'lima',
-                              label: 'Lima'
-                            }
-                          ]}
+                          placeholder="Seleccione un departamento"
+                          options={departamentos.map((d) => ({ value: d._id, label: d.nombre }))}
+                          onChange={cargarProvincias}
                       />
                   </Form.Item>
 
@@ -175,17 +221,11 @@ const FormCliente: React.FC = () => {
                       ]}
                   >
                       <Select
+                          disabled={provincias.length === 0}
                           size="large"
-                          options={[
-                            {
-                              value: 'junin',
-                              label: 'Junín'
-                            },
-                            {
-                              value: 'lima',
-                              label: 'Lima'
-                            }
-                          ]}
+                          placeholder="Seleccione una provincia"
+                          options={provincias}
+                          onChange={cargarDistritos}
                       />
                   </Form.Item>
 
@@ -200,17 +240,9 @@ const FormCliente: React.FC = () => {
                       ]}
                   >
                       <Select
+                          disabled={distritos.length === 0}
                           size="large"
-                          options={[
-                            {
-                              value: 'junin',
-                              label: 'Junín'
-                            },
-                            {
-                              value: 'lima',
-                              label: 'Lima'
-                            }
-                          ]}
+                          options={distritos}
                       />
                   </Form.Item>
 
@@ -270,6 +302,25 @@ const FormCliente: React.FC = () => {
                           }
                           type="text"
                           placeholder="EJ: 987654321"
+                          size="large"
+                      />
+                  </Form.Item>
+                  <Form.Item
+                      name="correo"
+                      label="Correo"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Este campo es requerido!'
+                        }
+                      ]}
+                  >
+                      <Input
+                          prefix={
+                              <LockOutlined className="site-form-item-icon" />
+                          }
+                          type="text"
+                          placeholder="EJ: juan@gmail.com"
                           size="large"
                       />
                   </Form.Item>
@@ -377,19 +428,6 @@ const FormCliente: React.FC = () => {
                   )}
               </Form.Item>
           </Form>
-
-{/* componente */}
-         <Texto
-          remitente={'IDEXA'}
-         >
-
-         </Texto>
-
-         <Texto
-          remitente={'PERU'}
-         >
-          <h2>SUB TITULO</h2>
-         </Texto>
       </div>
   )
 }

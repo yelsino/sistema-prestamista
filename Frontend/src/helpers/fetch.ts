@@ -7,13 +7,11 @@ interface Props {
   method?: string
 }
 
-export const fetchSinToken =  async <T>({
+export const fetchSinToken = async <T>({
   endpoint,
   body,
   method = 'GET'
 }: Props):Promise<T> => {
-
-
   const url = `${baseUrl}/${endpoint}`
 
   if (method === 'GET') {
@@ -43,7 +41,7 @@ export const fetchConToken = async <T>({
   if (method === 'GET') {
     const resp = await fetch(url, {
       headers: {
-        'Authorization': token
+        Authorization: token
       }
     })
     return await resp.json()
@@ -51,8 +49,8 @@ export const fetchConToken = async <T>({
     const resp = await fetch(url, {
       method,
       headers: {
-        'Authorization': token,
-        'Accept': 'application/json',
+        Authorization: token,
+        Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
