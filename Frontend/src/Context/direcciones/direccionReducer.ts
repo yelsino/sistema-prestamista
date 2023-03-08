@@ -1,5 +1,5 @@
 import { IDepartamento, IDireccion, IDistrito, IProvincia } from 'types-prestamista'
-import { DireccionState } from './DireccionesProvider'
+import { DireccionState } from './DireccionProvider'
 
 export type DireccionAction =
   | { type: 'SELECT_DIRECTION'; payload: IDireccion }
