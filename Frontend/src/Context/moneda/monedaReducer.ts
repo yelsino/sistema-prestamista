@@ -1,24 +1,24 @@
 import { IMoneda } from 'types-prestamista'
 import { MonedaState } from './MonedaProvider'
 
-export type ClienteAction =
-  | { type: 'GET_CLIENTES'; payload: Array<ICliente> }
-  | { type: 'SELECT_CLIENTE'; payload: ICliente }
+export type MonedaAction =
+  | { type: 'GET_MONEDA'; payload: IMoneda[] }
+  | { type: 'SELECT_MONEDA'; payload: IMoneda }
 
-export const clienteReducer = (
-  state: ClienteState,
-  action: ClienteAction
-): ClienteState => {
+export const monedaReducer = (
+  state: MonedaState,
+  action: MonedaAction
+): MonedaState => {
   switch (action.type) {
-    case 'GET_CLIENTES':
+    case 'GET_MONEDA':
       return {
         ...state,
-        clientes: action.payload
+        monedas: action.payload
       }
-    case 'SELECT_CLIENTE':
+    case 'SELECT_MONEDA':
       return {
         ...state,
-        cliente: action.payload
+        moneda: action.payload
       }
 
     default:
