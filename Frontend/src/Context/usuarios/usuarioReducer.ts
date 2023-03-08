@@ -1,11 +1,11 @@
 import { IUsuario } from 'types-prestamista'
-import { UsuarioState } from './UsuariosProvider'
+import { UsuarioState } from './UsuarioProvider'
 
 export type UsuarioAction =
   | { type: 'GET_USUARIOS'; payload: IUsuario[] }
   | { type: 'SELECT_USUARIO'; payload: IUsuario }
 
-export const clienteReducer = (
+export const usuarioReducer = (
   state: UsuarioState,
   action: UsuarioAction
 ): UsuarioState => {

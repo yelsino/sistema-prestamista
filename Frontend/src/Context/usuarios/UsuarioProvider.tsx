@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react'
 import { IUsuario, IRespuesta } from 'types-prestamista'
 import { fetchConToken } from '../../helpers/fetch'
-import { UsuariosContext } from './UsuariosContext'
-import { usuariosReducer } from './usuariosReducer'
+import { UsuarioContext } from './UsuarioContext'
+import { usuarioReducer } from './usuarioReducer'
 
 export interface UsuarioState {
   usuario: IUsuario
@@ -18,7 +18,7 @@ const INITIAL_STATE: UsuarioState = {
 }
 
 export const UsuariosProvider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(usuariosReducer, INITIAL_STATE)
+  const [state, dispatch] = useReducer(usuarioReducer, INITIAL_STATE)
 
   const generarUsuario = async (usuario: IUsuario): Promise<IRespuesta<IUsuario>> => {
     const respuesta = await fetchConToken<IRespuesta<IUsuario>>({
@@ -30,7 +30,7 @@ export const UsuariosProvider = ({ children }: Props) => {
     return respuesta
   }
 
-  const obtenerUsuario = async ():Promise<IRespuesta<IUsuario[]>> => {
+  const obtenerUsuarios = async ():Promise<IRespuesta<IUsuario[]>> => {
     const respuesta = await fetchConToken<IRespuesta<IUsuario[]>>({
       endpoint: 'usuarios',
       method: 'GET'
@@ -38,22 +38,22 @@ export const UsuariosProvider = ({ children }: Props) => {
 
     dispatch({
       payload: respuesta.data,
-      type: 'GET_USUARIO'
+      type: 'GET_USUARIOS'
     })
 
     return respuesta
   }
 
   return (
-    <UsuariosContext.Provider
+    <UsuarioContext.Provider
       value={{
         ...state,
         dispatch,
         generarUsuario,
-        obtenerUsuario
+        obtenerUsuarios
       }}
     >
       {children}
-    </UsuariosContext.Provider>
+    </UsuarioContext.Provider>
   )
 }
