@@ -1,21 +1,21 @@
 import React, { useReducer } from 'react'
-import { IDirecciones, IRespuesta } from 'types-prestamista'
+import { IDireccion, IRespuesta } from 'types-prestamista'
 import { fetchConToken } from '../../helpers/fetch'
 import { DireccionesContext } from './DireccionesContext'
 import { direccionesReducer } from './direccionesReducer'
 
-export interface DireccionesState {
-  departamentos: IDirecciones[],
-  provincias: IDirecciones[],
-  distritos: IDirecciones[],
-  direccion: IDirecciones
-  direcciones: Array<IDirecciones>
+export interface DireccionState {
+  departamentos: IDireccion[],
+  provincias: IDireccion[],
+  distritos: IDireccion[],
+  direccion: IDireccion
+  direcciones: Array<IDireccion>
 }
 interface Props {
   children: React.ReactNode
 }
 
-const INITIAL_STATE: DireccionesState = {
+const INITIAL_STATE: DireccionState = {
   departamentos: [],
   provincias: [],
   distritos: [],
@@ -26,8 +26,8 @@ const INITIAL_STATE: DireccionesState = {
 export const DireccionesProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(direccionesReducer, INITIAL_STATE)
 
-  const generarDirecciones = async (direcciones: IDirecciones): Promise<IRespuesta<IDirecciones>> => {
-    const respuesta = await fetchConToken<IRespuesta<IDirecciones>>({
+  const generarDirecciones = async (direcciones: IDireccion): Promise<IRespuesta<IDireccion>> => {
+    const respuesta = await fetchConToken<IRespuesta<IDireccion>>({
       endpoint: 'direcciones',
       method: 'POST',
       body: direcciones
@@ -36,43 +36,55 @@ export const DireccionesProvider = ({ children }: Props) => {
     return respuesta
   }
 
-  const obtenerDirecciones = async (idUsuario):Promise<IRespuesta<Array<IDirecciones>>> => {
-    const respuesta = await fetchConToken<IRespuesta<Array<IDirecciones>>>({
+  const obtenerDirecciones = async (idUsuario):Promise<IRespuesta<Array<IDireccion>>> => {
+    const respuesta = await fetchConToken<IRespuesta<Array<IDireccion>>>({
       endpoint: 'direcciones/de-usuario/' + idUsuario,
       method: 'GET'
     })
 
-    console.log(respuesta)
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_DIRECCION'
+    })
 
     return respuesta
   }
-  const obtenerDepartamentos = async ():Promise<IRespuesta<Array<IDirecciones>>> => {
-    const respuesta = await fetchConToken<IRespuesta<Array<IDirecciones>>>({
+  const obtenerDepartamentos = async ():Promise<IRespuesta<Array<IDireccion>>> => {
+    const respuesta = await fetchConToken<IRespuesta<Array<IDireccion>>>({
       endpoint: 'direcciones/departamentos',
       method: 'GET'
     })
 
-    console.log(respuesta)
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_DEPARTAMENTO'
+    })
 
     return respuesta
   }
-  const obtenerProvincia = async (idDepartamento):Promise<IRespuesta<Array<IDirecciones>>> => {
-    const respuesta = await fetchConToken<IRespuesta<Array<IDirecciones>>>({
+  const obtenerProvincias = async (idDepartamento):Promise<IRespuesta<Array<IDireccion>>> => {
+    const respuesta = await fetchConToken<IRespuesta<Array<IDireccion>>>({
       endpoint: 'direcciones/provincias/' + idDepartamento,
       method: 'GET'
     })
 
-    console.log(respuesta)
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_PROVINCIA'
+    })
 
     return respuesta
   }
-  const obtenerDistrito = async (idProvincia):Promise<IRespuesta<Array<IDirecciones>>> => {
-    const respuesta = await fetchConToken<IRespuesta<Array<IDirecciones>>>({
+  const obtenerDistritos = async (idProvincia):Promise<IRespuesta<Array<IDireccion>>> => {
+    const respuesta = await fetchConToken<IRespuesta<Array<IDireccion>>>({
       endpoint: 'direcciones/distritos/' + idProvincia,
       method: 'GET'
     })
 
-    console.log(respuesta)
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_DISTRITO'
+    })
 
     return respuesta
   }
@@ -85,8 +97,8 @@ export const DireccionesProvider = ({ children }: Props) => {
         generarDirecciones,
         obtenerDirecciones,
         obtenerDepartamentos,
-        obtenerProvincia,
-        obtenerDistrito
+        obtenerProvincias,
+        obtenerDistritos
       }}
     >
       {children}

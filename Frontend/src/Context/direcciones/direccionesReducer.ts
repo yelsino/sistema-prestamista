@@ -1,31 +1,36 @@
 import { IDireccion } from 'types-prestamista'
-import { DireccionesState } from './DireccionesProvider'
+import { DireccionState } from './DireccionesProvider'
 
-export type ClienteAction =
-  | { type: 'GET_CLIENTES'; payload: Array<IDireccion> }
-  | { type: 'SELECT_CLIENTE'; payload: IDireccion }
-  | { type: 'GET_DEPARTAMENTOS'; payload: IDireccion }
-  | { type: 'SELECT_CLIENTE'; payload: IDireccion }
+export type DireccionAction =
+  | { type: 'GET_DIRECCION'; payload: Array<IDireccion> }
+  | { type: 'GET_DEPARTAMENTO'; payload: Array<IDireccion> }
+  | { type: 'GET_PROVINCIA'; payload: Array<IDireccion> }
+  | { type: 'GET_DISTRITO'; payload: Array<IDireccion> }
 
-export const clienteReducer = (
-  state: ClienteState,
-  action: ClienteAction
-): ClienteState => {
+export const direccionesReducer = (
+  state: DireccionState,
+  action: DireccionAction
+): DireccionState => {
   switch (action.type) {
-    case 'GET_CLIENTES':
+    case 'GET_DIRECCION':
       return {
         ...state,
-        clientes: action.payload
+        direcciones: action.payload
       }
-    case 'SELECT_CLIENTE':
+    case 'GET_DEPARTAMENTO':
       return {
         ...state,
-        cliente: action.payload
+        direcciones: action.payload
       }
-    case 'GET_DEPARTAMENTOS':
+    case 'GET_PROVINCIA':
       return {
         ...state,
-        cliente: action.payload
+        direcciones: action.payload
+      }
+    case 'GET_DISTRITO':
+      return {
+        ...state,
+        direcciones: action.payload
       }
 
     default:
