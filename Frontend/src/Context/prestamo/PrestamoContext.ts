@@ -1,14 +1,14 @@
 
 import React, { createContext } from 'react'
-import { ICliente, IRespuesta } from 'types-prestamista'
-import { ClienteAction } from './prestamoReducer'
+import { IPrestamo, IRespuesta } from 'types-prestamista'
+import { PrestamoAction } from './prestamoReducer'
 
 interface PropsContext {
-  cliente: ICliente | null
-  clientes: ICliente[]
-  dispatch: React.Dispatch<ClienteAction>
-  generarCliente: (cliente: ICliente) => Promise<IRespuesta<ICliente>>,
-  obtenerClientes: () => Promise<IRespuesta<Array<ICliente>>>
+  prestamo: IPrestamo | null,
+  prestamos: IPrestamo[]
+  dispatch: React.Dispatch<PrestamoAction>
+  generarPrestamo: (prestamo: IPrestamo) => Promise<IRespuesta<IPrestamo>>,
+  obtenerPrestamo: () => Promise<IRespuesta<IPrestamo[]>>
 }
 
-export const ClienteContext = createContext<PropsContext>({} as PropsContext)
+export const PrestamoContext = createContext<PropsContext>({} as PropsContext)

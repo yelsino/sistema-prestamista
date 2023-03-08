@@ -6,7 +6,7 @@ import { usuariosReducer } from './usuariosReducer'
 
 export interface UsuarioState {
   usuario: IUsuario
-  usuarios: Array<IUsuario>
+  usuarios: IUsuario[]
 }
 interface Props {
   children: React.ReactNode
@@ -30,13 +30,16 @@ export const UsuariosProvider = ({ children }: Props) => {
     return respuesta
   }
 
-  const obtenerUsuario = async ():Promise<IRespuesta<Array<IUsuario>>> => {
-    const respuesta = await fetchConToken<IRespuesta<Array<IUsuario>>>({
+  const obtenerUsuario = async ():Promise<IRespuesta<IUsuario[]>> => {
+    const respuesta = await fetchConToken<IRespuesta<IUsuario[]>>({
       endpoint: 'usuarios',
       method: 'GET'
     })
 
-    console.log(respuesta)
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_USUARIO'
+    })
 
     return respuesta
   }

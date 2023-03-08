@@ -1,24 +1,24 @@
-import { ICliente } from 'types-prestamista'
-import { ClienteState } from './PrestamoProvider'
+import { IPrestamo } from 'types-prestamista'
+import { PrestamoState } from './PrestamoProvider'
 
-export type ClienteAction =
-  | { type: 'GET_CLIENTES'; payload: Array<ICliente> }
-  | { type: 'SELECT_CLIENTE'; payload: ICliente }
+export type PrestamoAction =
+  | { type: 'GET_PRESTAMO'; payload: IPrestamo[] }
+  | { type: 'SELECT_PRESTAMO'; payload: IPrestamo }
 
-export const clienteReducer = (
-  state: ClienteState,
-  action: ClienteAction
-): ClienteState => {
+export const prestamoReducer = (
+  state: PrestamoState,
+  action: PrestamoAction
+): PrestamoState => {
   switch (action.type) {
-    case 'GET_CLIENTES':
+    case 'GET_PRESTAMO':
       return {
         ...state,
-        clientes: action.payload
+        prestamos: action.payload
       }
-    case 'SELECT_CLIENTE':
+    case 'SELECT_PRESTAMO':
       return {
         ...state,
-        cliente: action.payload
+        prestamo: action.payload
       }
 
     default:
