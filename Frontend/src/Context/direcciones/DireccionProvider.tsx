@@ -9,7 +9,7 @@ export interface DireccionState {
   provincias: IProvincia[],
   distritos: IDistrito[],
   direccion: IDireccion
-  direcciones: Array<IDireccion>
+  direcciones: IDireccion[]
 }
 interface Props {
   children: React.ReactNode

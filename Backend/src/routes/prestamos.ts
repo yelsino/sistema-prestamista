@@ -11,8 +11,8 @@ router.get("/", prestamo.obtenerPrestamos)
 router.get("/buscar", prestamo.obtenerPrestamos);
 router.get("/:prestamo", prestamo.obtenerPrestamos)
 router.post("/nuevo", prestamo.crearPrestamos);
-router.post("/obtener-contratos", prestamo.crearPrestamos);
-router.post("/cuotas/:prestamo", prestamo.crearPrestamos);
-router.post("/pagar-cuota/:cuota", prestamo.crearPrestamos);
+router.get("/obtener-contratos", prestamo.crearPrestamos);
+router.get("/cuotas/:prestamo", prestamo.crearPrestamos);
+router.get("/pagar-cuota/:cuota", prestamo.crearPrestamos);
 
 export { router };

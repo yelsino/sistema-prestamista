@@ -6,7 +6,9 @@ import { clienteReducer } from './clienteReducer'
 
 export interface ClienteState {
   cliente: ICliente
-  clientes: Array<ICliente>
+  clientes: ICliente[]
+  detalleCliente: ICliente[]
+  buscarCliente:ICliente[]
 }
 interface Props {
   children: React.ReactNode
@@ -14,7 +16,9 @@ interface Props {
 
 const INITIAL_STATE: ClienteState = {
   cliente: null,
-  clientes: []
+  clientes: [],
+  detalleCliente: [],
+  buscarCliente: []
 }
 
 export const ClienteProvider = ({ children }: Props) => {
@@ -43,6 +47,32 @@ export const ClienteProvider = ({ children }: Props) => {
 
     return respuesta
   }
+  const obtenerDetalleCliente = async (ICliente):Promise<IRespuesta<ICliente[]>> => {
+    const respuesta = await fetchConToken<IRespuesta<ICliente[]>>({
+      endpoint: 'clientes/' + ICliente,
+      method: 'GET'
+    })
+
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_DETALLE_CLIENTE'
+    })
+
+    return respuesta
+  }
+  const buscarClientes = async (Texto):Promise<IRespuesta<ICliente[]>> => {
+    const respuesta = await fetchConToken<IRespuesta<ICliente[]>>({
+      endpoint: 'clientes/buscar/' + Texto,
+      method: 'GET'
+    })
+
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_BUSCAR'
+    })
+
+    return respuesta
+  }
 
   return (
     <ClienteContext.Provider
@@ -50,7 +80,9 @@ export const ClienteProvider = ({ children }: Props) => {
         ...state,
         dispatch,
         generarCliente,
-        obtenerClientes
+        obtenerClientes,
+        obtenerDetalleCliente,
+        buscarClientes
       }}
     >
       {children}
