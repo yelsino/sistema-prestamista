@@ -1,15 +1,15 @@
 // filtrarUsuarios
 
 import {  Router } from "express";
-import { PrestamoController } from "../controllers/prestamo.controller";
+import { ReporteController } from "../controllers/reporte.controller";
 
-const prestamo = new PrestamoController();
+const reporte = new ReporteController();
 
 const router = Router();
 
-router.get("/cliente", prestamo.obtenerPrestamos)
-router.get("/agentes", prestamo.obtenerPrestamos)
-router.get("/cobranzas", prestamo.obtenerPrestamos)
-router.get("/prestamos", prestamo.obtenerPrestamos)
+router.get("/cliente", reporte.reporteClientes)
+router.get("/agentes", reporte.reporteAgentes)
+router.get("/cobranzas", reporte.reporteCobranzas)
+router.get("/prestamos", reporte.reportePrestamos)
 
 export { router };

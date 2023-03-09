@@ -9,7 +9,7 @@ export class UsuarioValidar {
             nombres: z
                 .string()
                 .optional(),
-                apellidos: z
+            apellidos: z
                 .string()
                 .min(3,'Minimo 3 carácteres')
                 .optional(),

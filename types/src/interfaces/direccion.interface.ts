@@ -1,4 +1,3 @@
-import { ICliente } from "./cliente.interface";
 
 export interface IDepartamento {
     _id?: string;
@@ -29,5 +28,4 @@ export interface IDireccion {
     departamento: IDepartamento;
     provincia: IProvincia;
     distrito: IDistrito;
-    cliente: ICliente;
 }

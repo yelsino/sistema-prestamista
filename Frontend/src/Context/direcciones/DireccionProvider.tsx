@@ -23,21 +23,6 @@ const INITIAL_STATE: DireccionState = {
   direcciones: []
 }
 
-// interface PropsContext {
-//   departamentos: IDepartamento[]
-//   provincias: IProvincia[]
-//   distritos: IDistrito[]
-//   direccion: IDireccion | null
-//   direcciones: IDireccion[]
-//   dispatch: React.Dispatch<DireccionAction>
-
-//   generarDirecciones: (direcciones: IDireccion) => Promise<IRespuesta<IDireccion[]>>,
-//   obtenerDirecciones: (idUsuario) => Promise<IRespuesta<Array<IDireccion[]>>>,
-//   obtenerDepartamentos: () => Promise<IRespuesta<Array<IDepartamento[]>>>,
-//   obtenerProvincias: (idDepartamento) => Promise<IRespuesta<Array<IProvincia[]>>>,
-//   obtenerDistritos: (idProvincia) => Promise<IRespuesta<Array<IDistrito[]>>>
-// }
-
 export const DireccionProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(direccionesReducer, INITIAL_STATE)
 

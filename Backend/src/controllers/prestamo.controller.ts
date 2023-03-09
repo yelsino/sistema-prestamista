@@ -16,9 +16,17 @@ export class PrestamoController {
 
   obtenerPrestamos = async (req: RQ, res: RES) => responder(await this.prestamo.obtenerPrestamos(), res);
 
+  obtenerPrestamo = async (req: RQ, res: RES) => responder(await this.prestamo.obtenerPrestamo(req.params.prestamo), res);
+
+  buscarPrestamos = async (req: RQ, res: RES) => responder(await this.prestamo.buscarPrestamos(req.params.termino), res);
+
   crearPrestamos = async (req: RQ, res: RES) => responder(await this.prestamo.crearPrestamo(req.body), res);
 
+  obtenerContratos = async (req: RQ, res: RES) => responder(await this.prestamo.obtenerContratos(), res);
 
+  obtenerCuotasPrestamo = async (req: RQ, res: RES) => responder(await this.prestamo.obtenerCuotasPrestamo(req.params.prestamo), res);
+
+  pagarCuotas = async (req: RQ, res: RES) => responder(await this.prestamo.pagarCuotas(req.body), res);
 
 }
 

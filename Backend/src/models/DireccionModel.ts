@@ -9,7 +9,6 @@ const DireccionSchema = new Schema<IDireccion>(
     departamento: { type: Schema.Types.ObjectId, ref: "departamentos" },
     provincia: { type: Schema.Types.ObjectId, ref: "provincias" },
     distrito: { type: Schema.Types.ObjectId, ref: "distritos" },
-    cliente: { type: Schema.Types.ObjectId, ref: "clientes" },
   },
   {
     timestamps: true

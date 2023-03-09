@@ -14,6 +14,7 @@ export const clientes: ICliente[] = [
         estado: "Activo",
         correo: "juanpedrogarcia@gmail.com",
         agente: null as any,
+        direccion: null as any,
     },
     {
         documento: "23456789",
@@ -28,6 +29,7 @@ export const clientes: ICliente[] = [
         estado: "Activo",
         correo: "anamariarodriguez@gmail.com",
         agente: null as any,
+        direccion: null as any,
     },
     {
         documento: "34567890",
@@ -42,6 +44,7 @@ export const clientes: ICliente[] = [
         estado: "Inactivo",
         correo: "carloseduardolopez@gmail.com",
         agente: null as any,
+        direccion: null as any,
     },
     {
         documento: "45678901",
@@ -56,6 +59,7 @@ export const clientes: ICliente[] = [
         estado: "Activo",
         correo: "mariafernandagarcia@gmail.com",
         agente: null as any,
+        direccion: null as any,
     },
     {
         documento: "56789012",
@@ -70,6 +74,7 @@ export const clientes: ICliente[] = [
         estado: "Inactivo",
         correo: "luisalbertomartinez@gmail.com",
         agente: null as any,
+        direccion: null as any,
     },
     {
         documento: "67890123",
@@ -84,5 +89,6 @@ export const clientes: ICliente[] = [
         estado: "Activo",
         correo: "carmenrosafernandez@gmail.com",
         agente: null as any,
+        direccion: null as any,
     },
 ];

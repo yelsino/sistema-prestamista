@@ -8,11 +8,11 @@ const prestamo = new PrestamoController();
 const router = Router();
 
 router.get("/", prestamo.obtenerPrestamos)
-router.get("/buscar", prestamo.obtenerPrestamos);
-router.get("/:prestamo", prestamo.obtenerPrestamos)
+router.get("/:prestamo", prestamo.obtenerPrestamo)
+router.get("/buscar/:termino", prestamo.buscarPrestamos);
 router.post("/nuevo", prestamo.crearPrestamos);
-router.get("/obtener-contratos", prestamo.crearPrestamos);
-router.get("/cuotas/:prestamo", prestamo.crearPrestamos);
-router.get("/pagar-cuota/:cuota", prestamo.crearPrestamos);
+router.get("/obtener-contratos", prestamo.obtenerContratos);
+router.get("/cuotas/:prestamo", prestamo.obtenerCuotasPrestamo);
+router.get("/pagar-cuotas", prestamo.pagarCuotas);
 
 export { router };

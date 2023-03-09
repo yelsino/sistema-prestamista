@@ -14,7 +14,8 @@ export interface ICliente {
     ruc: string;
     razonSocial: string;
     estado: string;
-    agente: IUsuario
+    agente: IUsuario;
+    direccion: IDireccion;
   }
 
   export interface RegistroCliente extends Partial<ICliente>, Partial<IDireccion> {

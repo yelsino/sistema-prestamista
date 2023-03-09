@@ -11,8 +11,6 @@ export class DireccionController{
 
     registrarDireccion = async (req: RQ, res: RES) => responder(await this.direccion.registrarDireccion(req.body), res);
 
-    obtenerDireccionesUsuario = async (req: RQ, res: RES) => responder(await this.direccion.obtenerDireccionesUsuario(req.params.usuarioId), res);
-
     obtenerDepartamentos = async (req: RQ, res: RES) => responder(await this.direccion.obtenerDepartamentos(), res);
 
     obtenerProvincias = async (req: RQ, res: RES) => responder(await this.direccion.obtenerProvincias(req.params.departamento), res);

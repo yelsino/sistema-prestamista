@@ -11,7 +11,6 @@ import Rol from "../models/RolModel";
 import Usuario from "../models/UsuarioModel";
 import { encrypt } from "../utils";
 import { clientes } from "./dataClientes";
-import { cuotas } from "./dataCuotas";
 import { departamentos, direcciones, distritos, provincias } from "./dataDirecciones";
 import { monedas } from "./dataMonedas";
 import { prestamos } from "./dataPrestamos";
@@ -208,18 +207,7 @@ export const crearPrestamos = async () => {
 
     const prestamosBD = await Promise.all(prestamosGenerados);
 
-    const cuotasGeneradas = cuotas.map(async (p) => {
-      const nuevo = new Cuota({
-        ...p,
-        prestamo: prestamosBD[Math.floor(Math.random() * prestamos.length)]._id,
-        cliente: clientes[Math.floor(Math.random() * clientes.length)]._id,
-        agente: usuarios[Math.floor(Math.random() * usuarios.length)]._id,
-      });
-
-      return  Cuota.create(nuevo);
-    });
-
-    await Promise.all(cuotasGeneradas);
+  
     console.log('Prestamos creados');
     
   } catch (error) {

@@ -12,6 +12,10 @@ export class ClienteController {
 
   obtenerClientes = async (req: RQ, res: RES) => responder(await this.cliente.obtenerClientes(), res);
 
+  obtenerCliente = async (req: RQ, res: RES) => responder(await this.cliente.obtenerCliente(req.params.cliente), res);
+
+  buscarClientes = async (req: RQ, res: RES) => responder(await this.cliente.buscarClientes(req.params.termino), res);
+
   crearCliente = async (req: RQ, res: RES) => responder(await this.cliente.crearCliente(req.body), res);
   
 }

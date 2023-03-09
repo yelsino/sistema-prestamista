@@ -1,12 +1,9 @@
-import { nanoid } from "nanoid";
 import { Server, Socket } from "socket.io";
 import { AuthService } from "./services/auth.service";
 import { DireccionService } from "./services/direccion.service";
 import { UsuarioService } from "./services/usuario.service";
 import { verifyToken } from "./utils";
 import logger from "./utils/logger";
-// import { verifyToken } from "./utils";
-// import logger from "./utils/logger";
 
 const EVENTS = {
   connection: "connection",
@@ -47,17 +44,12 @@ interface Payload <DATA, EVENTO> {
 
 
 type Eventos = | 'get-products' | 'get-user-lists'
-type EventProducts = 
-  | 'obtener-productos' 
-  | 'crear-producto'
 
 const rooms: Record<string, { name: string }> = {};
 const authService = new AuthService();
-const direccionService = new DireccionService();
 const usuarioService = new UsuarioService();
 
 function socket({ io }: { io: Server }) {
-  // logger.info(`Sockets enabled`);
 
   io.on(EVENTS.connection, async (socket: Socket ) => {
     
@@ -74,7 +66,7 @@ function socket({ io }: { io: Server }) {
     const {data: usuario} = await usuarioService.obtenerUsuario(id);
 
     // emitir eventos de incio
-    socket.emit(EVENTS.SERVER.GET_USER_DIRECTIONS, await direccionService.obtenerDireccionesUsuario(id));
+    // socket.emit(EVENTS.SERVER.GET_USER_DIRECTIONS, await direccionService.obtenerDireccionesUsuario(id));
     socket.emit(EVENTS.SERVER.GET_ROLS, await usuarioService.obtenerRoles());
 
 

@@ -12,39 +12,8 @@ export class DireccionService{
     constructor(){
 
     }
-
-    registrarDireccion = async (data:IDireccion): Promise<IRespuesta<IDireccion>> => {
-      
-        const respuesta = new Respuesta();
-
-        try {
-            
-            const usuario = await Usuario.findById(String(data.cliente));
-            if(!usuario) return {...respuesta, code: 404, ok: false, data: null, mensaje: "NO SE ENCONTRO AL CLIENTE"};
-            
-            const nuevaDireccion =  await  Direccion.create(data);
-            return  {...respuesta, code: 200, ok: true, data: nuevaDireccion, mensaje: "DIRECCION REGISTRADA"};
-            
-        } catch (error: any) {
-            logger.info("ERROR AL REGISTRAR DIRECCION" + error.message)
-        }
-       
-        return {...respuesta, code: 500, ok: false, data: null};
-
-    };
-
-    obtenerDireccionesUsuario = async (usuario:String):Promise<IRespuesta<IDireccion[]>> => {
-        const respuesta = new Respuesta();
-
-        try {
-            
-            const direcciones = await Direccion.find({usuario});
-            return  {...respuesta, code: 200, ok: true, data: direcciones, mensaje: "DIRECCIONES OBTENIDAS"};
-
-        } catch (error: any) {
-            logger.info("ERROR AL OBTENER DIRECCIONES" + error.message)
-        }
-        return {...respuesta, code: 500, ok: false, data: null};
+    registrarDireccion = async (data:IDireccion): Promise<IDireccion> => {
+        return await Direccion.create(data);
     };
 
     obtenerDepartamentos = async ():Promise<IRespuesta<IDepartamento[]>> => {

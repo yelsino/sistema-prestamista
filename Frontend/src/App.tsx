@@ -1,35 +1,24 @@
-import {
-  Routes,
-  Route,
-  useLocation
-} from 'react-router-dom'
+// import { BrowserRouter as Router } from 'react-router-dom'
 import './css/style.css'
 import './charts/ChartjsConfig'
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import { Background } from './pages/Background'
-import Dashboard from './pages/Dashboard'
-import Clientes from './pages/Clientes'
-import Monedas from './pages/Monedas'
-import Prestamos from './pages/Prestamos'
-import Cobranzas from './pages/Cobranzas'
-import FormCliente from './partials/clientes/FormCliente'
-import FormMoneda from './partials/monedas/FormMoneda'
-import FormPrestamo from './partials/prestamo/FormPrestamo'
-import FormCobranza from './partials/cobranza/FormCobranza'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { StyleProvider } from '@ant-design/cssinjs'
 import { ClienteProvider } from './Context/Cliente/ClienteProvider'
 import { DireccionProvider } from './Context/direcciones/DireccionProvider'
+import RouterApp from './router/RouterApp'
+import { AuthProvider } from './Context/Auth/AuthProvider'
 
 function App () {
-  const location = useLocation()
+//   const location = useLocation()
 
-  useEffect(() => {
-    document.querySelector('html').style.scrollBehavior = 'auto'
-    window.scroll({ top: 0 })
-    document.querySelector('html').style.scrollBehavior = ''
-  }, [location.pathname])
+  //   useEffect(() => {
+  //     document.querySelector('html').style.scrollBehavior = 'auto'
+  //     window.scroll({ top: 0 })
+  //     document.querySelector('html').style.scrollBehavior = ''
+  //   }, [location.pathname])
 
   // Import the functions you need from the SDKs you need
 
@@ -55,33 +44,13 @@ function App () {
   return (
       <ClienteProvider>
           <DireccionProvider>
-              <StyleProvider hashPriority="high">
-                  <Background>
-                      <Routes>
-                          <Route path="/" element={<Dashboard />} />
-                          <Route path="/clientes" element={<Clientes />} />
-                          <Route
-                              path="/clientes/nuevo"
-                              element={<FormCliente />}
-                          />
-                          <Route path="/monedas" element={<Monedas />} />
-                          <Route
-                              path="/monedas/nuevo"
-                              element={<FormMoneda />}
-                          />
-                          <Route path="/prestamos" element={<Prestamos />} />
-                          <Route
-                              path="/prestamos/nuevo"
-                              element={<FormPrestamo />}
-                          />
-                          <Route path="/cobranzas" element={<Cobranzas />} />
-                          <Route
-                              path="/cobranzas/nuevo"
-                              element={<FormCobranza />}
-                          />
-                      </Routes>
-                  </Background>
-              </StyleProvider>
+              <AuthProvider>
+                  <StyleProvider hashPriority="high">
+                      <Background>
+                          <RouterApp />
+                      </Background>
+                  </StyleProvider>
+              </AuthProvider>
           </DireccionProvider>
       </ClienteProvider>
   )

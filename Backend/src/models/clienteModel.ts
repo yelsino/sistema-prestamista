@@ -15,6 +15,7 @@ const ClienteSchema = new Schema<ICliente>(
     razonSocial: String,
     estado: String,
     agente: { type: Schema.Types.ObjectId, ref: "usuarios" },
+    direccion: { type: Schema.Types.ObjectId, ref: "direcciones" },
   },
   {
     versionKey: false,

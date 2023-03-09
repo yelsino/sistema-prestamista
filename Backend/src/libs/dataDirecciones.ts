@@ -282,7 +282,6 @@ export const direcciones: IDireccion[] = [
     departamento: '' as any,
     provincia: '' as any,
     distrito: '' as any,
-    cliente: '' as any,
   },
   {
     nombre: 'Calle Las Flores 789',
@@ -290,7 +289,6 @@ export const direcciones: IDireccion[] = [
     departamento: '' as any,
     provincia: '' as any,
     distrito: '' as any,
-    cliente: '' as any,
   },
   {
     nombre: 'Jr. Los Pinos 1011',
@@ -298,7 +296,6 @@ export const direcciones: IDireccion[] = [
     departamento: '' as any,
     provincia: '' as any,
     distrito: '' as any,
-    cliente: '' as any,
   },
   {
     nombre: 'Av. Brasil 1213',
@@ -306,7 +303,6 @@ export const direcciones: IDireccion[] = [
     departamento: '' as any,
     provincia: '' as any,
     distrito: '' as any,
-    cliente: '' as any,
   },
   {
     nombre: 'Jr. Las Azucenas 1415',
@@ -314,7 +310,6 @@ export const direcciones: IDireccion[] = [
     departamento: '' as any,
     provincia: '' as any,
     distrito: '' as any,
-    cliente: '' as any,
   },
   {
     nombre: 'Calle Los Pájaros 1617',
@@ -322,7 +317,6 @@ export const direcciones: IDireccion[] = [
     departamento: '' as any,
     provincia: '' as any,
     distrito: '' as any,
-    cliente: '' as any,
   },
   {
     nombre: 'Av. Los Olivos 1819',
@@ -330,7 +324,6 @@ export const direcciones: IDireccion[] = [
     departamento: '' as any,
     provincia: '' as any,
     distrito: '' as any,
-    cliente: '' as any,
   },
   {
     nombre: 'Jr. Las Rosas 2021',
@@ -338,7 +331,6 @@ export const direcciones: IDireccion[] = [
     departamento: '' as any,
     provincia: '' as any,
     distrito: '' as any,
-    cliente: '' as any,
   },
   {
     nombre: 'Av. El Sol 2223',
@@ -346,7 +338,6 @@ export const direcciones: IDireccion[] = [
     departamento: '' as any,
     provincia: '' as any,
     distrito: '' as any,
-    cliente: '' as any,
   },
   {
     nombre: 'Calle Las Palmeras 2425',
@@ -354,6 +345,5 @@ export const direcciones: IDireccion[] = [
     departamento: '' as any,
     provincia: '' as any,
     distrito: '' as any,
-    cliente: '' as any,
   },
 ];
