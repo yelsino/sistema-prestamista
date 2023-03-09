@@ -5,7 +5,7 @@ export { ICodigoTemporal }	from './interfaces/codigoTemporal.interface';
 export { IRespuesta }	from './interfaces/response.interface';
 export { IZodFail }	from './interfaces/zod.interface';
 
-export { ICliente } from './interfaces/cliente.interface'
+export { ICliente, RegistroCliente } from './interfaces/cliente.interface'
 export { ICuota } from './interfaces/cuota.interface'
 export { IMoneda } from './interfaces/moneda.interface'
 export { IMora } from './interfaces/mora.interface'

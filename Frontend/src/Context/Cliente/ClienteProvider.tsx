@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
-import { ICliente, IRespuesta } from 'types-prestamista'
+import { ICliente, IRespuesta, RegistroCliente } from 'types-prestamista'
 import { fetchConToken } from '../../helpers/fetch'
-import { ClienteContext, RegistroCliente } from './ClienteContext'
+import { ClienteContext } from './ClienteContext'
 import { clienteReducer } from './clienteReducer'
 
 export interface ClienteState {

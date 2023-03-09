@@ -1,11 +1,7 @@
 
 import React, { createContext } from 'react'
-import { ICliente, IDireccion, IRespuesta } from 'types-prestamista'
+import { ICliente, IRespuesta, RegistroCliente } from 'types-prestamista'
 import { ClienteAction } from './clienteReducer'
-
-export interface RegistroCliente extends Partial<ICliente>, Partial<IDireccion> {
-  nombreDireccion: string,
-}
 
 interface PropsContext {
   cliente: ICliente | null

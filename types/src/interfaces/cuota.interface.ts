@@ -10,4 +10,6 @@ export interface ICuota {
     fechaLimite: Date;
     prestamo: IPrestamo;
     monto: number;
+    estado: string;
+    numeroCuota: number;
 }

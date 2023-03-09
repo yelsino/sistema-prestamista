@@ -3,8 +3,9 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Select, Switch } from 'antd'
 import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
 import { DireccionContext } from '../../Context/direcciones/DireccionContext'
-import { ClienteContext, RegistroCliente } from '../../Context/Cliente/ClienteContext'
+import { ClienteContext } from '../../Context/Cliente/ClienteContext'
 import { useNavigate } from 'react-router-dom'
+import { RegistroCliente } from 'types-prestamista'
 
 const FormCliente: React.FC = () => {
   const navigate = useNavigate()

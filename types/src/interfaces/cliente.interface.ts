@@ -1,3 +1,4 @@
+import { IDireccion } from "./direccion.interface";
 import { IUsuario } from "./usuario.interface";
 
 export interface ICliente {
@@ -14,4 +15,8 @@ export interface ICliente {
     razonSocial: string;
     estado: string;
     agente: IUsuario
+  }
+
+  export interface RegistroCliente extends Partial<ICliente>, Partial<IDireccion> {
+    nombreDireccion: string,
   }
