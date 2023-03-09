@@ -5,8 +5,8 @@ const cliente = new ClienteController();
 
 const router = Router();
 router.get("/", cliente.obtenerClientes);
-router.get("/buscar", cliente.obtenerClientes);
-router.get("/:cliente", cliente.obtenerClientes);
 router.post("/registrar", cliente.crearCliente);
+router.get("/:cliente", cliente.obtenerClientes);
+router.get("/buscar", cliente.obtenerClientes);
 
 export { router };

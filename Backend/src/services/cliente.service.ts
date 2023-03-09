@@ -1,9 +1,15 @@
-import { ICliente, ICodigoTemporal, IRespuesta } from "types-prestamista";
+import { ICliente, ICodigoTemporal, IRespuesta, RegistroCliente } from "types-prestamista";
 import Cliente from "../models/ClienteModel";
 import { Respuesta } from "../models/Respuesta";
 import logger from "../utils/logger";
+import { DireccionService } from "./direccion.service";
 
 export class ClienteService {
+
+    direccion: DireccionService;
+    constructor() {
+        this.direccion = new DireccionService();
+     }
 
     obtenerClientes = async (): Promise<IRespuesta<ICliente[]>> => {
         const respuesta = new Respuesta();
@@ -22,11 +28,22 @@ export class ClienteService {
         }
     };
 
-    crearCliente = async (cliente: ICliente): Promise<IRespuesta<ICliente>> => {
+    crearCliente = async (cliente: RegistroCliente): Promise<IRespuesta<ICliente>> => {
         const respuesta = new Respuesta();
         try {
+            if(!cliente) return { ...respuesta, code: 400, ok: false, data: null, mensaje: "SE NECESITAN DATOS" };
             const nuevoCliente = new Cliente(cliente);
             const clienteCreado = await nuevoCliente.save();
+
+            await this.direccion.registrarDireccion({
+                cliente: cliente.cliente,
+                departamento: cliente.departamento,
+                provincia: cliente.provincia,
+                distrito: cliente.distrito,
+                nombre: cliente.nombreDireccion,
+                referencia: cliente.referencia,
+            });
+
             return {
                 ...respuesta,
                 code: 200,
