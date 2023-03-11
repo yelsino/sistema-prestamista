@@ -1,32 +1,18 @@
-// import { BrowserRouter as Router } from 'react-router-dom'
 import './css/style.css'
 import './charts/ChartjsConfig'
-// import { useEffect } from 'react'
-import { Background } from './pages/Background'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
-import { StyleProvider } from '@ant-design/cssinjs'
-import { ClienteProvider } from './Context/Cliente/ClienteProvider'
-import { DireccionProvider } from './Context/direcciones/DireccionProvider'
 import RouterApp from './router/RouterApp'
-import { AuthProvider } from './Context/Auth/AuthProvider'
+import { BrowserRouter as Router } from 'react-router-dom'
+// import { ClienteProvider } from './Context/cliente/ClienteProvider'
+// import { DireccionProvider } from './Context/direcciones/DireccionProvider'
+// import { StyleProvider } from '@ant-design/cssinjs'
+import { AuthProvider } from './Context/auth/AuthProvider'
+import { StyleProvider } from '@ant-design/cssinjs'
+import { ClienteProvider } from './Context/cliente/ClienteProvider'
+import { DireccionProvider } from './Context/direcciones/DireccionProvider'
 
 function App () {
-//   const location = useLocation()
-
-  //   useEffect(() => {
-  //     document.querySelector('html').style.scrollBehavior = 'auto'
-  //     window.scroll({ top: 0 })
-  //     document.querySelector('html').style.scrollBehavior = ''
-  //   }, [location.pathname])
-
-  // Import the functions you need from the SDKs you need
-
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
     apiKey: 'AIzaSyCznRY1k9W7if_78DXalahupS7Ax27MlD0',
     authDomain: 'sistema-pretamista.firebaseapp.com',
@@ -36,23 +22,22 @@ function App () {
     appId: '1:312220321790:web:8d48047aa1fc88b0bae2af',
     measurementId: 'G-NNLRGNNVFV'
   }
-
   // Initialize Firebase
   const app = initializeApp(firebaseConfig)
   getAnalytics(app)
 
   return (
-      <ClienteProvider>
-          <DireccionProvider>
-              <AuthProvider>
+      <AuthProvider>
+          <ClienteProvider>
+              <DireccionProvider>
                   <StyleProvider hashPriority="high">
-                      <Background>
+                      <Router>
                           <RouterApp />
-                      </Background>
+                      </Router>
                   </StyleProvider>
-              </AuthProvider>
-          </DireccionProvider>
-      </ClienteProvider>
+              </DireccionProvider>
+          </ClienteProvider>
+      </AuthProvider>
   )
 }
 

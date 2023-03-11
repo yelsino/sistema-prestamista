@@ -25,7 +25,7 @@ function FilterButton () {
     }
     document.addEventListener('keydown', keyHandler)
     return () => document.removeEventListener('keydown', keyHandler)
-  })
+  }, [])
 
   return (
     <div className="relative inline-flex">

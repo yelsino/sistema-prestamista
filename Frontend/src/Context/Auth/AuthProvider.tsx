@@ -1,6 +1,5 @@
 import React, { useCallback, useReducer } from 'react'
-import { IRespuesta, IUsuario } from 'types-prestamista'
-import { IAuth, IAuthRest } from 'types-prestamista/dist/interfaces/usuario.interface'
+import { IAuth, IAuthRest, IRespuesta, IUsuario } from 'types-prestamista'
 import { fetchConToken, fetchSinToken } from '../../helpers/fetch'
 import { AuthContext } from './AuthContext'
 import { authReducer } from './authReducer'
@@ -13,6 +12,9 @@ export interface AuthState {
   user: IUsuario | null
   directions: []
 }
+interface Props {
+  children: React.ReactNode
+}
 
 const INITIAL_STATE: AuthState = {
   _id: '',
@@ -21,10 +23,6 @@ const INITIAL_STATE: AuthState = {
   loading: false,
   user: null,
   directions: []
-}
-
-interface Props {
-  children: React.ReactNode
 }
 
 export const AuthProvider = ({ children }: Props) => {
@@ -120,9 +118,9 @@ export const AuthProvider = ({ children }: Props) => {
         ...state,
         dispatch,
         userLogin,
-        verificarToken,
         userLogout,
-        registrarConEmail
+        registrarConEmail,
+        verificarToken
       }}
     >
       {children}

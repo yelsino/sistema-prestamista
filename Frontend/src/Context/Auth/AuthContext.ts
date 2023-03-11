@@ -1,11 +1,10 @@
 
 import React, { createContext } from 'react'
-import { IRespuesta } from 'types-prestamista'
-import { IAuth, IAuthRest } from 'types-prestamista/dist/interfaces/usuario.interface'
+import { IAuth, IAuthRest, IRespuesta } from 'types-prestamista'
 import { AuthState } from './AuthProvider'
 import { AuthAction } from './authReducer'
 
-interface AuthContextProps extends AuthState {
+interface PropsContext extends AuthState {
   userLogin: (data:IAuth) => Promise<IRespuesta<IAuthRest>>
   registrarConEmail: (data:IAuth) => Promise<IRespuesta<IAuthRest>>
   verificarToken: () => Promise<boolean>
@@ -13,6 +12,6 @@ interface AuthContextProps extends AuthState {
   dispatch: React.Dispatch<AuthAction>
 }
 
-export const AuthContext = createContext<AuthContextProps>(
-  {} as AuthContextProps
+export const AuthContext = createContext<PropsContext>(
+  {} as PropsContext
 )

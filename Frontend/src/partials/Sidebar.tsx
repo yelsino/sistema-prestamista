@@ -23,7 +23,7 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
     }
     document.addEventListener('click', clickHandler)
     return () => document.removeEventListener('click', clickHandler)
-  })
+  }, [])
 
   // close if the esc key is pressed
   useEffect(() => {
@@ -33,7 +33,7 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
     }
     document.addEventListener('keydown', keyHandler)
     return () => document.removeEventListener('keydown', keyHandler)
-  })
+  }, [])
 
   useEffect(() => {
     localStorage.setItem('sidebar-expanded', JSON.stringify(sidebarExpanded))
@@ -113,7 +113,7 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
                   return (
                     <React.Fragment>
                       <Link
-                        to="/"
+                        to="/app"
                         className={`block text-slate-200 truncate transition duration-150 ${
                           pathname === '/' || pathname.includes('dashboard') ? 'hover:text-slate-200' : 'hover:text-white'
                         }`}
@@ -126,13 +126,13 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
                             <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
                               <path
                                 className={`fill-current ${
-                                  pathname === '/' || pathname.includes('dashboard') ? 'text-indigo-500' : 'text-slate-400'
+                                  pathname === '/app' || pathname.includes('dashboard') ? 'text-indigo-500' : 'text-slate-400'
                                 }`}
                                 d="M12 0C5.383 0 0 5.383 0 12s5.383 12 12 12 12-5.383 12-12S18.617 0 12 0z"
                               />
                               <path
                                 className={`fill-current ${
-                                  pathname === '/' || pathname.includes('dashboard') ? 'text-indigo-600' : 'text-slate-600'
+                                  pathname === '/app' || pathname.includes('dashboard') ? 'text-indigo-600' : 'text-slate-600'
                                 }`}
                                 d="M12 3c-4.963 0-9 4.037-9 9s4.037 9 9 9 9-4.037 9-9-4.037-9-9-9z"
                               />
@@ -240,41 +240,7 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
                   )
                 }}
               </SidebarLinkGroup>
-              <SidebarLinkGroup activecondition={pathname === '/monedas' || pathname.includes('monedas')}>
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
-                      <Link
-                        to="monedas"
-                        className={`block text-slate-200 truncate transition duration-150 ${
-                          pathname.includes('community') ? 'hover:text-slate-200' : 'hover:text-white'
-                        }`}
-                        onClick={() => {
-                          sidebarExpanded ? handleClick() : setSidebarExpanded(true)
-                        }}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                              <path
-                                className={`fill-current ${pathname.includes('community') ? 'text-indigo-500' : 'text-slate-600'}`}
-                                d="M18.974 8H22a2 2 0 012 2v6h-2v5a1 1 0 01-1 1h-2a1 1 0 01-1-1v-5h-2v-6a2 2 0 012-2h.974zM20 7a2 2 0 11-.001-3.999A2 2 0 0120 7zM2.974 8H6a2 2 0 012 2v6H6v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5H0v-6a2 2 0 012-2h.974zM4 7a2 2 0 11-.001-3.999A2 2 0 014 7z"
-                              />
-                              <path
-                                className={`fill-current ${pathname.includes('community') ? 'text-indigo-300' : 'text-slate-400'}`}
-                                d="M12 6a3 3 0 110-6 3 3 0 010 6zm2 18h-4a1 1 0 01-1-1v-6H6v-6a3 3 0 013-3h6a3 3 0 013 3v6h-3v6a1 1 0 01-1 1z"
-                              />
-                            </svg>
-                            <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                              Monedas
-                            </span>
-                          </div>
-                        </div>
-                      </Link>
-                    </React.Fragment>
-                  )
-                }}
-              </SidebarLinkGroup>
+
               <SidebarLinkGroup activecondition={pathname === 'prestamos' || pathname.includes('prestamos')}>
                 {(handleClick, open) => {
                   return (
@@ -345,6 +311,41 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
                             </svg>
                             <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                               Cobranzas
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    </React.Fragment>
+                  )
+                }}
+              </SidebarLinkGroup>
+              <SidebarLinkGroup activecondition={pathname === '/monedas' || pathname.includes('monedas')}>
+                {(handleClick, open) => {
+                  return (
+                    <React.Fragment>
+                      <Link
+                        to="monedas"
+                        className={`block text-slate-200 truncate transition duration-150 ${
+                          pathname.includes('community') ? 'hover:text-slate-200' : 'hover:text-white'
+                        }`}
+                        onClick={() => {
+                          sidebarExpanded ? handleClick() : setSidebarExpanded(true)
+                        }}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
+                              <path
+                                className={`fill-current ${pathname.includes('community') ? 'text-indigo-500' : 'text-slate-600'}`}
+                                d="M18.974 8H22a2 2 0 012 2v6h-2v5a1 1 0 01-1 1h-2a1 1 0 01-1-1v-5h-2v-6a2 2 0 012-2h.974zM20 7a2 2 0 11-.001-3.999A2 2 0 0120 7zM2.974 8H6a2 2 0 012 2v6H6v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5H0v-6a2 2 0 012-2h.974zM4 7a2 2 0 11-.001-3.999A2 2 0 014 7z"
+                              />
+                              <path
+                                className={`fill-current ${pathname.includes('community') ? 'text-indigo-300' : 'text-slate-400'}`}
+                                d="M12 6a3 3 0 110-6 3 3 0 010 6zm2 18h-4a1 1 0 01-1-1v-6H6v-6a3 3 0 013-3h6a3 3 0 013 3v6h-3v6a1 1 0 01-1 1z"
+                              />
+                            </svg>
+                            <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              Monedas
                             </span>
                           </div>
                         </div>
@@ -483,3 +484,19 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
 }
 
 export default Sidebar
+// git checkout --ours src/partials/EditMenu.tsx
+// git checkout --ours src/partials/Sidebar.tsx
+// git checkout --ours src/partials/actions/DateSelect.tsx
+// git checkout --ours src/partials/actions/FilterButton.tsx
+// git checkout --ours src/partials/clientes/FormCliente.tsx
+// git checkout --ours src/partials/dashboard/DashboardCard05.tsx
+// git checkout --ours src/partials/header/Help.tsx
+// git checkout --ours src/partials/header/Notifications.tsx
+// git checkout --ours src/partials/header/SearchModal.tsx
+// git checkout --ours src/partials/header/UserMenu.tsx
+// git checkout --ours src/router/PrivateRoute.tsx
+// git checkout --ours src/router/PublicRoute.tsx
+// git checkout --ours src/router/RouterApp.tsx
+// git checkout --ours tailwind.config.cjs
+// git checkout --ours ../types/package.json
+// git checkout --ours ../types/src/index.ts

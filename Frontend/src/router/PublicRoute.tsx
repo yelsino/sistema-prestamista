@@ -5,7 +5,8 @@ interface Props {
 }
 
 const PublicRoute = ({ isAutenticated }: Props) => {
-  return <>{!isAutenticated ? <Outlet /> : <Navigate to="/" />}</>
+  return <>
+  {!isAutenticated ? <Outlet /> : <Navigate to="/" />}</>
 }
 
 export default PublicRoute

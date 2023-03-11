@@ -1,19 +1,23 @@
+import { Field, Form, Formik } from 'formik'
 import { useContext, useEffect, useState } from 'react'
-import { Form, Formik } from 'formik'
-// import bird from 'public/Assets/bird.svg'
-// import heart from 'public/Assets/heart.gif'
-import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
-import { AuthContext } from '../../Context/Auth/AuthContext'
+import * as yup from 'yup'
+import { AuthContext } from '../../Context/auth/AuthContext'
+
+export type QueHacer = 'REGISTRARSE' | 'INICIAR_SESION'
+
+export interface FormLogin {
+    nombreUsuario: string
+    password: string
+}
 
 const Login = () => {
   const { userLogin, loading } = useContext(AuthContext)
 
   const [noPass, setNoPass] = useState(false)
 
-  const olvideMisCredenciales = (e) => {
-    e.stopPropagation()
-  }
+  // const olvideMisCredenciales = (e) => {
+  //   e.stopPropagation()
+  // }
 
   const onSubmit = async (values) => {
     await userLogin(values)
@@ -28,53 +32,77 @@ const Login = () => {
     setNoPass(JSON.parse(localStorage.getItem('noPassword')))
   }, [loading])
 
+  const validAuth = yup.object().shape({
+    nombreUsuario: yup.string().required('Nombre de usuario es requerido'),
+    password: yup.string().required('Contraseña es requerida')
+  })
+
+  const olvideMisCredenciales = (e) => {
+    e.stopPropagation()
+  }
+
   return (
-    <div className=" relative flex h-screen items-center  justify-center select-none">
-      {/* ADITIONALS */}
-
-      <motion.img
-        className="absolute top-10 right-10 w-20"
-        // key={bird}
-        // src={bird}
-        initial={{ y: -300, opacity: 0, rotate: -20 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7 }}
-      />
-      <div className="flex  max-w-5xl items-center justify-center ">
-
-        <div className="flex w-full flex-col items-center gap-5 p-10 font-poppins md:w-1/2">
-          <p className="w-72 text-left sm:w-80">Iniciar sesion con</p>
-
-          <Formik
-            initialValues={{
-              correo: 'yelsin@gmail.com',
-              celular: 939616350,
-              password: 'yelsin312@231'
-            }}
-            // validationSchema={validAuth}
-            onSubmit={onSubmit}
+      <div className="absolute w-full h-full bg-purple-400 flex justify-center items-center">
+          <div className="absolute w-60 h-60 rounded-xl bg-purple-300 -top-5 -left-16 z-0 transform rotate-45 hidden md:block"></div>
+          <div className="fixed w-48 h-48 rounded-xl bg-purple-300 -bottom-6 -right-10 transform rotate-12 hidden md:block"></div>
+          <Formik<FormLogin>
+              initialValues={{
+                nombreUsuario: 'yelsin',
+                password: '!!@12346##@'
+              }}
+              validationSchema={validAuth}
+              onSubmit={onSubmit}
           >
-            {() => (
-              <Form
-                autoComplete="new-password"
-                className="relative flex w-72 flex-col gap-y-7 sm:w-80"
-              >
+              {({ errors, touched, isSubmitting }) => (
+                  <Form className="py-12 px-12 bg-white rounded-2xl shadow-xl z-20">
+                      <div>
+                          <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">
+                              Iniciar Sesion
+                          </h1>
+                          <p className="w-80 text-center text-sm mb-3 font-semibold text-gray-700 tracking-wide cursor-pointer">
+                              Bienvenido al sistema de prestamos, indica tus
+                              credenciales para realizar tus operaciones!
+                          </p>
+                      </div>
+                      <div className="">
+                      <div className='h-8 flex items-end text-rose-500'>{errors.nombreUsuario && touched.nombreUsuario ? errors.nombreUsuario : ''
+                          }</div>
+                          <Field
+                              type="text"
+                              name="nombreUsuario"
+                              id="nombreUsuario"
+                              placeholder="Nombre de usuario"
+                              className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
+                          />
+                          <div className='text-rose-500 h-8 flex items-end'>{errors.password && touched.password ? errors.password : ''
+                          }</div>
 
-                {/* <div className="flex justify-between gap-x-7 text-blue-600">
-                  <GoogleLogin />
-                  <FacebookLoginButton />
-                </div> */}
+                          <Field
+                              autoComplete="new-password"
+                              type="password"
+                              name="password"
+                              id="password"
+                              placeholder="Contraseña"
+                              className="block text-sm py-3 px-4 rounded-lg w-full border outline-none appearance-none"
+                          />
+                      </div>
+                      <div className="text-center mt-6">
+                          <button
+                              disabled={isSubmitting}
+                              type="submit"
+                              className="py-3 w-64 text-xl text-white bg-purple-400 rounded-2xl"
+                          >
+                              INICIAR
+                          </button>
+                          <p className="mt-4 text-sm">
+                              Aún no tienes una cuenta?{' '}
+                              <span className="underline cursor-pointer">
+                                  {' '}
+                                  Registrese
+                              </span>
+                          </p>
 
-                <div className="flex flex-col justify-center">
-                  <Link
-                    to="/auth/registrarse"
-                    onClick={olvideMisCredenciales}
-                    className="mb-3  cursor-default text-center  text-gray-500 hover:text-blue-600"
-                  >
-                    Crear una cuenta
-                  </Link>
-
-                  {noPass && (
+                          {noPass && (
                     <button
                       type="button"
                       onClick={olvideMisCredenciales}
@@ -82,27 +110,14 @@ const Login = () => {
                     >
                       Olvidé mis contraseña
                     </button>
-                  )}
-                </div>
-              </Form>
-            )}
+                          )}
+                      </div>
+                  </Form>
+              )}
           </Formik>
-        </div>
-
-        <div className="hidden p-10 md:flex md:w-1/2 ">
-          <div className="flex w-10/12 justify-center">
-            <div className="w-8/12">
-              {/* <img src={woman} /> */}
-              {/* <img src={plants} /> */}
-              <h2 className="flex w-full justify-center pt-7 text-center text-2xl font-bold ">
-                Pase casero
-                {/* <img className="w-8" src={heart} /> */}
-              </h2>
-            </div>
-          </div>
-        </div>
+          <div className="w-40 h-40 absolute bg-purple-300 rounded-full top-0 right-12 hidden md:block"></div>
+          <div className="w-20 h-40 absolute bg-purple-300 rounded-full bottom-20 left-10 transform rotate-45 hidden md:block"></div>
       </div>
-    </div>
   )
 }
 

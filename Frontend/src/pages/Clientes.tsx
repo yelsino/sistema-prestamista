@@ -4,11 +4,11 @@ import { TablaAntidesing } from '../partials/dashboard/TableAntidesing'
 import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
 import { Tag } from 'antd'
 import { useContext, useEffect } from 'react'
-import { ClienteContext } from '../Context/Cliente/ClienteContext'
+import { ClienteContext } from '../Context/cliente/ClienteContext'
 import { ICliente } from 'types-prestamista'
 
 const Clientes = () => {
-  const { obtenerClientes, clientes } = useContext(ClienteContext)
+  const { clientes, obtenerClientes } = useContext(ClienteContext)
 
   useEffect(() => {
     obtenerClientes()

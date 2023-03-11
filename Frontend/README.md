@@ -24,8 +24,11 @@ Made with ❤️ YELSIÑO
 
 INSPIRADO EN : 
 	https://sistemasenoferta.com/sistemas/sys-cobranza/admin/dashboard
+
 	https://mosaic.cruip.com/
 
+	https://sistema-pretamista.web.app/
+	
 #94A3B8
 #F8FAFC
 
