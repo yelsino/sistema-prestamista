@@ -41,7 +41,7 @@ export const PrestamoProvider = ({ children }: Props) => {
     return respuesta
   }
 
-  const obtenerPrestamo = async ():Promise<IRespuesta<IPrestamo[]>> => {
+  const obtenerPrestamos = async ():Promise<IRespuesta<IPrestamo[]>> => {
     const respuesta = await fetchConToken<IRespuesta<IPrestamo[]>>({
       endpoint: 'prestamos',
       method: 'GET'
@@ -128,7 +128,7 @@ export const PrestamoProvider = ({ children }: Props) => {
         ...state,
         dispatch,
         generarPrestamo,
-        obtenerPrestamo,
+        obtenerPrestamos,
         obtenerDetallePrestamo,
         buscarPrestamo,
         obtenerContrato,

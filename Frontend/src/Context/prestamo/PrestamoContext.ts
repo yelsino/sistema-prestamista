@@ -13,7 +13,7 @@ interface PropsContext {
   pagarCuota:ICuota[],
   dispatch: React.Dispatch<PrestamoAction>
   generarPrestamo: (prestamo: IPrestamo) => Promise<IRespuesta<IPrestamo>>,
-  obtenerPrestamo: () => Promise<IRespuesta<IPrestamo[]>>
+  obtenerPrestamos: () => Promise<IRespuesta<IPrestamo[]>>
   obtenerDetallePrestamo: (IPrestamo) => Promise<IRespuesta<IPrestamo[]>>
   buscarPrestamo: (Texto) => Promise<IRespuesta<IPrestamo[]>>
   obtenerContrato: () => Promise<IRespuesta<IPrestamo[]>>

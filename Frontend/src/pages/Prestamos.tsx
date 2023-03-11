@@ -3,24 +3,29 @@ import { ColumnsType } from 'antd/es/table'
 import { TablaAntidesing } from '../partials/dashboard/TableAntidesing'
 
 import { Tag } from 'antd'
+import { useContext, useEffect } from 'react'
+import { PrestamoContext } from '../Context/prestamo/PrestamoContext'
+import { IPrestamo } from 'types-prestamista'
 
 const Prestamos = () => {
-  interface DataType {
-    id: string;
-    cliente: string
-    monto: string
-    interes: string
-    total: string
-    tipoMoneda: string
-    estado: string
-    acciones: string
-  }
+  const { obtenerPrestamos, prestamos } = useContext(PrestamoContext)
 
-  const columns: ColumnsType<DataType> = [
+  // numero: number;
+  // cliente: ICliente;
+  // monto: number;
+  // interes: number;
+  // montoTotal: number;
+  // moneda: IMoneda;
+  // estado: string;
+  // agente: IUsuario;
+  // numeroCuotas: number;
+  // formaPago: FormaPago;
+
+  const columns: ColumnsType<IPrestamo[]> = [
     {
       title: 'N° Prestamo',
-      dataIndex: 'id',
-      key: 'id',
+      dataIndex: 'numero',
+      key: 'numero',
       align: 'center',
       render: (text) => <a >{text}</a>
     },
@@ -28,7 +33,8 @@ const Prestamos = () => {
       title: 'Cliente',
       dataIndex: 'cliente',
       key: 'cliente',
-      align: 'left'
+      align: 'left',
+      render: (cliente) => <p>{`${cliente.nombres}  ${cliente.apellidos}`}</p>
     },
     {
       title: 'Monto Credito',
@@ -44,15 +50,16 @@ const Prestamos = () => {
     },
     {
       title: 'Monto Total',
-      dataIndex: 'total',
-      key: 'total',
+      dataIndex: 'montoTotal',
+      key: 'montoTotal',
       align: 'center'
     },
     {
       title: 'T. Moneda',
       dataIndex: 'tipoMoneda',
       key: 'tipoMoneda',
-      align: 'center'
+      align: 'center',
+      render: () => <p>Soles</p>
     },
     {
       title: 'Estado',
@@ -66,112 +73,23 @@ const Prestamos = () => {
           </div>
         )
       }
-    },
-    {
-      title: 'Acciones',
-      dataIndex: 'acciones',
-      key: 'acciones',
-      align: 'right'
     }
+    // {
+    //   title: 'Acciones',
+    //   dataIndex: 'acciones',
+    //   key: 'acciones',
+    //   align: 'right'
+    // }
   ]
 
-  const data: DataType[] = [
-    {
-      id: '9',
-      cliente: 'Elena García Gonzáles',
-      monto: '1000',
-      interes: '100',
-      total: '1100',
-      tipoMoneda: 'PEN',
-      estado: 'CREDITO_ACTIVO',
-      acciones: 'Boton editar'
-    },
-    {
-      id: '8',
-      cliente: 'Jose Martinez Perez',
-      monto: '500',
-      interes: '50',
-      total: '550',
-      tipoMoneda: 'PEN',
-      estado: 'CREDITO_INACTIVO',
-      acciones: 'Boton editar'
-    },
-    {
-      id: '7',
-      cliente: 'Maria Hernandez Lopez',
-      monto: '1500',
-      interes: '150',
-      total: '1650',
-      tipoMoneda: 'PEN',
-      estado: 'CREDITO_ACTIVO',
-      acciones: 'Boton editar'
-    },
-    {
-      id: '6',
-      cliente: 'Juan Gonzales Sanchez',
-      monto: '500',
-      interes: '50',
-      total: '550',
-      tipoMoneda: 'PEN',
-      estado: 'CREDITO_ACTIVO',
-      acciones: 'Boton editar'
-    },
-    {
-      id: '5',
-      cliente: 'Sofia Perez Martinez',
-      monto: '500',
-      interes: '50',
-      total: '550',
-      tipoMoneda: 'PEN',
-      estado: 'CREDITO_INACTIVO',
-      acciones: 'Boton editar'
-    },
-    {
-      id: '4',
-      cliente: 'Carlos Lopez Hernandez',
-      monto: '500',
-      interes: '50',
-      total: '550',
-      tipoMoneda: 'PEN',
-      estado: 'CREDITO_INACTIVO',
-      acciones: 'Boton editar'
-    },
-    {
-      id: '3',
-      cliente: 'Pedro Martinez Hernandez',
-      monto: '500',
-      interes: '50',
-      total: '550',
-      tipoMoneda: 'PEN',
-      estado: 'CREDITO_ACTIVO',
-      acciones: 'Boton editar'
-    },
-    {
-      id: '2',
-      cliente: 'Marta Gonzales Perez',
-      monto: '500',
-      interes: '50',
-      total: '550',
-      tipoMoneda: 'PEN',
-      estado: 'CREDITO_INACTIVO',
-      acciones: 'Boton editar'
-    },
-    {
-      id: '1',
-      cliente: 'Davis Lopez Sanchez',
-      monto: '500',
-      interes: '50',
-      total: '550',
-      tipoMoneda: 'PEN',
-      estado: 'CREDITO_ACTIVO',
-      acciones: 'Boton editar'
-    }
-  ]
+  useEffect(() => {
+    obtenerPrestamos()
+  }, [])
 
   return (
       <div>
           <TablaAntidesing
-            data={data}
+            data={prestamos}
             columns={columns}
             config={{
               title: 'Prestamos',

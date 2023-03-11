@@ -1,19 +1,69 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Select, Space } from 'antd'
-import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
 import Search from 'antd/es/input/Search'
 import { IconoClienteOut } from '../../Components/iconos'
+import { ClienteContext } from '../../Context/cliente/ClienteContext'
+import { PrestamoContext } from '../../Context/prestamo/PrestamoContext'
+import { IPrestamo } from 'types-prestamista'
+import { MonedaContext } from '../../Context/moneda/MonedaContext'
 
 const FormPrestamos: React.FC = () => {
 //   const [empresaState, setEmpresa] = useState(false)
 
+  const { buscarClientes, cliente } = useContext(ClienteContext)
+  const { generarPrestamo } = useContext(PrestamoContext)
+  const { obtenerMoneda, monedas } = useContext(MonedaContext)
+  const [numCuotas, setNumCuotas] = useState(0)
+  const [interes, setInteres] = useState(0)
+  const [monto, setMonto] = useState(0)
+  const [valorCuota, setValorCuota] = useState(0)
+
+  console.log(
+    numCuotas,
+    setNumCuotas,
+    interes,
+    setInteres,
+    monto,
+    setMonto,
+    valorCuota,
+    setValorCuota
+
+  )
+
   const [form] = Form.useForm()
   const [, forceUpdate] = useState({})
 
+  const onSearch = async (termino: string) => {
+    buscarClientes(termino)
+  }
+
+  const onFinish = (values: any) => {
+    console.log(values)
+
+    generarPrestamo(values)
+  }
+
   useEffect(() => {
     forceUpdate({})
+    obtenerMoneda()
   }, [])
+
+  const handleFormValuesChange = (changedValues, values:any) => {
+    if ('monto' in changedValues || 'interes' in changedValues || 'cuotas' in changedValues) {
+      const monto:number = values.monto || 0
+      const interes:number = values.interes || 0
+      const cuotas:number = values.cuotas || 0
+      const valorInteres:number = monto * (interes / 100)
+      const montoTotal:number = Number(monto) + valorInteres
+      const valorCuota:number = montoTotal / cuotas
+      form.setFieldsValue({
+        montoTotal,
+        valorInteres,
+        valorCuota
+      })
+    }
+  }
 
   return (
       <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200  py-4 px-5">
@@ -32,29 +82,31 @@ const FormPrestamos: React.FC = () => {
                           </div>
                       }
                       size="large"
-                      //   onSearch={onSearch}
+                      onSearch={onSearch}
                   />
               </Space>
           </header>
-          <Form
+
+          <Form<IPrestamo>
               form={form}
               name="horizontal_login"
               layout="vertical"
               className=""
               initialValues={{
-                documento: '',
-                nombreCompleto: '',
-                monto: '',
+                documento: cliente?.documento,
+                nombreCompleto: cliente?.nombres + ' ' + cliente?.apellidos,
+                monto: 0,
                 formaPago: '',
-                interes: '',
+                interes: 0,
                 cuotas: 0,
                 moneda: '',
                 fechaEmision: '',
-                volorCuota: '',
-                valorInteres: '',
-                montoTotal: ''
+                valorCuota: 0,
+                valorInteres: 0,
+                montoTotal: 0
               }}
-              onFinish={(values) => console.log(values)}
+              onFinish={onFinish}
+              onValuesChange={handleFormValuesChange}
           >
               <div className="pt-5 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
                   <Form.Item name="documento" label="N° Documento">
@@ -63,7 +115,7 @@ const FormPrestamos: React.FC = () => {
                           prefix={
                               <UserOutlined className="site-form-item-icon" />
                           }
-                          placeholder="ej: Dolar"
+                          placeholder="ej: 77068132"
                           size="large"
                       />
                   </Form.Item>
@@ -112,7 +164,7 @@ const FormPrestamos: React.FC = () => {
                           prefix={
                               <LockOutlined className="site-form-item-icon" />
                           }
-                          type="text"
+                          type="number"
                           placeholder="EJ: Perez Perez"
                           size="large"
                       />
@@ -120,7 +172,27 @@ const FormPrestamos: React.FC = () => {
 
                   <Form.Item
                       name="cuotas"
-                      label="N° Coutas"
+                      label="Número de Cuotas"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Este campo es requerido!'
+                        }
+                      ]}
+                  >
+                      <Input
+                          prefix={
+                              <LockOutlined className="site-form-item-icon" />
+                          }
+                          type="text"
+                          placeholder="EJ: Perez Perez"
+                          size="large"
+                      />
+                  </Form.Item>
+
+                  <Form.Item
+                      name="formaPago"
+                      label="Forma de Pago"
                       rules={[
                         {
                           required: true,
@@ -129,22 +201,13 @@ const FormPrestamos: React.FC = () => {
                       ]}
                   >
                       <Select size="large">
-                          <Select.Option value="masculino">
-                              <div className="flex items-center text-blue-400">
-                                  <span>Masculino</span>
-                                  <span>
-                                      <TbGenderMale />
-                                  </span>
-                              </div>
-                          </Select.Option>
-                          <Select.Option value="femenino">
-                              <div className="flex items-center text-pink-500">
-                                  <span>Femenino</span>
-                                  <span>
-                                      <TbGenderFemale />
-                                  </span>
-                              </div>
-                          </Select.Option>
+                          {formasPago.map((v) => (
+                              <Select.Option key={v.id} value={v.nombre}>
+                                  <div className="flex items-center ">
+                                      <span>{v.nombre}</span>
+                                  </div>
+                              </Select.Option>
+                          ))}
                       </Select>
                   </Form.Item>
 
@@ -159,22 +222,13 @@ const FormPrestamos: React.FC = () => {
                       ]}
                   >
                       <Select size="large">
-                          <Select.Option value="masculino">
-                              <div className="flex items-center text-blue-400">
-                                  <span>Masculino</span>
-                                  <span>
-                                      <TbGenderMale />
-                                  </span>
-                              </div>
-                          </Select.Option>
-                          <Select.Option value="femenino">
-                              <div className="flex items-center text-pink-500">
-                                  <span>Femenino</span>
-                                  <span>
-                                      <TbGenderFemale />
-                                  </span>
-                              </div>
-                          </Select.Option>
+                          {monedas.map((moneda) => (
+                              <Select.Option key={moneda._id} value={moneda.nombre}>
+                                  <div className="flex items-center text-blue-400">
+                                      <span>{moneda.nombre}</span>
+                                  </div>
+                              </Select.Option>
+                          ))}
                       </Select>
                   </Form.Item>
                   <Form.Item
@@ -196,14 +250,14 @@ const FormPrestamos: React.FC = () => {
                           size="large"
                       />
                   </Form.Item>
-                  <Form.Item name="valorCuota" label="Valor Cuota">
+                  <Form.Item name="valorCuota" label="Valor por Cuota">
                       <Input
                           disabled
                           prefix={
                               <LockOutlined className="site-form-item-icon" />
                           }
-                          type="text"
-                          placeholder="EJ: Perez Perez"
+                          type="number"
+                          placeholder="0"
                           size="large"
                       />
                   </Form.Item>
@@ -213,8 +267,8 @@ const FormPrestamos: React.FC = () => {
                           prefix={
                               <LockOutlined className="site-form-item-icon" />
                           }
-                          type="text"
-                          placeholder="EJ: Perez Perez"
+                          type="number"
+                          placeholder="0"
                           size="large"
                       />
                   </Form.Item>
@@ -224,8 +278,8 @@ const FormPrestamos: React.FC = () => {
                           prefix={
                               <LockOutlined className="site-form-item-icon" />
                           }
-                          type="text"
-                          placeholder="EJ: Perez Perez"
+                          type="number"
+                          placeholder="0"
                           size="large"
                       />
                   </Form.Item>
@@ -252,5 +306,25 @@ const FormPrestamos: React.FC = () => {
       </div>
   )
 }
+
+type TipoFormaPago =
+    | 'DIARIO'
+    | 'SEMANAL'
+    | 'QUINCENAL'
+    | 'MENSUAL'
+    | 'ANUAL'
+
+interface FormasPago {
+    id: number;
+    nombre: TipoFormaPago;
+}
+
+const formasPago: FormasPago[] = [
+  { id: 1, nombre: 'DIARIO' },
+  { id: 2, nombre: 'SEMANAL' },
+  { id: 3, nombre: 'QUINCENAL' },
+  { id: 4, nombre: 'MENSUAL' },
+  { id: 5, nombre: 'ANUAL' }
+]
 
 export default FormPrestamos

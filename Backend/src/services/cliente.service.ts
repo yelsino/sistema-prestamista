@@ -98,7 +98,7 @@ export class ClienteService {
                     { cliente: termino },
                     { nombre: termino },
                     { apellido: termino },
-                    { dni: termino },
+                    { documento: termino },
                     { telefono: termino },
                     { correo: termino },
                 ],

@@ -11,6 +11,8 @@ import { AuthProvider } from './Context/auth/AuthProvider'
 import { StyleProvider } from '@ant-design/cssinjs'
 import { ClienteProvider } from './Context/cliente/ClienteProvider'
 import { DireccionProvider } from './Context/direcciones/DireccionProvider'
+import { PrestamoProvider } from './Context/prestamo/PrestamoProvider'
+import { MonedaProvider } from './Context/moneda/MonedaProvider'
 
 function App () {
   const firebaseConfig = {
@@ -30,11 +32,15 @@ function App () {
       <AuthProvider>
           <ClienteProvider>
               <DireccionProvider>
-                  <StyleProvider hashPriority="high">
-                      <Router>
-                          <RouterApp />
-                      </Router>
-                  </StyleProvider>
+                  <MonedaProvider>
+                      <PrestamoProvider>
+                          <StyleProvider hashPriority="high">
+                              <Router>
+                                  <RouterApp />
+                              </Router>
+                          </StyleProvider>
+                      </PrestamoProvider>
+                  </MonedaProvider>
               </DireccionProvider>
           </ClienteProvider>
       </AuthProvider>

@@ -126,7 +126,7 @@ export class UsuarioValidar {
 
     login = () => z.object({
         body: z.object({
-            correo: z.string().email(),
+            nombreUsuario: z.string(),
             password: z.string()
         })
     });

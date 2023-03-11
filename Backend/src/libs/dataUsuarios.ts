@@ -2,6 +2,24 @@ import { IUsuario } from "types-prestamista";
 
 export const usuarios: IUsuario[] = [
     {
+      nombres: "Yelsin",
+      apellidos: "caso alanya",
+      celular: "999999999",
+      online: true,
+      roles: [
+        {
+          nombre: "AGENTE",
+        },
+      ],
+      foto: "https://picsum.photos/200/300",
+      documento: "12345678",
+      correo: "yelsin@gmail.com",
+      estado: true,
+      nombreUsuario: "yelsin",
+      password: "!!@12346##@",
+      codigo: "123456",
+    },
+    {
       nombres: "Juan",
       apellidos: "Perez",
       celular: "999999999",

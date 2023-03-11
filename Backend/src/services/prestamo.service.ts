@@ -15,7 +15,12 @@ export class PrestamoService {
     obtenerPrestamos = async (): Promise<IRespuesta<IPrestamo[]>> => {
         const respuesta = new Respuesta();
         try {
-            const prestamos = await Prestamo.find();
+            const prestamos = await Prestamo.find()
+            .sort({ _id: -1 })
+            .populate("cliente")
+            .populate("agente")
+            .populate("moneda");
+
             return {
                 ...respuesta,
                 code: 200,

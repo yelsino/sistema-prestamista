@@ -19,13 +19,11 @@ export const clienteReducer = (
       }
     case 'GET_DETALLE_CLIENTE':
       return {
-        ...state,
-        detalleCliente: action.payload
+        ...state
       }
     case 'GET_BUSCAR':
       return {
-        ...state,
-        buscarCliente: action.payload
+        ...state
       }
     case 'SELECT_CLIENTE':
       return {

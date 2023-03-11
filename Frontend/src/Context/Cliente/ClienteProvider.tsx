@@ -7,8 +7,6 @@ import { clienteReducer } from './clienteReducer'
 export interface ClienteState {
   cliente: ICliente
   clientes: ICliente[]
-  detalleCliente: ICliente[]
-  buscarCliente:ICliente[]
 }
 interface Props {
   children: React.ReactNode
@@ -16,9 +14,7 @@ interface Props {
 
 const INITIAL_STATE: ClienteState = {
   cliente: null,
-  clientes: [],
-  detalleCliente: [],
-  buscarCliente: []
+  clientes: []
 }
 
 export const ClienteProvider = ({ children }: Props) => {
@@ -60,15 +56,16 @@ export const ClienteProvider = ({ children }: Props) => {
 
     return respuesta
   }
-  const buscarClientes = async (Texto):Promise<IRespuesta<ICliente[]>> => {
+
+  const buscarClientes = async (termino):Promise<IRespuesta<ICliente[]>> => {
     const respuesta = await fetchConToken<IRespuesta<ICliente[]>>({
-      endpoint: 'clientes/buscar/' + Texto,
+      endpoint: 'clientes/buscar/' + termino,
       method: 'GET'
     })
 
     dispatch({
-      payload: respuesta.data,
-      type: 'GET_BUSCAR'
+      payload: respuesta.data[0],
+      type: 'SELECT_CLIENTE'
     })
 
     return respuesta
