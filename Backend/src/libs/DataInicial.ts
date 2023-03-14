@@ -220,9 +220,7 @@ export const generarData = async () => {
     await crearRoles(),
     await crearUsuarios(),
     await crearDirecciones(),
-    await crearClientes(),
-    await crearDireccionesClientes(),
+    // await crearClientes(),
     await crearMonedas(),
-    await crearPrestamos(),
   ])
 }
