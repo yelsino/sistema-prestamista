@@ -1,6 +1,7 @@
-import {  ICuota, IPrestamo, IRespuesta } from "types-prestamista";
+import {  ICuota, IFormasPago, IPrestamo, IRespuesta } from "types-prestamista";
 import Cliente from "../models/ClienteModel";
 import Cuota from "../models/CuotaModel";
+import FormaPago from "../models/FormaPagoModel";
 import Prestamo from "../models/PrestamoModel";
 import { Respuesta } from "../models/Respuesta";
 import logger from "../utils/logger";
@@ -120,14 +121,10 @@ export class PrestamoService {
     crearPrestamo = async (prestamo: IPrestamo): Promise<IRespuesta<IPrestamo>> => {
         const respuesta = new Respuesta();
         try {
-            // console.log(prestamo);
 
             const cliente = await Cliente.findById(prestamo.cliente);
             if (!cliente) return { ...respuesta, code: 404, ok: false, data: null, mensaje: "CLIENTE NO ENCONTRADO" };
 
-            // update status of client
-            
-            
             const numeroPrestamo = await Prestamo.countDocuments();
             const prestamoCreado = await Prestamo.create({
                 ...prestamo,
@@ -191,6 +188,24 @@ export class PrestamoService {
             return { ...respuesta, code: 500, ok: false, data: null };
             
         }
+    };
+
+    obtenerFormasPago = async (): Promise<IRespuesta<IFormasPago[]>> => {
+        const respuesta = new Respuesta();
+        try {
+            const formasPago = await FormaPago.find();
+            return {
+                ...respuesta,
+                code: 200,
+                ok: true,
+                data: formasPago,
+                mensaje: "FORMAS DE PAGO OBTENIDAS",
+            };
+        } catch (error: any) {
+            logger.info("ERROR AL OBTENER FORMAS DE PAGO" + error.message);
+            return { ...respuesta, code: 500, ok: false, data: null };
+        }
+    
     };
 
    

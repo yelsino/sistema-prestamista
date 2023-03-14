@@ -10,6 +10,7 @@ import { PrestamoContext } from '../../Context/prestamo/PrestamoContext'
 import { ICuota } from 'types-prestamista'
 import { dateToEspanish } from '../../utils/Utils'
 import { ClienteContext } from '../../Context/cliente/ClienteContext'
+import { formatToMoney } from '../../utils/formats'
 
 const FormCobranza: React.FC = () => {
 //   const [empresaState, setEmpresa] = useState(false)
@@ -33,8 +34,9 @@ const FormCobranza: React.FC = () => {
 
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows:ICuota[]) => {
+      const montoAPagar = selectedRows.map((cuota:ICuota) => cuota.monto).reduce((a:number, b:number) => a + b, 0)
       form.setFieldsValue({
-        montoAPagar: selectedRows.map((cuota:ICuota) => cuota.monto).reduce((a:number, b:number) => a + b, 0)
+        montoAPagar: formatToMoney(montoAPagar)
       })
       setCuotasAPagar(selectedRows)
     },
@@ -110,9 +112,9 @@ const FormCobranza: React.FC = () => {
       form.setFieldsValue({
         documento: prestamo.cliente.documento,
         nombreCompleto: prestamo.cliente.nombres + ' ' + prestamo.cliente.apellidos,
-        montoPrestado: prestamo.montoTotal,
+        montoPrestado: 'S/. ' + prestamo.monto,
         formaPago: prestamo.formaPago,
-        moneda: prestamo.moneda.nombre
+        tipoMoneda: prestamo.moneda.nombre
       })
     }
   }, [prestamo])
@@ -140,7 +142,7 @@ const FormCobranza: React.FC = () => {
       title: 'Monto cuota',
       dataIndex: 'monto',
       align: 'center',
-      render: (monto: number) => <p>S/. {monto}</p>
+      render: (monto: number) => <p>S/. {formatToMoney(monto)}</p>
     },
     {
       title: 'Estado',
@@ -207,7 +209,8 @@ const FormCobranza: React.FC = () => {
                 montoPrestado: '',
                 formaPago: '',
                 moneda: '',
-                montoAPagar: ''
+                montoAPagar: '',
+                tipoMoneda: ''
               }}
               onFinish={(values) => console.log(values)}
           >
@@ -339,7 +342,7 @@ const FormCobranza: React.FC = () => {
                           Fecha de vencimiento:{' '}
                           {dateToEspanish(cuota?.fechaLimite)}
                       </p>
-                      <p>Monto de cuota: {cuota?.monto}</p>
+                      <p>Monto de cuota: {formatToMoney(cuota?.monto)}</p>
                   </div>
               ))}
           </Modal>

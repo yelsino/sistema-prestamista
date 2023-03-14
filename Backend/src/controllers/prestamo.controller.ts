@@ -30,6 +30,8 @@ export class PrestamoController {
 
   cancelarPago = async (req: RQ, res: RES) => responder(await this.prestamo.cancelarPago(req.body), res);
 
+  obtenerFormasPago = async (req: RQ, res: RES) => responder(await this.prestamo.obtenerFormasPago(), res);
+
 }
 
 

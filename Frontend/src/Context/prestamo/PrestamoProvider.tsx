@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react'
-import { ICuota, IPrestamo, IRespuesta } from 'types-prestamista'
+import { ICuota, IFormasPago, IPrestamo, IRespuesta } from 'types-prestamista'
 import { fetchConToken } from '../../helpers/fetch'
 import { PrestamoContext } from './PrestamoContext'
 import { prestamoReducer } from './prestamoReducer'
@@ -9,6 +9,7 @@ export interface PrestamoState {
   contrato: IPrestamo[]
   prestamos: IPrestamo[]
   cuotas: ICuota[]
+  formasPago: IFormasPago[]
 }
 interface Props {
   children: React.ReactNode
@@ -18,7 +19,8 @@ const INITIAL_STATE: PrestamoState = {
   prestamo: null,
   contrato: [],
   prestamos: [],
-  cuotas: []
+  cuotas: [],
+  formasPago: []
 
 }
 
@@ -81,7 +83,7 @@ export const PrestamoProvider = ({ children }: Props) => {
       endpoint: 'prestamos/buscar' + Texto,
       method: 'GET'
     })
-
+    if (!respuesta.ok) return
     dispatch({
       payload: respuesta.data,
       type: 'GET_BUSCAR'
@@ -95,6 +97,7 @@ export const PrestamoProvider = ({ children }: Props) => {
       method: 'GET'
     })
 
+    if (!respuesta.ok) return
     dispatch({
       payload: respuesta.data,
       type: 'GET_CONTRATO'
@@ -108,6 +111,7 @@ export const PrestamoProvider = ({ children }: Props) => {
       method: 'GET'
     })
 
+    if (!respuesta.ok) return
     dispatch({
       payload: respuesta.data,
       type: 'GET_CUOTA'
@@ -121,7 +125,7 @@ export const PrestamoProvider = ({ children }: Props) => {
       method: 'POST',
       body: cuotas
     })
-
+    if (!respuesta.ok) return
     await obtenerCuotas(cuotas[0].prestamo)
 
     return respuesta
@@ -139,6 +143,22 @@ export const PrestamoProvider = ({ children }: Props) => {
     return respuesta
   }
 
+  const obtenerFormasPago = async ():Promise<IRespuesta<IFormasPago[]>> => {
+    const respuesta = await fetchConToken<IRespuesta<IFormasPago[]>>({
+      endpoint: 'prestamos/formas-pago',
+      method: 'GET'
+    })
+
+    if (!respuesta.ok) return
+
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_FORMAS_PAGO'
+    })
+
+    return respuesta
+  }
+
   return (
     <PrestamoContext.Provider
       value={{
@@ -152,7 +172,8 @@ export const PrestamoProvider = ({ children }: Props) => {
         obtenerCuotas,
         pagarCuotas,
         obtenerPrestamo,
-        cancelarPago
+        cancelarPago,
+        obtenerFormasPago
       }}
     >
       {children}

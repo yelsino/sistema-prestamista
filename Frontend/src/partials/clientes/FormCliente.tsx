@@ -116,7 +116,7 @@ const FormCliente: React.FC = () => {
                           message: 'Este campo es requerido!'
                         },
                         {
-                          pattern: /^[a-zA-Z\s]+$/,
+                          pattern: /^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+$/,
                           message: 'Este campo solo permite letras!'
                         }
                       ]}
@@ -139,7 +139,7 @@ const FormCliente: React.FC = () => {
                           message: 'Este campo es requerido!'
                         },
                         {
-                          pattern: /^[a-zA-Z\s]+$/,
+                          pattern: /^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+$/,
                           message: 'Este campo solo permite letras!'
                         }
                       ]}

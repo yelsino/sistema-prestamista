@@ -1,4 +1,4 @@
-import { ICuota, IPrestamo } from 'types-prestamista'
+import { ICuota, IFormasPago, IPrestamo } from 'types-prestamista'
 import { PrestamoState } from './PrestamoProvider'
 
 export type PrestamoAction =
@@ -10,6 +10,7 @@ export type PrestamoAction =
   | { type: 'GET_CUOTA'; payload: ICuota[] }
   | { type: 'PAGAR_CUOTAS'; payload: ICuota[] }
   | { type: 'SELECT_PRESTAMO'; payload: IPrestamo }
+  | { type: 'GET_FORMAS_PAGO'; payload: IFormasPago[] }
 
 export const prestamoReducer = (
   state: PrestamoState,
@@ -55,6 +56,11 @@ export const prestamoReducer = (
       return {
         ...state,
         prestamo: action.payload
+      }
+    case 'GET_FORMAS_PAGO':
+      return {
+        ...state,
+        formasPago: action.payload
       }
     default:
       return state

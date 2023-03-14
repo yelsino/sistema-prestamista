@@ -1,5 +1,6 @@
 import { ICuota, IPrestamo, IRespuesta } from "types-prestamista";
 import Cuota from "../models/CuotaModel";
+import FormaPago from "../models/FormaPagoModel";
 import Prestamo from "../models/PrestamoModel";
 import { Respuesta } from "../models/Respuesta";
 import logger from "../utils/logger";
@@ -25,16 +26,16 @@ export class CuotaService {
 
     crearCuotas = async (prestamo: IPrestamo): Promise<ICuota[]> => {
         try {
+
+            const formaPago = await FormaPago.findById(prestamo.formaPago);
+
             const cuotas =  new Array(prestamo.numeroCuotas)
             .fill(1)
             .map((_, index) => index + 1);
-            console.log(prestamo);
-
-            
 
             const cuotasGeneradas = cuotas.map(async (v,index) => {
                 const fechaActual = new Date();
-                const fechaLimite = fechaActual.setDate(fechaActual.getDate() + (15 * index + 1));
+                const fechaLimite = fechaActual.setDate(fechaActual.getDate() + (formaPago.dias * index + 1));
                 const cuota = new Cuota( {
                     cliente: prestamo.cliente,
                     agente: prestamo.agente,
@@ -127,7 +128,6 @@ export class CuotaService {
             return { ...respuesta, code: 200, ok: true, data: cuotaBD, mensaje: "PAGO DE CUOTA CANCELADO" };
         } catch (error) {
             console.log(error.message);
-            
         }
     }
 }

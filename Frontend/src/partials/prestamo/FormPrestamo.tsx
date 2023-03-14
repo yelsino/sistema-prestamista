@@ -20,7 +20,7 @@ const FormPrestamos: React.FC = () => {
   const { state } = useLocation()
 
   const { buscarClientes, obtenerCliente, clientes, cliente, dispatch } = useContext(ClienteContext)
-  const { generarPrestamo } = useContext(PrestamoContext)
+  const { generarPrestamo, obtenerFormasPago, formasPago } = useContext(PrestamoContext)
   const { obtenerMoneda, monedas } = useContext(MonedaContext)
   const { user } = useContext(AuthContext)
 
@@ -94,6 +94,7 @@ const FormPrestamos: React.FC = () => {
     })
     forceUpdate({})
     obtenerMoneda()
+    obtenerFormasPago()
   }, [])
 
   useEffect(() => {
@@ -263,7 +264,7 @@ const FormPrestamos: React.FC = () => {
                   >
                       <Select>
                           {formasPago.map((v) => (
-                              <Select.Option key={v.id} value={v.nombre}>
+                              <Select.Option key={v._id} value={v._id}>
                                   <div className="flex items-center ">
                                       <span>{v.nombre}</span>
                                   </div>
@@ -377,26 +378,5 @@ const FormPrestamos: React.FC = () => {
       </div>
   )
 }
-
-type TipoFormaPago =
-    | 'DIARIO'
-    | 'SEMANAL'
-    | 'QUINCENAL'
-    | 'MENSUAL'
-    | 'ANUAL'
-
-interface FormasPago {
-    id: number;
-    nombre: TipoFormaPago;
-    dias: number;
-}
-
-const formasPago: FormasPago[] = [
-  { id: 1, nombre: 'DIARIO', dias: 1 },
-  { id: 2, nombre: 'SEMANAL', dias: 7 },
-  { id: 3, nombre: 'QUINCENAL', dias: 15 },
-  { id: 4, nombre: 'MENSUAL', dias: 30 },
-  { id: 5, nombre: 'ANUAL', dias: 365 }
-]
 
 export default FormPrestamos

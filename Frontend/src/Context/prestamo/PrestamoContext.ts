@@ -1,6 +1,6 @@
 
 import React, { createContext } from 'react'
-import { ICuota, IPrestamo, IRespuesta } from 'types-prestamista'
+import { ICuota, IFormasPago, IPrestamo, IRespuesta } from 'types-prestamista'
 import { PrestamoState } from './PrestamoProvider'
 import { PrestamoAction } from './prestamoReducer'
 
@@ -14,7 +14,8 @@ interface PropsContext extends PrestamoState {
   obtenerContrato: () => Promise<IRespuesta<IPrestamo[]>>
   obtenerCuotas: (prestamo:string) => Promise<IRespuesta<ICuota[]>>
   pagarCuotas: (cuotas:ICuota[]) => Promise<IRespuesta<ICuota[]>>,
-  cancelarPago: (cuotas:ICuota) => Promise<IRespuesta<ICuota>>
+  cancelarPago: (cuotas:ICuota) => Promise<IRespuesta<ICuota>>,
+  obtenerFormasPago: () => Promise<IRespuesta<IFormasPago[]>>
 }
 
 export const PrestamoContext = createContext<PropsContext>({} as PropsContext)
