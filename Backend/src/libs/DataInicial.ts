@@ -1,15 +1,18 @@
 
+import { IFormasPago } from "types-prestamista";
 import Cliente from "../models/ClienteModel";
 import Cuota from "../models/CuotaModel";
 import Departamento from "../models/DepartamentoModel";
 import Direccion from "../models/DireccionModel";
 import Distrito from "../models/DistritoModel";
+import FormaPago from "../models/FormaPagoModel";
 import Moneda from "../models/MonedaModel";
 import Prestamo from "../models/PrestamoModel";
 import Provincia from "../models/ProvinciaModel";
 import Rol from "../models/RolModel";
 import Usuario from "../models/UsuarioModel";
 import { encrypt } from "../utils";
+import logger from "../utils/logger";
 import { clientes } from "./dataClientes";
 import { departamentos, direcciones, distritos, provincias } from "./dataDirecciones";
 import { monedas } from "./dataMonedas";
@@ -215,6 +218,33 @@ export const crearPrestamos = async () => {
   }
 }
 
+export const crearFormasPago = async () => {
+  const formasPago: IFormasPago[] = [
+    {  nombre: 'DIARIO', dias: 1 },
+    {  nombre: 'SEMANAL', dias: 7 },
+    {  nombre: 'QUINCENAL', dias: 15 },
+    {  nombre: 'MENSUAL', dias: 30 },
+    {  nombre: 'ANUAL', dias: 365 }
+  ]
+
+  try {
+    const cantidad = await FormaPago.estimatedDocumentCount();
+    if(cantidad > 0) return;
+
+    const formasPagoGeneradas = formasPago.map(async (f) => {
+      const nuevo = new FormaPago({...f});
+      return  FormaPago.create(nuevo);
+    });
+
+    await Promise.all(formasPagoGeneradas);
+
+    console.log('Formas de pago creadas');
+  } catch (error:any) {
+    console.log(error.message);
+    
+  }
+}
+
 export const generarData = async () => {
   Promise.all([
     await crearRoles(),
@@ -222,5 +252,6 @@ export const generarData = async () => {
     await crearDirecciones(),
     // await crearClientes(),
     await crearMonedas(),
+    await crearFormasPago(),
   ])
 }

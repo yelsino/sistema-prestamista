@@ -10,6 +10,10 @@ export interface ICuota {
     fechaLimite: Date;
     prestamo: IPrestamo;
     monto: number;
-    estado: string;
+    estado: EstadoCuota;
     numeroCuota: number;
 }
+
+type EstadoCuota =
+    | 'PENDIENTE'
+    | 'PAGADO'

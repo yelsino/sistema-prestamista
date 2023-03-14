@@ -59,7 +59,7 @@ const Prestamos = () => {
       render: (estado) => {
         return (
           <div key={estado} className='text-2xl'>
-            {estado === 'CREDITO_ACTIVO' ? <Tag color='red'>Pendiente</Tag> : <Tag color='green'>Pagado</Tag>}
+            {estado === 'PENDIENTE' ? <Tag color='red'>Pendiente</Tag> : <Tag color='green'>Pagado</Tag>}
           </div>
         )
       }

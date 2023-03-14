@@ -1,4 +1,5 @@
 import {  ICuota, IPrestamo, IRespuesta } from "types-prestamista";
+import Cliente from "../models/ClienteModel";
 import Cuota from "../models/CuotaModel";
 import Prestamo from "../models/PrestamoModel";
 import { Respuesta } from "../models/Respuesta";
@@ -65,7 +66,8 @@ export class PrestamoService {
         try {
             const prestamo = await Prestamo.findById(id)
             .populate("cliente")
-            .populate("agente");
+            .populate("agente")
+            .populate("moneda");
             if (!prestamo) {
                 return {
                     ...respuesta,
@@ -119,6 +121,12 @@ export class PrestamoService {
         const respuesta = new Respuesta();
         try {
             // console.log(prestamo);
+
+            const cliente = await Cliente.findById(prestamo.cliente);
+            if (!cliente) return { ...respuesta, code: 404, ok: false, data: null, mensaje: "CLIENTE NO ENCONTRADO" };
+
+            // update status of client
+            
             
             const numeroPrestamo = await Prestamo.countDocuments();
             const prestamoCreado = await Prestamo.create({
@@ -127,6 +135,10 @@ export class PrestamoService {
                 numero: numeroPrestamo + 1,
             });
             await this.cuotas.crearCuotas(prestamoCreado);
+
+            cliente.estado = "CON_PRESTAMO";
+            await cliente.save();
+            
             return {
                 ...respuesta,
                 code: 200,

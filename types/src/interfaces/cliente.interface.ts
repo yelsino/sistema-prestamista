@@ -13,10 +13,12 @@ export interface ICliente {
     empresa: string;
     ruc: string;
     razonSocial: string;
-    estado: string;
+    estado: EstadoCliente;
     agente: IUsuario;
     direccion: IDireccion;
   }
+
+  type EstadoCliente = 'CON_PRESTAMO' | 'SIN_PRESTAMO'
 
   export interface RegistroCliente extends Partial<ICliente>, Partial<IDireccion> {
     nombreDireccion: string,

@@ -9,20 +9,23 @@ import { ICliente, IPrestamo } from 'types-prestamista'
 import { MonedaContext } from '../../Context/moneda/MonedaContext'
 import './estilos.css'
 import { AuthContext } from '../../Context/auth/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { formatToMoney } from '../../utils/formats'
 
 const FormPrestamos: React.FC = () => {
   //   const [empresaState, setEmpresa] = useState(false)
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const [, forceUpdate] = useState({})
+  const { state } = useLocation()
 
-  const { buscarClientes, clientes, cliente, dispatch } = useContext(ClienteContext)
+  const { buscarClientes, obtenerCliente, clientes, cliente, dispatch } = useContext(ClienteContext)
   const { generarPrestamo } = useContext(PrestamoContext)
   const { obtenerMoneda, monedas } = useContext(MonedaContext)
   const { user } = useContext(AuthContext)
 
   const [messageApi, contextHolder] = message.useMessage()
+  const [openDrawer, setOpenDrawer] = useState(false)
 
   const onSearch = async (termino: string) => {
     if (termino.length < 3) {
@@ -44,7 +47,6 @@ const FormPrestamos: React.FC = () => {
       form.setFieldsValue({
         documento: clientes[0].documento,
         nombreCompleto: clientes[0].nombres + ' ' + clientes[0].apellidos
-
       })
     }
 
@@ -64,7 +66,8 @@ const FormPrestamos: React.FC = () => {
       estado: '' as any,
       agente: user._id as any,
       numeroCuotas: values.cuotas,
-      formaPago: values.formaPago
+      formaPago: values.formaPago,
+      fechaEmision: values.fechaEmision
     }
 
     await generarPrestamo(prestamo)
@@ -77,6 +80,12 @@ const FormPrestamos: React.FC = () => {
       type: 'SELECT_CLIENTE'
     })
   }
+
+  useEffect(() => {
+    if (state) {
+      obtenerCliente(state.cliente)
+    }
+  }, [])
 
   useEffect(() => {
     dispatch({
@@ -107,7 +116,7 @@ const FormPrestamos: React.FC = () => {
       form.setFieldsValue({
         montoTotal,
         valorInteres,
-        valorCuota
+        valorCuota: formatToMoney(valorCuota)
       })
     }
   }
@@ -115,7 +124,6 @@ const FormPrestamos: React.FC = () => {
   const config = {
     rules: [{ type: 'object' as const, required: true, message: 'Please select time!' }]
   }
-  const [openDrawer, setOpenDrawer] = useState(false)
 
   return (
       <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200  py-4 px-5">
@@ -289,7 +297,7 @@ const FormPrestamos: React.FC = () => {
                   </Form.Item>
 
                       <Form.Item
-                          name="date-picker"
+                          name="fechaEmision"
                           label="Fecha de Emisión"
                           {...config}
                           style={{ width: '100%' }}
@@ -380,14 +388,15 @@ type TipoFormaPago =
 interface FormasPago {
     id: number;
     nombre: TipoFormaPago;
+    dias: number;
 }
 
 const formasPago: FormasPago[] = [
-  { id: 1, nombre: 'DIARIO' },
-  { id: 2, nombre: 'SEMANAL' },
-  { id: 3, nombre: 'QUINCENAL' },
-  { id: 4, nombre: 'MENSUAL' },
-  { id: 5, nombre: 'ANUAL' }
+  { id: 1, nombre: 'DIARIO', dias: 1 },
+  { id: 2, nombre: 'SEMANAL', dias: 7 },
+  { id: 3, nombre: 'QUINCENAL', dias: 15 },
+  { id: 4, nombre: 'MENSUAL', dias: 30 },
+  { id: 5, nombre: 'ANUAL', dias: 365 }
 ]
 
 export default FormPrestamos

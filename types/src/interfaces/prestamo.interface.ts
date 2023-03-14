@@ -10,15 +10,28 @@ export interface IPrestamo {
     interes: number;
     montoTotal: number;
     moneda: IMoneda;
-    estado: string;
+    estado: EstadoPrestamo;
     agente: IUsuario;
     numeroCuotas: number;
-    formaPago: FormaPago;
+    formaPago: IFormasPago;
+    fechaEmision: Date;
 }
 
-type FormaPago = 
-    | 'DIARIO' 
-    | 'SEMANAL' 
+type TipoFormaPago =
+    | 'DIARIO'
+    | 'SEMANAL'
     | 'QUINCENAL'
     | 'MENSUAL'
     | 'ANUAL'
+
+export interface IFormasPago {
+    _id?: number;
+    nombre: TipoFormaPago;
+    dias: number;
+}
+
+type EstadoPrestamo =
+    | 'PENDIENTE'
+    | 'PAGADO'
+
+

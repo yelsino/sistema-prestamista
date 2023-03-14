@@ -13,7 +13,7 @@ const ClienteSchema = new Schema<ICliente>(
     empresa: String,
     ruc: String,
     razonSocial: String,
-    estado: String,
+    estado: { type: String,enum: ['SIN_PRESTAMO', 'CON_PRESTAMO'], default: "SIN_PRESTAMO"},
     agente: { type: Schema.Types.ObjectId, ref: "usuarios" },
     direccion: { type: Schema.Types.ObjectId, ref: "direcciones" },
   },

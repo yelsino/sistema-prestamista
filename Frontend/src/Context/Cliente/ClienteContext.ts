@@ -8,6 +8,7 @@ interface PropsContext extends ClienteState {
   dispatch: React.Dispatch<ClienteAction>
   generarCliente: (cliente: RegistroCliente) => Promise<IRespuesta<ICliente>>,
   obtenerClientes: () => Promise<IRespuesta<ICliente[]>>
+  obtenerCliente: (id: string) => Promise<IRespuesta<ICliente>>
   buscarClientes: (termino:string) => Promise<IRespuesta<ICliente[]>>
   obtenerDetalleCliente: (ICliente) => Promise<IRespuesta<ICliente[]>>
 }

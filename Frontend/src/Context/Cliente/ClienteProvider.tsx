@@ -43,6 +43,21 @@ export const ClienteProvider = ({ children }: Props) => {
 
     return respuesta
   }
+
+  const obtenerCliente = async (idCliente: string):Promise<IRespuesta<ICliente>> => {
+    const respuesta = await fetchConToken<IRespuesta<ICliente>>({
+      endpoint: 'clientes/' + idCliente,
+      method: 'GET'
+    })
+
+    dispatch({
+      payload: respuesta.data,
+      type: 'SELECT_CLIENTE'
+    })
+
+    return respuesta
+  }
+
   const obtenerDetalleCliente = async (ICliente):Promise<IRespuesta<ICliente[]>> => {
     const respuesta = await fetchConToken<IRespuesta<ICliente[]>>({
       endpoint: 'clientes/' + ICliente,
@@ -83,6 +98,7 @@ export const ClienteProvider = ({ children }: Props) => {
         dispatch,
         generarCliente,
         obtenerClientes,
+        obtenerCliente,
         obtenerDetalleCliente,
         buscarClientes
       }}

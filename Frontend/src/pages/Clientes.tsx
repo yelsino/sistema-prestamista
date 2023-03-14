@@ -6,6 +6,7 @@ import { Tag } from 'antd'
 import { useContext, useEffect } from 'react'
 import { ClienteContext } from '../Context/cliente/ClienteContext'
 import { ICliente } from 'types-prestamista'
+import { Link } from 'react-router-dom'
 
 const Clientes = () => {
   const { clientes, obtenerClientes } = useContext(ClienteContext)
@@ -81,19 +82,32 @@ const columns: ColumnsType<ICliente> = [
     align: 'center',
     render: (estado) => {
       return (
-        <div key={estado} className='text-2xl'>
-          {estado === 'CREDITO_ACTIVO' ? <Tag color='green'>con crédito</Tag> : <Tag color='red'>sin credito</Tag>}
-        </div>
+          <div key={estado} className="text-2xl">
+              {estado === 'CON_PRESTAMO'
+                ? (
+                  <Tag color="green">con crédito</Tag>
+                  )
+                : (
+                  <Tag color="red">sin credito</Tag>
+                  )}
+          </div>
       )
     }
+
+  },
+  {
+    title: 'Accion',
+    key: 'accion',
+    dataIndex: '_id',
+    fixed: 'right',
+    align: 'center',
+    className: 'bg-blue-500',
+    width: 100,
+    render: (id) => <Link
+      to={{ pathname: '/prestamos/nuevo' }}
+      state={{ cliente: id }}
+      className='block w-full py-5 '>
+      prestar
+    </Link>
   }
-  // {
-  //   title: 'Accion',
-  //   key: 'accion',
-  //   dataIndex: 'acciones',
-  //   fixed: 'right',
-  //   align: 'center',
-  //   width: 100,
-  //   render: () => <a className='w-full flex justify-center py-1 border'>ver</a>
-  // }
 ]

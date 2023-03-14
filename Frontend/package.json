@@ -25,7 +25,7 @@
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.9.0",
     "react-transition-group": "^4.4.5",
-    "types-prestamista": "^0.1.19",
+    "types-prestamista": "^0.1.27",
     "yup": "^1.0.2"
   },
   "devDependencies": {

@@ -1,5 +1,6 @@
 import { ICuota, IPrestamo, IRespuesta } from "types-prestamista";
 import Cuota from "../models/CuotaModel";
+import Prestamo from "../models/PrestamoModel";
 import { Respuesta } from "../models/Respuesta";
 import logger from "../utils/logger";
 
@@ -92,6 +93,16 @@ export class CuotaService {
                 return Cuota.updateOne({_id: v._id}, v);
             });
             await Promise.all(updatePromises);
+
+        // Verificar si todas las cuotas del préstamo están pagadas
+        const prestamo = await Prestamo.findById(cuotasBD[0].prestamo);
+        const cuotasPendientes = await Cuota.countDocuments({ prestamo: prestamo._id, estado: { $ne: 'PAGADO' } });
+        if (cuotasPendientes === 0) {
+            prestamo.estado = "PAGADO";
+            await prestamo.save();
+        }
+
+
             return {
                 ...respuesta,
                 code: 200,

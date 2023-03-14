@@ -17,7 +17,7 @@ export { ICliente, RegistroCliente } from './interfaces/cliente.interface';
 export { ICuota } from './interfaces/cuota.interface';
 export { IMoneda } from './interfaces/moneda.interface';
 export { IMora } from './interfaces/mora.interface';
-export { IPrestamo } from './interfaces/prestamo.interface';
+export { IPrestamo, IFormasPago } from './interfaces/prestamo.interface';
 export {
   IDireccion,
   IDepartamento,

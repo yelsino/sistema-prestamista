@@ -11,7 +11,7 @@ const CuotaSchema = new Schema<ICuota>(
     fechaLimite: Date,
     prestamo: { type: Schema.Types.ObjectId, ref: "prestamos" },
     monto: Number,
-    estado: String,
+    estado: { type: String, enum: ['PENDIENTE', 'PAGADO'], default: 'PENDIENTE'},
     numeroCuota: Number,
   }
 );
