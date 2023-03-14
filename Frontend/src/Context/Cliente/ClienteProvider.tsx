@@ -64,6 +64,11 @@ export const ClienteProvider = ({ children }: Props) => {
     })
 
     dispatch({
+      payload: respuesta.data,
+      type: 'GET_CLIENTES'
+    })
+
+    dispatch({
       payload: respuesta.data[0],
       type: 'SELECT_CLIENTE'
     })

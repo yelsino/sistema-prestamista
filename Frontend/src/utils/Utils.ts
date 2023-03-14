@@ -1,5 +1,6 @@
 import resolveConfig from 'tailwindcss/resolveConfig'
-
+import { format } from 'date-fns'
+import { es } from 'date-fns/locale'
 export const tailwindConfig = () => {
   // Tailwind config
   return resolveConfig('./src/css/tailwind.config.js' as any)
@@ -27,3 +28,9 @@ export const formatValue = (value) => Intl.NumberFormat('en-US', {
   maximumSignificantDigits: 3,
   notation: 'compact'
 }).format(value)
+
+export const dateToEspanish = (fecha:Date) => {
+  if (!fecha) return ''
+  const fechaFormateada = format(new Date(fecha), 'dd \'de\' MMMM yyyy', { locale: es })
+  return fechaFormateada
+}

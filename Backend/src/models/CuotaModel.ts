@@ -11,9 +11,11 @@ const CuotaSchema = new Schema<ICuota>(
     fechaLimite: Date,
     prestamo: { type: Schema.Types.ObjectId, ref: "prestamos" },
     monto: Number,
+    estado: String,
+    numeroCuota: Number,
   }
 );
-
+  
 
 const Cuota = model("cuotas", CuotaSchema);
 export default Cuota;

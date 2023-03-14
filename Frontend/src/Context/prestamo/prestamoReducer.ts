@@ -2,12 +2,13 @@ import { ICuota, IPrestamo } from 'types-prestamista'
 import { PrestamoState } from './PrestamoProvider'
 
 export type PrestamoAction =
-  | { type: 'GET_PRESTAMO'; payload: IPrestamo[] }
+  | { type: 'GET_PRESTAMOS'; payload: IPrestamo[] }
+  | { type: 'GET_PRESTAMO'; payload: IPrestamo }
   | { type: 'GET_BUSCAR'; payload: IPrestamo[] }
   | { type: 'GET_DETALLE'; payload: IPrestamo[] }
   | { type: 'GET_CONTRATO'; payload: IPrestamo[] }
-  | { type: 'GET_CUOTA'; payload: IPrestamo[] }
-  | { type: 'GET_PAGAR'; payload: ICuota[] }
+  | { type: 'GET_CUOTA'; payload: ICuota[] }
+  | { type: 'PAGAR_CUOTAS'; payload: ICuota[] }
   | { type: 'SELECT_PRESTAMO'; payload: IPrestamo }
 
 export const prestamoReducer = (
@@ -15,20 +16,23 @@ export const prestamoReducer = (
   action: PrestamoAction
 ): PrestamoState => {
   switch (action.type) {
-    case 'GET_PRESTAMO':
+    case 'GET_PRESTAMOS':
       return {
         ...state,
         prestamos: action.payload
       }
-    case 'GET_BUSCAR':
+    case 'GET_PRESTAMO':
       return {
         ...state,
-        buscarPrestamos: action.payload
+        prestamo: action.payload
+      }
+    case 'GET_BUSCAR':
+      return {
+        ...state
       }
     case 'GET_DETALLE':
       return {
-        ...state,
-        detallePrestamo: action.payload
+        ...state
       }
     case 'GET_CONTRATO':
       return {
@@ -38,13 +42,15 @@ export const prestamoReducer = (
     case 'GET_CUOTA':
       return {
         ...state,
-        cuota: action.payload
+        cuotas: action.payload
       }
-    case 'GET_PAGAR':
+    case 'PAGAR_CUOTAS':{
       return {
         ...state,
-        pagarCuota: action.payload
+        cuotas: action.payload
       }
+    }
+
     case 'SELECT_PRESTAMO':
       return {
         ...state,

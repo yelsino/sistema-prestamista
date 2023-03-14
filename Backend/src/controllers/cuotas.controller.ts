@@ -11,7 +11,7 @@ export class CuotaController{
 
     obtenerCuotas = async (req: RQ, res: RES) => responder(await this.moneda.obtenerCuotas(), res);
 
-    crearCuota = async (req: RQ, res: RES) => responder(await this.moneda.crearCuota(req.body), res);
+    crearCuota = async (req: RQ, res: RES) => responder(await this.moneda.crearCuotas(req.body), res);
   
 }
 

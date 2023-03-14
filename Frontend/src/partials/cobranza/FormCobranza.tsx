@@ -1,25 +1,179 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Form, Input, Space } from 'antd'
+import { Form, Input, Modal, Space, Tag, Button, message, Drawer } from 'antd'
 import Search from 'antd/es/input/Search'
 import { IconoClienteOut } from '../../Components/iconos'
 import { TablaAntidesing } from '../dashboard/TableAntidesing'
 import { ColumnsType } from 'antd/es/table'
+import { useParams } from 'react-router-dom'
+import { PrestamoContext } from '../../Context/prestamo/PrestamoContext'
+import { ICuota } from 'types-prestamista'
+import { dateToEspanish } from '../../utils/Utils'
+import { ClienteContext } from '../../Context/cliente/ClienteContext'
 
 const FormCobranza: React.FC = () => {
 //   const [empresaState, setEmpresa] = useState(false)
 
   const [form] = Form.useForm()
+  const { id } = useParams()
+
+  const [pagarModal, setPagarModal] = useState(false)
+  const [cancelarModal, setCancelarModal] = useState(false)
+  const [confirmLoading, setConfirmLoading] = useState(false)
+  const [openDrawer, setOpenDrawer] = useState(false)
+  //   const [clientesSearch, setClientesSearch] = useState<ICliente[]>([])
+
+  const { obtenerPrestamo, obtenerCuotas, prestamo, cuotas, pagarCuotas, cancelarPago } = useContext(PrestamoContext)
+  const { buscarClientes, clientes, dispatch } = useContext(ClienteContext)
+
+  const [cuotasAPagar, setCuotasAPagar] = useState<ICuota[]>([])
+  const [cuotaCancelar, setCuotaCancelar] = useState<ICuota>(null)
+
+  const [messageApi, contextHolder] = message.useMessage()
 
   const rowSelection = {
-    onChange: (selectedRowKeys: React.Key[], selectedRows) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+    onChange: (selectedRowKeys: React.Key[], selectedRows:ICuota[]) => {
+      form.setFieldsValue({
+        montoAPagar: selectedRows.map((cuota:ICuota) => cuota.monto).reduce((a:number, b:number) => a + b, 0)
+      })
+      setCuotasAPagar(selectedRows)
     },
     getCheckboxProps: (record) => ({
-      disabled: record.name === 'Disabled User',
-      name: record.name
+      disabled: record.estado === 'PAGADO',
+      name: record.estado
+    //   checked: selectedKeys.includes(record.id)
     })
   }
+
+  const showModal = (cuotas:ICuota[]) => {
+    setCuotasAPagar(cuotas)
+    setPagarModal(true)
+  }
+
+  const showModalCancelar = (cuota:ICuota) => {
+    setCuotaCancelar(cuota)
+    setCancelarModal(true)
+  }
+
+  const realizarPagos = async () => {
+    setConfirmLoading(true)
+    setTimeout(() => {
+      setPagarModal(false)
+      setConfirmLoading(false)
+      pagarCuotas(cuotasAPagar)
+      messageApi.open({
+        type: 'success',
+        content: 'Has realizado un pago'
+      })
+    }, 1000)
+  }
+
+  const cancelarPagoCuota = () => {
+    setConfirmLoading(true)
+    setTimeout(() => {
+      setCancelarModal(false)
+      setConfirmLoading(false)
+      cancelarPago(cuotaCancelar)
+      messageApi.open({
+        type: 'success',
+        content: 'Se ha cancelado el pago'
+      })
+    }, 1000)
+  }
+
+  const onSearch = async (termino: string) => {
+    if (termino.length < 3) return
+    await buscarClientes(termino)
+  }
+
+  const seleccionarCliente = async (id:string) => {
+    const resultado = await obtenerPrestamo(id)
+    if (!resultado.ok) {
+      return messageApi.open({
+        type: 'error',
+        content: 'El cliente no tiene prestamos'
+      })
+    }
+  }
+
+  useEffect(() => {
+    obtenerPrestamo(id)
+    dispatch({
+      payload: [],
+      type: 'GET_CLIENTES'
+    })
+  }, [])
+
+  useEffect(() => {
+    if (prestamo) {
+      obtenerCuotas(id)
+      form.setFieldsValue({
+        documento: prestamo.cliente.documento,
+        nombreCompleto: prestamo.cliente.nombres + ' ' + prestamo.cliente.apellidos,
+        montoPrestado: prestamo.montoTotal,
+        formaPago: prestamo.formaPago,
+        moneda: prestamo.moneda.nombre
+      })
+    }
+  }, [prestamo])
+
+  const columns: ColumnsType<ICuota> = [
+    {
+      title: 'Numero',
+      dataIndex: 'numeroCuota',
+      align: 'center',
+      render: (text: string) => <span>{text}</span>
+    },
+    {
+      title: 'Vencimiento',
+      dataIndex: 'fechaLimite',
+      align: 'center',
+      render: (fechaLimite: Date) => <p>{dateToEspanish(fechaLimite)}</p>
+    },
+    {
+      title: 'Fecha de Pago',
+      dataIndex: 'fechaPago',
+      align: 'left',
+      render: (fechaLimite: Date) => <p>{dateToEspanish(fechaLimite)}</p>
+    },
+    {
+      title: 'Monto cuota',
+      dataIndex: 'monto',
+      align: 'center',
+      render: (monto: number) => <p>S/. {monto}</p>
+    },
+    {
+      title: 'Estado',
+      dataIndex: 'estado',
+      align: 'center',
+      render: (estado: string) => <div key={estado} className='text-2xl'>
+      {estado === 'PENDIENTE' ? <Tag color='yellow'>Pendiente</Tag> : <Tag color='green'>Pagado</Tag>}
+    </div>
+    },
+    {
+      title: 'Accion',
+      key: 'action',
+      align: 'center',
+
+      render: (record:ICuota) => <>
+        {
+            record.estado === 'PENDIENTE'
+              ? <a className='p-2' type="primary" onClick={() => { showModal([record]) }}>
+            pagar
+          </a>
+              : <span className='p-2 no-underline text-red-400 cursor-pointer' onClick={() => { showModalCancelar(record) }}>
+          cancelar
+        </span>
+        }
+      </>
+    }
+  ]
+
+  useEffect(() => {
+    if (clientes.length > 1) {
+      setOpenDrawer(true)
+    }
+  }, [clientes])
 
   return (
       <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200  py-4 px-5">
@@ -38,7 +192,7 @@ const FormCobranza: React.FC = () => {
                           </div>
                       }
                       size="large"
-                      //   onSearch={onSearch}
+                      onSearch={onSearch}
                   />
               </Space>
           </header>
@@ -52,7 +206,8 @@ const FormCobranza: React.FC = () => {
                 nombreCompleto: '',
                 montoPrestado: '',
                 formaPago: '',
-                moneda: ''
+                moneda: '',
+                montoAPagar: ''
               }}
               onFinish={(values) => console.log(values)}
           >
@@ -115,24 +270,24 @@ const FormCobranza: React.FC = () => {
                   </Form.Item>
               </div>
 
-              <div className='pt-5  gap-y-5  flex flex-col '>
+              <div className="pt-5  gap-y-5  flex flex-col ">
                   <TablaAntidesing
                       columns={columns}
-                      data={data}
+                      data={cuotas}
                       seleccion={rowSelection}
                       config={{
                         title: 'Cuotas de prestamo',
                         link: ''
                       }}
                   />
-                  <Form.Item name="montoTotal" label="Monto Total">
+                  <Form.Item name="montoAPagar" label="Monto a total a pagar">
                       <Input
                           disabled
                           prefix={
                               <LockOutlined className="site-form-item-icon" />
                           }
                           type="text"
-                          placeholder="EJ: Perez Perez"
+                          placeholder="0"
                           size="large"
                       />
                   </Form.Item>
@@ -144,76 +299,108 @@ const FormCobranza: React.FC = () => {
                           type="primary"
                           htmlType="submit"
                           className="bg-blue-500 text-white"
-                          // disabled={
-                          //     !form.isFieldsTouched(true) ||
-                          //     !!form
-                          //       .getFieldsError()
-                          //       .filter(({ errors }) => errors.length).length
-                          // }
+                          onClick={() => showModal(cuotasAPagar)}
                       >
-                          Registrar
+                          Pagar Seleccionados
                       </Button>
                   )}
               </Form.Item>
           </Form>
+          <Modal
+              title="CONFIRMA EL PAGO"
+              open={pagarModal}
+              onOk={realizarPagos}
+              confirmLoading={confirmLoading}
+              onCancel={() => setPagarModal(false)}
+              footer={[
+                  <Button key="back" onClick={() => setPagarModal(false)}>
+                      Cerrar
+                  </Button>,
+                  <Button
+                      key="submit"
+                      type="primary"
+                      loading={confirmLoading}
+                      onClick={realizarPagos}
+                  >
+                      Confirmar
+                  </Button>
+              ]}
+              // centered
+          >
+              {cuotasAPagar.map((cuota, index) => (
+                  <div
+                      className={` py-3 ${
+                          index === cuotasAPagar.length - 1 ? '' : 'border-b'
+                      }`}
+                      key={cuota._id}
+                  >
+                      <p>Numero cuota: {cuota?.numeroCuota}</p>
+                      <p>
+                          Fecha de vencimiento:{' '}
+                          {dateToEspanish(cuota?.fechaLimite)}
+                      </p>
+                      <p>Monto de cuota: {cuota?.monto}</p>
+                  </div>
+              ))}
+          </Modal>
+
+          <Modal
+              title="CANCELAR EL PAGO"
+              open={cancelarModal}
+              onOk={cancelarPagoCuota}
+              confirmLoading={confirmLoading}
+              onCancel={() => setCancelarModal(false)}
+              footer={[
+                  <Button key="back" onClick={() => setCancelarModal(false)}>
+                      Cerrar
+                  </Button>,
+                  <Button
+                      key="submit"
+                      className="bg-red-500 text-white"
+                      style={{
+                        backgroundColor: '#f5222d',
+                        borderColor: '#f5222d',
+                        color: '#fff'
+                      }}
+                      loading={confirmLoading}
+                      onClick={cancelarPagoCuota}
+                  >
+                      Confirmar
+                  </Button>
+              ]}
+              // centered
+          >
+              <div className={' py-3 '} key={cuotaCancelar?._id}>
+                  <p>Numero cuota: {cuotaCancelar?.numeroCuota}</p>
+                  <p>
+                      Fecha de vencimiento:{' '}
+                      {dateToEspanish(cuotaCancelar?.fechaLimite)}
+                  </p>
+                  <p>Monto de cuota: {cuotaCancelar?.monto}</p>
+              </div>
+          </Modal>
+
+          <Drawer
+              title="UPS! HAY VARIAS COINCIDENCIAS"
+              placement="right"
+              onClose={() => setOpenDrawer(false)}
+              open={openDrawer}
+            //   size="large"
+          >
+              {clientes.map((cliente) => (
+                <div
+                    className='flex justify-between items-center border-b py-3'
+                    key={cliente._id}>
+                    <p className='truncate'>{cliente.nombres} {cliente.apellidos}</p>
+                    <a
+                        onClick={() => seleccionarCliente(cliente._id)}
+                        className='py-1'>seleccionar</a>
+                </div>
+              ))}
+          </Drawer>
+          {contextHolder}
       </div>
   )
 }
 
 export default FormCobranza
-
-interface DataType {
-    key: React.Key;
-    name: string;
-    age: number;
-    address: string;
-  }
-
-const columns: ColumnsType<DataType> = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    align: 'left',
-    render: (text: string) => <a>{text}</a>
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    align: 'left',
-    sorter: {
-      compare: (a, b) => a.age - b.age
-    }
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    align: 'left'
-  }
-]
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park'
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park'
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park'
-  },
-  {
-    key: '4',
-    name: 'Disabled User',
-    age: 99,
-    address: 'Sydney No. 1 Lake Park'
-  }
-]

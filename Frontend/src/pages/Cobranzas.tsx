@@ -1,6 +1,7 @@
 // import { Space, Tag } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import { TablaAntidesing } from '../partials/dashboard/TableAntidesing'
+import './estilosPages.css'
 
 const Cobranzas = () => {
   interface DataType {
@@ -50,6 +51,15 @@ const Cobranzas = () => {
       dataIndex: 'fechaPago',
       key: 'fechaPago',
       align: 'center'
+    },
+    {
+      title: 'Accion',
+      key: 'accion',
+      dataIndex: 'acciones',
+      fixed: 'right',
+      align: 'center',
+      width: 100,
+      render: () => <a className='w-full flex justify-center py-1 border'>ver</a>
     }
   ]
 

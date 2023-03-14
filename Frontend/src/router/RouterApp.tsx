@@ -3,12 +3,12 @@ import { Navigate, useRoutes } from 'react-router-dom'
 import { AuthContext } from '../Context/auth/AuthContext'
 import Login from '../pages/Auth/Login'
 import Clientes from '../pages/Clientes'
-import Cobranzas from '../pages/Cobranzas'
 import Dashboard from '../pages/Dashboard'
 import Monedas from '../pages/Monedas'
 import Prestamos from '../pages/Prestamos'
 import FormCliente from '../partials/clientes/FormCliente'
 import FormCobranza from '../partials/cobranza/FormCobranza'
+// import FormCobranza from '../partials/cobranza/FormCobranza'
 import FormMoneda from '../partials/monedas/FormMoneda'
 import FormPrestamos from '../partials/prestamo/FormPrestamo'
 import PrivateRoute from './PrivateRoute'
@@ -66,13 +66,10 @@ const RouterApp = () => {
           element: <FormPrestamos />
         },
         {
-          path: '/cobranzas',
-          element: <Cobranzas />
-        },
-        {
-          path: '/cobranzas/nuevo',
+          path: '/prestamos/:id',
           element: <FormCobranza />
         }
+
       ]
     },
     {

@@ -1,0 +1,8 @@
+/* 
+  tbody tr td:last-child {
+    box-shadow: -4px 0px 4px rgba(156, 156, 156, 0.3);
+  }
+
+  thead tr th:last-child {
+    box-shadow: -4px 0px 4px rgba(156, 156, 156, 0.3);
+  } */

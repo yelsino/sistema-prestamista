@@ -280,7 +280,7 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
                   )
                 }}
               </SidebarLinkGroup>
-              <SidebarLinkGroup activecondition={pathname === 'cobranzas' || pathname.includes('cobranzas')}>
+              {/* <SidebarLinkGroup activecondition={pathname === 'cobranzas' || pathname.includes('cobranzas')}>
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
@@ -318,7 +318,7 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
                     </React.Fragment>
                   )
                 }}
-              </SidebarLinkGroup>
+              </SidebarLinkGroup> */}
               <SidebarLinkGroup activecondition={pathname === '/monedas' || pathname.includes('monedas')}>
                 {(handleClick, open) => {
                   return (

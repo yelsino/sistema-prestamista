@@ -6,20 +6,10 @@ import { Tag } from 'antd'
 import { useContext, useEffect } from 'react'
 import { PrestamoContext } from '../Context/prestamo/PrestamoContext'
 import { IPrestamo } from 'types-prestamista'
+import { Link } from 'react-router-dom'
 
 const Prestamos = () => {
   const { obtenerPrestamos, prestamos } = useContext(PrestamoContext)
-
-  // numero: number;
-  // cliente: ICliente;
-  // monto: number;
-  // interes: number;
-  // montoTotal: number;
-  // moneda: IMoneda;
-  // estado: string;
-  // agente: IUsuario;
-  // numeroCuotas: number;
-  // formaPago: FormaPago;
 
   const columns: ColumnsType<IPrestamo[]> = [
     {
@@ -27,7 +17,7 @@ const Prestamos = () => {
       dataIndex: 'numero',
       key: 'numero',
       align: 'center',
-      render: (text) => <a >{text}</a>
+      render: (text) => <span >{text}</span>
     },
     {
       title: 'Cliente',
@@ -73,13 +63,19 @@ const Prestamos = () => {
           </div>
         )
       }
+    },
+    {
+      title: 'Accion',
+      key: 'accion',
+      dataIndex: '_id',
+      fixed: 'right',
+      align: 'center',
+      className: 'bg-blue-500',
+      width: 100,
+      render: (id) => <Link to={`/prestamos/${id}`} className='block w-full py-5 '>
+        ver
+      </Link>
     }
-    // {
-    //   title: 'Acciones',
-    //   dataIndex: 'acciones',
-    //   key: 'acciones',
-    //   align: 'right'
-    // }
   ]
 
   useEffect(() => {

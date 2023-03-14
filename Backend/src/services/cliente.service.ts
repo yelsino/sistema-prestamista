@@ -95,12 +95,12 @@ export class ClienteService {
         try {
             const clientes = await Cliente.find({
                 $or: [
-                    { cliente: termino },
-                    { nombre: termino },
-                    { apellido: termino },
-                    { documento: termino },
-                    { telefono: termino },
-                    { correo: termino },
+                    { cliente: { $regex: termino, $options: 'i' } },
+                    { nombre: { $regex: termino, $options: 'i' } },
+                    { apellido: { $regex: termino, $options: 'i' } },
+                    { documento: { $regex: termino, $options: 'i' } },
+                    { telefono: { $regex: termino, $options: 'i' } },
+                    { correo: { $regex: termino, $options: 'i' } },
                 ],
             });
             return {

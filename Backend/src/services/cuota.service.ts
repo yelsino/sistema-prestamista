@@ -27,17 +27,23 @@ export class CuotaService {
             const cuotas =  new Array(prestamo.numeroCuotas)
             .fill(1)
             .map((_, index) => index + 1);
+            console.log(prestamo);
 
-            const cuotasGeneradas = cuotas.map(async (v) => {
+            
+
+            const cuotasGeneradas = cuotas.map(async (v,index) => {
+                const fechaActual = new Date();
+                const fechaLimite = fechaActual.setDate(fechaActual.getDate() + (15 * index + 1));
                 const cuota = new Cuota( {
                     cliente: prestamo.cliente,
                     agente: prestamo.agente,
                     prestamo: prestamo._id,
-                    monto: prestamo.monto,
+                    monto: (prestamo.monto * (prestamo.interes / 100) + prestamo.monto) / prestamo.numeroCuotas,
                     numeroCuota: v,
                     estado: "PENDIENTE",
-                    // fechaLimite: prestamo.fechaLimite,
-                    // fechaPago: prestamo.fechaPago,
+                    fechaLimite: fechaLimite,
+                    
+                    // fechaPago: new D,
                 });
                 return Cuota.create(cuota);
             });
@@ -69,7 +75,7 @@ export class CuotaService {
 
     pagarCuotas = async (cuotas: ICuota[]): Promise<IRespuesta<ICuota[]>> => {
         const respuesta = new Respuesta<ICuota[]>();
-
+    
         try {
             const cuotasBD = await Cuota.find({ _id: { $in: cuotas.map((v) => v._id) } });
             if (cuotasBD.length === 0)
@@ -80,11 +86,12 @@ export class CuotaService {
                     data: null,
                     mensaje: "CUOTAS NO ENCONTRADAS",
                 };
-            cuotasBD.forEach((v) => {
+            const updatePromises = cuotasBD.map((v) => {
                 v.estado = "PAGADO";
                 v.fechaPago = new Date();
+                return Cuota.updateOne({_id: v._id}, v);
             });
-            await Cuota.insertMany(cuotasBD);
+            await Promise.all(updatePromises);
             return {
                 ...respuesta,
                 code: 200,
@@ -94,6 +101,22 @@ export class CuotaService {
             };
         } catch (error) {
             console.log(error.message);
+        }
+    }
+
+    cancelarPagoCuota = async (cuota: ICuota): Promise<IRespuesta<ICuota>> => {
+        const respuesta = new Respuesta<ICuota>();
+
+        try {
+            const cuotaBD = await Cuota.findById(cuota._id);
+            if(!cuotaBD) return { ...respuesta, code: 404, ok: false, data: null, mensaje: "CUOTA NO ENCONTRADA" };
+            cuotaBD.estado = "PENDIENTE";
+            cuotaBD.fechaPago = null;
+            await cuotaBD.save();
+            return { ...respuesta, code: 200, ok: true, data: cuotaBD, mensaje: "PAGO DE CUOTA CANCELADO" };
+        } catch (error) {
+            console.log(error.message);
+            
         }
     }
 }

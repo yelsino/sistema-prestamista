@@ -116,7 +116,7 @@ const FormCliente: React.FC = () => {
                           message: 'Este campo es requerido!'
                         },
                         {
-                          pattern: /^[a-zA-Z]+$/,
+                          pattern: /^[a-zA-Z\s]+$/,
                           message: 'Este campo solo permite letras!'
                         }
                       ]}
@@ -139,7 +139,7 @@ const FormCliente: React.FC = () => {
                           message: 'Este campo es requerido!'
                         },
                         {
-                          pattern: /^[a-zA-Z]+$/,
+                          pattern: /^[a-zA-Z\s]+$/,
                           message: 'Este campo solo permite letras!'
                         }
                       ]}
@@ -307,8 +307,9 @@ const FormCliente: React.FC = () => {
                       label="Correo"
                       rules={[
                         {
+                          type: 'email',
                           required: true,
-                          message: 'Este campo es requerido!'
+                          message: 'Indica un formato válido de correo!'
                         }
                       ]}
                   >

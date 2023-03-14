@@ -1,3 +1,8 @@
 .ant-input-group-addon{
     background: blue !important;
 }
+
+.ant-input[disabled] {
+    background-color: #f5f5f5;
+    color: black !important;
+  }

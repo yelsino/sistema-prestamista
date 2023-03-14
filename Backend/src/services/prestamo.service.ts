@@ -118,8 +118,14 @@ export class PrestamoService {
     crearPrestamo = async (prestamo: IPrestamo): Promise<IRespuesta<IPrestamo>> => {
         const respuesta = new Respuesta();
         try {
-            const nuevoPrestamo = new Prestamo(prestamo);
-            const prestamoCreado = await nuevoPrestamo.save();
+            // console.log(prestamo);
+            
+            const numeroPrestamo = await Prestamo.countDocuments();
+            const prestamoCreado = await Prestamo.create({
+                ...prestamo,
+                estado: "PENDIENTE",
+                numero: numeroPrestamo + 1,
+            });
             await this.cuotas.crearCuotas(prestamoCreado);
             return {
                 ...respuesta,
@@ -129,7 +135,7 @@ export class PrestamoService {
                 mensaje: "PRESTAMO CREADO",
             };
         } catch (error: any) {
-            logger.info("ERROR AL CREAR PRESTAMO" + error.message);
+            logger.info("ERROR AL CREAR PRESTAMO " + error.message);
             return { ...respuesta, code: 500, ok: false, data: null };
         }
     }
@@ -156,6 +162,18 @@ export class PrestamoService {
         try {
             const cuotasPagadas=  await this.cuotas.pagarCuotas(cuotas);
             return cuotasPagadas
+        } catch (error) {
+            console.log(error);
+            return { ...respuesta, code: 500, ok: false, data: null };
+            
+        }
+    };
+
+    cancelarPago = async (cuota: ICuota): Promise<IRespuesta<ICuota>> => {
+        const respuesta = new Respuesta();
+        try {
+            const cuotaCancelada = await this.cuotas.cancelarPagoCuota(cuota);
+            return cuotaCancelada
         } catch (error) {
             console.log(error);
             return { ...respuesta, code: 500, ok: false, data: null };

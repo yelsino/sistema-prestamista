@@ -8,10 +8,7 @@ export interface PrestamoState {
   prestamo: IPrestamo
   contrato: IPrestamo[]
   prestamos: IPrestamo[]
-  detallePrestamo:IPrestamo[]
-  buscarPrestamos:IPrestamo[]
-  cuota: IPrestamo[]
-  pagarCuota: ICuota[]
+  cuotas: ICuota[]
 }
 interface Props {
   children: React.ReactNode
@@ -21,10 +18,7 @@ const INITIAL_STATE: PrestamoState = {
   prestamo: null,
   contrato: [],
   prestamos: [],
-  detallePrestamo: [],
-  buscarPrestamos: [],
-  cuota: [],
-  pagarCuota: []
+  cuotas: []
 
 }
 
@@ -44,6 +38,19 @@ export const PrestamoProvider = ({ children }: Props) => {
   const obtenerPrestamos = async ():Promise<IRespuesta<IPrestamo[]>> => {
     const respuesta = await fetchConToken<IRespuesta<IPrestamo[]>>({
       endpoint: 'prestamos',
+      method: 'GET'
+    })
+
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_PRESTAMOS'
+    })
+
+    return respuesta
+  }
+  const obtenerPrestamo = async (id:string):Promise<IRespuesta<IPrestamo>> => {
+    const respuesta = await fetchConToken<IRespuesta<IPrestamo>>({
+      endpoint: 'prestamos/' + id,
       method: 'GET'
     })
 
@@ -95,9 +102,9 @@ export const PrestamoProvider = ({ children }: Props) => {
 
     return respuesta
   }
-  const obtenerCuotas = async (IPrestamo):Promise<IRespuesta<IPrestamo[]>> => {
-    const respuesta = await fetchConToken<IRespuesta<IPrestamo[]>>({
-      endpoint: 'prestamos/cuotas/' + IPrestamo,
+  const obtenerCuotas = async (prestamo):Promise<IRespuesta<ICuota[]>> => {
+    const respuesta = await fetchConToken<IRespuesta<ICuota[]>>({
+      endpoint: 'prestamos/cuotas/' + prestamo,
       method: 'GET'
     })
 
@@ -108,16 +115,26 @@ export const PrestamoProvider = ({ children }: Props) => {
 
     return respuesta
   }
-  const pagarCuotas = async (ICuota):Promise<IRespuesta<ICuota[]>> => {
+  const pagarCuotas = async (cuotas:ICuota[]):Promise<IRespuesta<ICuota[]>> => {
     const respuesta = await fetchConToken<IRespuesta<ICuota[]>>({
-      endpoint: 'prestamos/cuotas/' + ICuota,
-      method: 'GET'
+      endpoint: 'prestamos/pagar-cuotas',
+      method: 'POST',
+      body: cuotas
     })
 
-    dispatch({
-      payload: respuesta.data,
-      type: 'GET_PAGAR'
+    await obtenerCuotas(cuotas[0].prestamo)
+
+    return respuesta
+  }
+
+  const cancelarPago = async (cuota:ICuota):Promise<IRespuesta<ICuota>> => {
+    const respuesta = await fetchConToken<IRespuesta<ICuota>>({
+      endpoint: 'prestamos/cancelar-pago',
+      method: 'POST',
+      body: cuota
     })
+
+    await obtenerCuotas(cuota.prestamo)
 
     return respuesta
   }
@@ -133,7 +150,9 @@ export const PrestamoProvider = ({ children }: Props) => {
         buscarPrestamo,
         obtenerContrato,
         obtenerCuotas,
-        pagarCuotas
+        pagarCuotas,
+        obtenerPrestamo,
+        cancelarPago
       }}
     >
       {children}

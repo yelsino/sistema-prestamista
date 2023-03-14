@@ -1,8 +1,8 @@
 import React from 'react'
-import { Space, Table } from 'antd'
+import { Table } from 'antd'
 import './antidesing.css'
 import { useNavigate } from 'react-router-dom'
-import Search from 'antd/es/input/Search'
+// import Search from 'antd/es/input/Search'
 
 interface Config {
   title: string,
@@ -26,13 +26,13 @@ export const TablaAntidesing = ({ columns, data, config, seleccion }:Props) => {
                   {config?.title}
               </h2>
 
-              <Space className="search-space">
+              {/* <Space className="search-space">
                   <Search
                       placeholder="input search text"
                       enterButton
                       prefix={null}
                   />
-              </Space>
+              </Space> */}
               {config.link && (
                   <button
                       onClick={() => navigate(`${config?.link}`)}
@@ -54,19 +54,7 @@ export const TablaAntidesing = ({ columns, data, config, seleccion }:Props) => {
                   columns={columns}
                   pagination={{ position: ['bottomRight'] }}
                   dataSource={data}
-                  //   title={() => <Space>
-                  //     <Search
-                  //         placeholder="Buscar cliente"
-                  //         allowClear
-                  //         enterButton={
-                  //             <div className="flex gap-x-2 items-center">
-                  //                 <IconoClienteOut estilo="h-5 w-5" /> Buscar
-                  //             </div>
-                  //         }
-                  //         size="large"
-                  //         //   onSearch={onSearch}
-                  //     />
-                  // </Space>}
+                  rowKey="_id"
               />
           </div>
       </div>
