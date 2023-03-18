@@ -15,6 +15,7 @@ export interface IPrestamo {
     numeroCuotas: number;
     formaPago: IFormasPago;
     fechaEmision: Date;
+    montoMora: number;
 }
 
 type TipoFormaPago =

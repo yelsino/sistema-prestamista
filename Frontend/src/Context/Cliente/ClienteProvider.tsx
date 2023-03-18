@@ -1,11 +1,12 @@
 import React, { useReducer } from 'react'
-import { ICliente, IRespuesta, RegistroCliente } from 'types-prestamista'
+import { ICliente, IClienteDetalle, IRespuesta, RegistroCliente } from 'types-prestamista'
 import { fetchConToken } from '../../helpers/fetch'
 import { ClienteContext } from './ClienteContext'
 import { clienteReducer } from './clienteReducer'
 
 export interface ClienteState {
   cliente: ICliente
+  clienteDetalle: IClienteDetalle
   clientes: ICliente[]
 }
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 
 const INITIAL_STATE: ClienteState = {
   cliente: null,
+  clienteDetalle: null,
   clientes: []
 }
 
@@ -58,20 +60,6 @@ export const ClienteProvider = ({ children }: Props) => {
     return respuesta
   }
 
-  const obtenerDetalleCliente = async (ICliente):Promise<IRespuesta<ICliente[]>> => {
-    const respuesta = await fetchConToken<IRespuesta<ICliente[]>>({
-      endpoint: 'clientes/' + ICliente,
-      method: 'GET'
-    })
-
-    dispatch({
-      payload: respuesta.data,
-      type: 'GET_DETALLE_CLIENTE'
-    })
-
-    return respuesta
-  }
-
   const buscarClientes = async (termino):Promise<IRespuesta<ICliente[]>> => {
     const respuesta = await fetchConToken<IRespuesta<ICliente[]>>({
       endpoint: 'clientes/buscar/' + termino,
@@ -91,6 +79,36 @@ export const ClienteProvider = ({ children }: Props) => {
     return respuesta
   }
 
+  const obtenerDetalleCliente = async (cliente: string):Promise<IRespuesta<IClienteDetalle>> => {
+    const respuesta = await fetchConToken<IRespuesta<IClienteDetalle>>({
+      endpoint: 'clientes/detalle/' + cliente,
+      method: 'GET'
+    })
+
+    if (!respuesta.ok) return
+
+    dispatch({
+      payload: respuesta.data,
+      type: 'GET_CLIENTE_DETALLE'
+    })
+
+    return respuesta
+  }
+
+  const actualizarCliente = async (cliente: RegistroCliente): Promise<IRespuesta<ICliente>> => {
+    const respuesta = await fetchConToken<IRespuesta<ICliente>>({
+      endpoint: 'clientes/actualizar/' + cliente._id,
+      method: 'PUT',
+      body: cliente
+    })
+
+    if (!respuesta.ok) return
+
+    await obtenerDetalleCliente(cliente._id)
+
+    return respuesta
+  }
+
   return (
     <ClienteContext.Provider
       value={{
@@ -100,7 +118,8 @@ export const ClienteProvider = ({ children }: Props) => {
         obtenerClientes,
         obtenerCliente,
         obtenerDetalleCliente,
-        buscarClientes
+        buscarClientes,
+        actualizarCliente
       }}
     >
       {children}

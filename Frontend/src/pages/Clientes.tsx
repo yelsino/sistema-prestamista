@@ -2,20 +2,28 @@
 import { ColumnsType } from 'antd/es/table'
 import { TablaAntidesing } from '../partials/dashboard/TableAntidesing'
 import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
-import { Tag } from 'antd'
+import { Tag, Dropdown, Space } from 'antd'
 import { useContext, useEffect } from 'react'
 import { ClienteContext } from '../Context/cliente/ClienteContext'
 import { ICliente } from 'types-prestamista'
+// import { Link } from 'react-router-dom'
+import { PrestamoContext } from '../Context/prestamo/PrestamoContext'
+import { DownOutlined } from '@ant-design/icons'
+import type { MenuProps } from 'antd'
 import { Link } from 'react-router-dom'
 
 const Clientes = () => {
   const { clientes, obtenerClientes } = useContext(ClienteContext)
+  const { generarContrato } = useContext(PrestamoContext)
 
   useEffect(() => {
     obtenerClientes()
   }, [])
   return (
       <div>
+          <a
+            onClick={() => generarContrato()}
+          >BTN GENERAR CONTRATO </a>
           <TablaAntidesing
             data={clientes}
             columns={columns}
@@ -36,7 +44,7 @@ const columns: ColumnsType<ICliente> = [
     dataIndex: 'documento',
     key: 'documento',
     align: 'left',
-    render: (text) => <a >{text}</a>
+    render: (text) => <a>{text}</a>
   },
   {
     title: 'Nombres',
@@ -57,9 +65,15 @@ const columns: ColumnsType<ICliente> = [
     align: 'left',
     render: (genero) => {
       return (
-        <div key={genero} className='text-2xl'>
-          {genero === 'Femenino' ? <TbGenderFemale className='text-pink-500' /> : <TbGenderMale className='text-blue-400' />}
-        </div>
+                <div key={genero} className="text-2xl">
+                    {genero === 'Femenino'
+                      ? (
+                        <TbGenderFemale className="text-pink-500" />
+                        )
+                      : (
+                        <TbGenderMale className="text-blue-400" />
+                        )}
+                </div>
       )
     }
   },
@@ -82,18 +96,17 @@ const columns: ColumnsType<ICliente> = [
     align: 'center',
     render: (estado) => {
       return (
-          <div key={estado} className="text-2xl">
-              {estado === 'CON_PRESTAMO'
-                ? (
-                  <Tag color="green">con crédito</Tag>
-                  )
-                : (
-                  <Tag color="red">sin credito</Tag>
-                  )}
-          </div>
+                <div key={estado} className="text-2xl">
+                    {estado === 'CON_PRESTAMO'
+                      ? (
+                        <Tag color="green">con crédito</Tag>
+                        )
+                      : (
+                        <Tag color="red">sin credito</Tag>
+                        )}
+                </div>
       )
     }
-
   },
   {
     title: 'Accion',
@@ -103,11 +116,45 @@ const columns: ColumnsType<ICliente> = [
     align: 'center',
     className: 'bg-blue-500',
     width: 100,
-    render: (id) => <Link
-      to={{ pathname: '/prestamos/nuevo' }}
-      state={{ cliente: id }}
-      className='block w-full py-5 '>
-      prestar
-    </Link>
+    render: (id) => (
+            <Dropdown
+                overlayStyle={{
+                  width: 150,
+                  top: 40,
+                  left: -50,
+                  margin: '0 10 0 0'
+                }}
+                menu={{ items: itemsAction(id) }}
+            >
+                <a onClick={(e) => e.preventDefault()}>
+                    <Space>
+                        Acciones
+                        <DownOutlined />
+                    </Space>
+                </a>
+            </Dropdown>
+    )
   }
 ]
+
+const itemsAction = (cliente: string):MenuProps['items'] => {
+  return [
+    {
+      key: '1',
+      label: (
+              <Link to={`/clientes/${cliente}`} state={{ cliente }}>
+                  ver cliente
+              </Link>
+      )
+
+    },
+    {
+      key: '2',
+      label: <Link to='/prestamos/nuevo' state={{ cliente }}>prestar</Link>
+    },
+    {
+      key: '3',
+      label: <Link to="/prestamos/nuevo">ficha cliente</Link>
+    }
+  ]
+}

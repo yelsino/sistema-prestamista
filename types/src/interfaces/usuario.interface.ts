@@ -1,4 +1,5 @@
 
+
 export interface IUsuario extends IAuth {
     _id?: string;
     nombres: string;

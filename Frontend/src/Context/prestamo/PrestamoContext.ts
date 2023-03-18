@@ -15,7 +15,8 @@ interface PropsContext extends PrestamoState {
   obtenerCuotas: (prestamo:string) => Promise<IRespuesta<ICuota[]>>
   pagarCuotas: (cuotas:ICuota[]) => Promise<IRespuesta<ICuota[]>>,
   cancelarPago: (cuotas:ICuota) => Promise<IRespuesta<ICuota>>,
-  obtenerFormasPago: () => Promise<IRespuesta<IFormasPago[]>>
+  obtenerFormasPago: () => Promise<IRespuesta<IFormasPago[]>>,
+  generarContrato: () => any
 }
 
 export const PrestamoContext = createContext<PropsContext>({} as PropsContext)

@@ -159,6 +159,16 @@ export const PrestamoProvider = ({ children }: Props) => {
     return respuesta
   }
 
+  const generarContrato = async () => {
+    const respuesta = await fetchConToken({
+      endpoint: 'prestamos/generar-contrato',
+      method: 'POST',
+      body: {}
+    })
+
+    return respuesta
+  }
+
   return (
     <PrestamoContext.Provider
       value={{
@@ -173,7 +183,8 @@ export const PrestamoProvider = ({ children }: Props) => {
         pagarCuotas,
         obtenerPrestamo,
         cancelarPago,
-        obtenerFormasPago
+        obtenerFormasPago,
+        generarContrato
       }}
     >
       {children}

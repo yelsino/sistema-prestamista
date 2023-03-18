@@ -1,4 +1,5 @@
 import { IDireccion } from "./direccion.interface";
+import { IPrestamo } from "./prestamo.interface";
 import { IUsuario } from "./usuario.interface";
 
 export interface ICliente {
@@ -16,6 +17,10 @@ export interface ICliente {
     estado: EstadoCliente;
     agente: IUsuario;
     direccion: IDireccion;
+  }
+
+  export interface IClienteDetalle extends Partial<ICliente> {
+    prestamos: Partial<IPrestamo[]>,
   }
 
   type EstadoCliente = 'CON_PRESTAMO' | 'SIN_PRESTAMO'

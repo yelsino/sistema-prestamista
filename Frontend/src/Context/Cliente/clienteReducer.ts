@@ -1,4 +1,4 @@
-import { ICliente } from 'types-prestamista'
+import { ICliente, IClienteDetalle } from 'types-prestamista'
 import { ClienteState } from './ClienteProvider'
 
 export type ClienteAction =
@@ -6,6 +6,7 @@ export type ClienteAction =
   | { type: 'GET_DETALLE_CLIENTE'; payload: ICliente[] }
   | { type: 'GET_BUSCAR'; payload: ICliente[] }
   | { type: 'SELECT_CLIENTE'; payload: ICliente }
+  | { type: 'GET_CLIENTE_DETALLE'; payload: IClienteDetalle }
 
 export const clienteReducer = (
   state: ClienteState,
@@ -29,6 +30,12 @@ export const clienteReducer = (
       return {
         ...state,
         cliente: action.payload
+      }
+    case 'GET_CLIENTE_DETALLE':
+      return {
+        ...state,
+        clienteDetalle: action.payload
+
       }
 
     default:

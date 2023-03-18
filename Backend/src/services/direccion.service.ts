@@ -15,6 +15,9 @@ export class DireccionService{
     registrarDireccion = async (data:IDireccion): Promise<IDireccion> => {
         return await Direccion.create(data);
     };
+    actualizarDireccion = async (data:IDireccion): Promise<IDireccion> => {
+        return await Direccion.findByIdAndUpdate(data._id, data, {new: true});
+    };
 
     obtenerDepartamentos = async ():Promise<IRespuesta<IDepartamento[]>> => {
         const respuesta = new Respuesta();

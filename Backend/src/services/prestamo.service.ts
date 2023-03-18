@@ -6,7 +6,10 @@ import Prestamo from "../models/PrestamoModel";
 import { Respuesta } from "../models/Respuesta";
 import logger from "../utils/logger";
 import { CuotaService } from "./cuota.service";
-
+import * as fs from 'fs';
+import * as path from 'path';
+import PizZip from "pizzip";
+import Docxtemplater from "docxtemplater";
 export class PrestamoService {
 
     cuotas: CuotaService;
@@ -208,5 +211,43 @@ export class PrestamoService {
     
     };
 
+    generarContrato = async () => {
+        // Cargar la plantilla del contrato
+        // Load the docx file as binary content
+        const content = fs.readFileSync(path.join(__dirname, 'public', 'ContratoTemplate.docx'), 'binary');
+        // const content = fs.readFileSync(path.join(__dirname, '..', 'public', 'ContratoTemplate.docx'), 'binary');
+        
+        const zip = new PizZip(content);
+        
+        const doc = new Docxtemplater(zip, {
+            paragraphLoop: true,
+            linebreaks: true,
+        });
+
+        // Render the document (Replace {first_name} by John, {last_name} by Doe, ...)
+        doc.render({
+            nombrePrestamista: 'Yelsin Pablo Caso Alanya',
+            direccionPrestamista: 'Jr. Los Alamos 123',
+            nombrePrestatario: 'Juan Gabriel Perez Ramos',
+            direccionPrestatario: 'Jr primavera 1555',
+            montoPrestado: 5000,
+            fechaLimiteDias: 255,
+            porcentajePrestamo: 10,
+            formaPago: 'QUINCENAL',
+            garantia: 'TERRENO 255 M2',
+        });
+
+        const buf = doc.getZip().generate({
+            type: "nodebuffer",
+            // compression: DEFLATE adds a compression step.
+            // For a 50MB output document, expect 500ms additional CPU time
+            compression: "DEFLATE",
+        });
+
+        // buf is a nodejs Buffer, you can either write it to a
+        // file or res.send it with express for example.
+        fs.writeFileSync(path.resolve(__dirname, "output.docx"), buf);
+
+    }
    
 }

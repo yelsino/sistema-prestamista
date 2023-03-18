@@ -7,6 +7,7 @@ import Dashboard from '../pages/Dashboard'
 import Monedas from '../pages/Monedas'
 import Prestamos from '../pages/Prestamos'
 import FormCliente from '../partials/clientes/FormCliente'
+import VerCliente from '../partials/clientes/VerCliente'
 import FormCobranza from '../partials/cobranza/FormCobranza'
 // import FormCobranza from '../partials/cobranza/FormCobranza'
 import FormMoneda from '../partials/monedas/FormMoneda'
@@ -48,6 +49,10 @@ const RouterApp = () => {
         {
           path: '/clientes/nuevo',
           element: <FormCliente />
+        },
+        {
+          path: '/clientes/:id',
+          element: <VerCliente />
         },
         {
           path: '/monedas',

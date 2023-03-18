@@ -10,6 +10,8 @@ import db from "./config/mongo";
 import { generarData } from "./libs";
 import { router } from "./routes";
 import socket from "./socket";
+import path from 'path';
+import fs from 'fs';
 
 import * as dotenv from 'dotenv' 
 dotenv.config()
@@ -21,7 +23,7 @@ const CORS = config.get<string>("corsOrigin");
 const app = express();
 
 app.use(cors());
-app.use(express.static('src/public'))
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 const httpServer = createServer(app);
 
