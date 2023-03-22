@@ -3,6 +3,7 @@ import { ICuota, IFormasPago, IPrestamo, IRespuesta } from 'types-prestamista'
 import { fetchConToken } from '../../helpers/fetch'
 import { PrestamoContext } from './PrestamoContext'
 import { prestamoReducer } from './prestamoReducer'
+// import { saveAs } from 'file-saver'
 
 export interface PrestamoState {
   prestamo: IPrestamo
@@ -27,12 +28,14 @@ const INITIAL_STATE: PrestamoState = {
 export const PrestamoProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(prestamoReducer, INITIAL_STATE)
 
-  const generarPrestamo = async (prestamo: IPrestamo): Promise<IRespuesta<IPrestamo>> => {
-    const respuesta = await fetchConToken<IRespuesta<IPrestamo>>({
+  const generarPrestamo = async (prestamo: IPrestamo) => {
+    const respuesta = await fetchConToken<Blob>({
       endpoint: 'prestamos/nuevo',
       method: 'POST',
       body: prestamo
     })
+
+    console.log(respuesta)
 
     return respuesta
   }

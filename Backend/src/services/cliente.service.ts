@@ -141,6 +141,7 @@ export class ClienteService {
            
 
             const direccionActualizada = await this.direccion.actualizarDireccion({
+                _id: cliente.direccion as any,
                 departamento: cliente.departamento,
                 provincia: cliente.provincia,
                 distrito: cliente.distrito,
@@ -175,7 +176,7 @@ export class ClienteService {
             };
         } catch (error: any) {
             logger.info("ERROR AL CREAR CLIENTE" + error.message);
-            return { ...respuesta, code: 500, ok: false, data: null };
+            return { ...respuesta, code: 500, ok: false, data: null, mensaje: error.message };
         }
     };
 

@@ -113,7 +113,7 @@ const FormCobranza: React.FC = () => {
         documento: prestamo.cliente.documento,
         nombreCompleto: prestamo.cliente.nombres + ' ' + prestamo.cliente.apellidos,
         montoPrestado: 'S/. ' + prestamo.monto,
-        formaPago: prestamo.formaPago,
+        formaPago: prestamo.formaPago.nombre,
         tipoMoneda: prestamo.moneda.nombre
       })
     }
@@ -255,7 +255,6 @@ const FormCobranza: React.FC = () => {
                               <LockOutlined className="site-form-item-icon" />
                           }
                           type="text"
-                          placeholder="EJ: Perez Perez"
                           size="large"
                       />
                   </Form.Item>

@@ -1,6 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, DatePicker, Drawer, Form, Input, message, Select, Space } from 'antd'
+import {
+  Button,
+  DatePicker,
+  Drawer,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Modal,
+  Select,
+  Space
+} from 'antd'
 import Search from 'antd/es/input/Search'
 import { IconoClienteOut } from '../../Components/iconos'
 import { ClienteContext } from '../../Context/cliente/ClienteContext'
@@ -11,16 +22,23 @@ import './estilos.css'
 import { AuthContext } from '../../Context/auth/AuthContext'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { formatToMoney } from '../../utils/formats'
+import ArchivoContrato from './ArchivoContrato'
+import { useFile } from '../../Hooks/useFile'
 
 const FormPrestamos: React.FC = () => {
   //   const [empresaState, setEmpresa] = useState(false)
   const navigate = useNavigate()
   const [form] = Form.useForm()
   const [, forceUpdate] = useState({})
+  const [modal, setModal] = useState(false)
+  const [confirmLoading, setConfirmLoading] = useState(false)
+  const { generateDocument } = useFile('https://res.cloudinary.com/dwkfj5sxb/raw/upload/v1679439788/SISTEMA-PRESTAMOS/ContratoTemplate_bja3pg.docx')
   const { state } = useLocation()
 
-  const { buscarClientes, obtenerCliente, clientes, cliente, dispatch } = useContext(ClienteContext)
-  const { generarPrestamo, obtenerFormasPago, formasPago } = useContext(PrestamoContext)
+  const { buscarClientes, obtenerCliente, clientes, cliente, dispatch } =
+        useContext(ClienteContext)
+  const { generarPrestamo, obtenerFormasPago, formasPago } =
+        useContext(PrestamoContext)
   const { obtenerMoneda, monedas } = useContext(MonedaContext)
   const { user } = useContext(AuthContext)
 
@@ -46,7 +64,8 @@ const FormPrestamos: React.FC = () => {
     if (resultado.data.length === 1) {
       form.setFieldsValue({
         documento: clientes[0].documento,
-        nombreCompleto: clientes[0].nombres + ' ' + clientes[0].apellidos
+        nombreCompleto:
+                    clientes[0].nombres + ' ' + clientes[0].apellidos
       })
     }
 
@@ -55,7 +74,10 @@ const FormPrestamos: React.FC = () => {
     }
   }
 
-  const onFinish = async (values: any) => {
+  const onFinish = async () => {
+    setConfirmLoading(true)
+    const values = await form.validateFields()
+
     const prestamo = {
       numero: values.numero,
       cliente: cliente._id as any,
@@ -67,14 +89,41 @@ const FormPrestamos: React.FC = () => {
       agente: user._id as any,
       numeroCuotas: values.cuotas,
       formaPago: values.formaPago,
-      fechaEmision: values.fechaEmision
+      fechaEmision: values.fechaEmision,
+      montoMora: values.montoMora
     }
 
-    await generarPrestamo(prestamo)
-    navigate('/clientes')
+    const respuesta = await generarPrestamo(prestamo)
+    await generateDocument({
+      nombrePrestamista: 'Yelsin Pablo Caso Alanya',
+      direccionPrestamista: 'Jr. Los Alamos 123',
+      nombrePrestatario: 'Juan Gabriel Perez Ramos',
+      direccionPrestatario: 'Jr primavera 1555',
+      montoPrestado: 5000,
+      fechaLimiteDias: 255,
+      porcentajePrestamo: 10,
+      formaPago: 'QUINCENAL',
+      garantia: 'TERRENO 255 M2'
+    })
+    setTimeout(() => {
+      setModal(false)
+      setConfirmLoading(false)
+      if (respuesta.ok) {
+        messageApi.open({
+          type: 'success',
+          content: 'Registro existoso!'
+        })
+        navigate('/prestamos')
+      } else {
+        messageApi.open({
+          type: 'error',
+          content: 'Error al registrar!'
+        })
+      }
+    }, 1000)
   }
 
-  const seleccionarCliente = (cliente:ICliente) => {
+  const seleccionarCliente = (cliente: ICliente) => {
     dispatch({
       payload: cliente,
       type: 'SELECT_CLIENTE'
@@ -106,14 +155,18 @@ const FormPrestamos: React.FC = () => {
     }
   }, [cliente])
 
-  const handleFormValuesChange = (changedValues, values:any) => {
-    if ('monto' in changedValues || 'interes' in changedValues || 'cuotas' in changedValues) {
-      const monto:number = values.monto || 0
-      const interes:number = values.interes || 0
-      const cuotas:number = values.cuotas || 0
-      const valorInteres:number = monto * (interes / 100)
-      const montoTotal:number = Number(monto) + valorInteres
-      const valorCuota:number = montoTotal / cuotas
+  const handleFormValuesChange = (changedValues, values: any) => {
+    if (
+      'monto' in changedValues ||
+            'interes' in changedValues ||
+            'cuotas' in changedValues
+    ) {
+      const monto: number = values.monto || 0
+      const interes: number = values.interes || 0
+      const cuotas: number = values.cuotas || 0
+      const valorInteres: number = monto * (interes / 100)
+      const montoTotal: number = Number(monto) + valorInteres
+      const valorCuota: number = Math.round(montoTotal / cuotas)
       form.setFieldsValue({
         montoTotal,
         valorInteres,
@@ -123,259 +176,357 @@ const FormPrestamos: React.FC = () => {
   }
 
   const config = {
-    rules: [{ type: 'object' as const, required: true, message: 'Please select time!' }]
+    rules: [
+      {
+        type: 'object' as const,
+        required: true,
+        message: 'Please select time!'
+      }
+    ]
   }
 
   return (
-      <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200  py-4 px-5">
-          <header className=" border-b border-slate-100 flex justify-between  py-4">
-              <h2 className="font-semibold text-slate-800 text-lg">
-                  REGISTRAR PRESTAMO
-              </h2>
-
-              <Space>
-                  <Search
-                      placeholder="Buscar cliente"
-                      allowClear
-                      enterButton={
-                          <div className="flex gap-x-2 items-center">
-                              <IconoClienteOut estilo="h-5 w-5" /> Buscar
-                          </div>
-                      }
-                      size="large"
-                      onSearch={onSearch}
-                  />
-              </Space>
-          </header>
-
-          <Form<IPrestamo>
-              form={form}
-              name="horizontal_login"
-              layout="vertical"
-              size="large"
-              className=""
-              initialValues={{
-                documento: '',
-                nombreCompleto: '',
-                monto: 0,
-                formaPago: '',
-                interes: 0,
-                cuotas: 0,
-                moneda: '',
-                fechaEmision: '',
-                valorCuota: 0,
-                valorInteres: 0,
-                montoTotal: 0
-              }}
-              onFinish={onFinish}
-              onValuesChange={handleFormValuesChange}
-          >
-              <div className="pt-5 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
-                  <Form.Item name="documento" label="N° Documento">
-                      <Input
-                          // className='bg-red-500'
-                          disabled
-                          style={{
-                            background: '#f1f1f1',
-                            color: '#000'
-                          }}
-                          prefix={
-                              <UserOutlined className="site-form-item-icon" />
-                          }
-                          placeholder="ej: 77068132"
-                      />
-                  </Form.Item>
-                  <Form.Item name="nombreCompleto" label="Nombre Completo">
-                      <Input
-                          disabled
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
-                          }
-                          type="text"
-                          placeholder="EJ: Juan Gabriel"
-                      />
-                  </Form.Item>
-                  <Form.Item
-                      name="monto"
-                      label="Monto"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
+        <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200  py-4 px-5">
+            <header className=" border-b border-slate-100 flex justify-between  py-4">
+                <h2 className="font-semibold text-slate-800 text-lg">
+                    REGISTRAR PRESTAMO
+                </h2>
+              <ArchivoContrato/>
+                <Space>
+                    <Search
+                        placeholder="Buscar cliente"
+                        allowClear
+                        enterButton={
+                            <div className="flex gap-x-2 items-center">
+                                <IconoClienteOut estilo="h-5 w-5" /> Buscar
+                            </div>
                         }
-                      ]}
-                  >
-                      <Input
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
+                        size="large"
+                        onSearch={onSearch}
+                    />
+                </Space>
+            </header>
+
+            <Form<IPrestamo>
+                form={form}
+                name="horizontal_login"
+                layout="vertical"
+                size="large"
+                className=""
+                initialValues={{
+                  documento: '',
+                  nombreCompleto: '',
+                  monto: 0,
+                  formaPago: '',
+                  interes: 0,
+                  montoMora: 0,
+                  cuotas: 0,
+                  moneda: '',
+                  fechaEmision: '',
+                  valorCuota: 0,
+                  valorInteres: 0,
+                  montoTotal: 0
+                }}
+                onFinish={() => setModal(true)}
+                onValuesChange={handleFormValuesChange}
+            >
+                <div className="pt-5 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
+                    <Form.Item name="documento" label="N° Documento">
+                        <Input
+                            // className='bg-red-500'
+                            disabled
+                            style={{
+                              background: '#f1f1f1',
+                              color: '#000'
+                            }}
+                            prefix={
+                                <UserOutlined className="site-form-item-icon" />
+                            }
+                            placeholder="ej: 77068132"
+                        />
+                    </Form.Item>
+                    <Form.Item name="nombreCompleto" label="Nombre Completo">
+                        <Input
+                            disabled
+                            prefix={
+                                <LockOutlined className="site-form-item-icon" />
+                            }
+                            type="text"
+                            placeholder="EJ: Juan Gabriel"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name="monto"
+                        label="Monto a prestar"
+                        style={{ width: '100%' }}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Este campo es requerido!'
                           }
-                          type="text"
-                          placeholder="EJ: Perez Perez"
-                      />
-                  </Form.Item>
+                        ]}
+                    >
+                        <InputNumber
+                            style={{ width: '100%' }}
+                            min={0}
+                            max={999999}
+                            step={0.01}
+                            prefix={
+                                <LockOutlined className="site-form-item-icon" />
+                            }
+                            type="text"
+                            placeholder="EJ: Perez Perez"
+                        />
+                    </Form.Item>
 
-                  <Form.Item
-                      name="interes"
-                      label="Interes"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
-                      <Input
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
+                    <Form.Item
+                        name="interes"
+                        label="Interes"
+                        style={{ width: '100%' }}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Este campo es requerido!'
                           }
-                          type="number"
-                          placeholder="EJ: Perez Perez"
-                      />
-                  </Form.Item>
+                        ]}
+                    >
 
-                  <Form.Item
-                      name="cuotas"
-                      label="Número de Cuotas"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
-                      <Input
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
+                        <InputNumber
+                            min={0}
+                            max={999999}
+                            step={0.1}
+                            style={{ width: '100%' }}
+                            prefix={
+                                <LockOutlined className="site-form-item-icon" />
+                            }
+                            placeholder="0"
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="cuotas"
+                        label="Número de Cuotas"
+                        style={{ width: '100%' }}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Este campo es requerido!'
                           }
-                          type="text"
-                          placeholder="EJ: Perez Perez"
-                      />
-                  </Form.Item>
+                        ]}
+                    >
+                        <InputNumber
+                            min={0}
+                            max={999999}
+                            style={{ width: '100%' }}
+                            prefix={
+                                <LockOutlined className="site-form-item-icon" />
+                            }
+                            placeholder="0"
+                        />
+                    </Form.Item>
 
-                  <Form.Item
-                      name="formaPago"
-                      label="Forma de Pago"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
-                      <Select>
-                          {formasPago.map((v) => (
-                              <Select.Option key={v._id} value={v._id}>
-                                  <div className="flex items-center ">
-                                      <span>{v.nombre}</span>
-                                  </div>
-                              </Select.Option>
-                          ))}
-                      </Select>
-                  </Form.Item>
+                    <Form.Item
+                        name="montoMora"
+                        label="Mora por día"
+                        style={{ width: '100%' }}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Este campo es requerido!'
+                          }
+                        ]}
+                    >
+                        <InputNumber
+                            min={0}
+                            max={999999}
+                            step={0.01}
+                            style={{ width: '100%' }}
+                            prefix={
+                                <LockOutlined className="site-form-item-icon" />
+                            }
+                            placeholder="0"
+                        />
+                    </Form.Item>
 
-                  <Form.Item
-                      name="moneda"
-                      label="Moneda"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Este campo es requerido!'
-                        }
-                      ]}
-                  >
-                      <Select>
-                          {monedas.map((moneda) => (
-                              <Select.Option
-                                  key={moneda._id}
-                                  value={moneda._id}
-                              >
-                                  <div className="flex items-center text-blue-400">
-                                      <span>{moneda.nombre}</span>
-                                  </div>
-                              </Select.Option>
-                          ))}
-                      </Select>
-                  </Form.Item>
+                    <Form.Item
+                        name="formaPago"
+                        label="Forma de Pago"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Este campo es requerido!'
+                          }
+                        ]}
+                    >
+                        <Select>
+                            {formasPago.map((v) => (
+                                <Select.Option key={v._id} value={v._id}>
+                                    <div className="flex items-center ">
+                                        <span>{v.nombre}</span>
+                                    </div>
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
 
-                      <Form.Item
-                          name="fechaEmision"
-                          label="Fecha de Emisión"
-                          {...config}
+                    <Form.Item
+                        name="moneda"
+                        label="Moneda"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Este campo es requerido!'
+                          }
+                        ]}
+                    >
+                        <Select>
+                            {monedas.map((moneda) => (
+                                <Select.Option
+                                    key={moneda._id}
+                                    value={moneda._id}
+                                >
+                                    <div className="flex items-center text-blue-400">
+                                        <span>{moneda.nombre}</span>
+                                    </div>
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name="fechaEmision"
+                        label="Fecha de Emisión"
+                        {...config}
+                        style={{ width: '100%' }}
+                    >
+                        <DatePicker size="large" style={{ width: '100%' }} />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="valorCuota"
+                        label="Valor por Cuota"
+                        style={{ width: '100%' }}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Este campo es requerido!'
+                          }
+                        ]}
+                    >
+                        <InputNumber
+                            min={0}
+                            max={999999}
+                            step={0.01}
+                            style={{ width: '100%' }}
+                            prefix={
+                                <LockOutlined className="site-form-item-icon" />
+                            }
+                            placeholder="0"
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                      style={{ width: '100%' }}
+                      name="valorInteres" label="Valor Interes">
+                        <InputNumber
                           style={{ width: '100%' }}
-                      >
-                          <DatePicker size="large" style={{ width: '100%' }} />
-                      </Form.Item>
+                            disabled
+                            prefix={
+                                <LockOutlined className="site-form-item-icon" />
+                            }
+                            min={0}
+                            max={999999}
+                            step={0.01}
+                            placeholder="0"
+                        />
+                    </Form.Item>
 
-                  <Form.Item name="valorCuota" label="Valor por Cuota">
-                      <Input
-                          disabled
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
-                          }
-                          type="number"
-                          placeholder="0"
-                      />
-                  </Form.Item>
-                  <Form.Item name="valorInteres" label="Valor Interes">
-                      <Input
-                          disabled
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
-                          }
-                          type="number"
-                          placeholder="0"
-                      />
-                  </Form.Item>
-                  <Form.Item name="montoTotal" label="Monto Total">
-                      <Input
-                          disabled
-                          prefix={
-                              <LockOutlined className="site-form-item-icon" />
-                          }
-                          type="number"
-                          placeholder="0"
-                      />
-                  </Form.Item>
-              </div>
+                    <Form.Item
+                      style={{ width: '100%' }}
+                      name="montoTotal" label="Monto Total">
+                        <InputNumber
+                          style={{ width: '100%' }}
+                            disabled
+                            prefix={
+                                <LockOutlined className="site-form-item-icon" />
+                            }
+                            min={0}
+                            max={999999}
+                            step={0.01}
+                            placeholder="0"
+                        />
+                    </Form.Item>
 
-              <Form.Item shouldUpdate>
-                  {() => (
-                      <Button
-                          type="primary"
-                          htmlType="submit"
-                          className="bg-blue-500 text-white"
-                          // disabled={
-                          //     !form.isFieldsTouched(true) ||
-                          //     !!form
-                          //       .getFieldsError()
-                          //       .filter(({ errors }) => errors.length).length
-                          // }
-                      >
-                          Registrar
-                      </Button>
-                  )}
-              </Form.Item>
-          </Form>
-          <Drawer
-              title="UPS! HAY VARIAS COINCIDENCIAS"
-              placement="right"
-              onClose={() => setOpenDrawer(false)}
-              open={openDrawer}
-            //   size="large"
-          >
-              {clientes.map((cliente) => (
-                <div
-                    className='flex justify-between items-center border-b py-3'
-                    key={cliente._id}>
-                    <p className='truncate'>{cliente.nombres} {cliente.apellidos}</p>
-                    <a
-                        onClick={() => seleccionarCliente(cliente)}
-                        className='py-1'>seleccionar</a>
                 </div>
-              ))}
-          </Drawer>
-          {contextHolder}
-      </div>
+
+                <Form.Item shouldUpdate>
+                    {() => (
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            className="bg-blue-500 text-white"
+                            // disabled={
+                            //     !form.isFieldsTouched(true) ||
+                            //     !!form
+                            //       .getFieldsError()
+                            //       .filter(({ errors }) => errors.length).length
+                            // }
+                        >
+                            Registrar
+                        </Button>
+                    )}
+                </Form.Item>
+            </Form>
+            <Drawer
+                title="UPS! HAY VARIAS COINCIDENCIAS"
+                placement="right"
+                onClose={() => setOpenDrawer(false)}
+                open={openDrawer}
+                //   size="large"
+            >
+                {clientes.map((cliente) => (
+                    <div
+                        className="flex justify-between items-center border-b py-3"
+                        key={cliente._id}
+                    >
+                        <p className="truncate">
+                            {cliente.nombres} {cliente.apellidos}
+                        </p>
+                        <a
+                            onClick={() => seleccionarCliente(cliente)}
+                            className="py-1"
+                        >
+                            seleccionar
+                        </a>
+                    </div>
+                ))}
+            </Drawer>
+
+            <Modal
+              title="CONFIRMAR REGISTRO"
+              open={modal}
+              onOk={onFinish}
+              confirmLoading={confirmLoading}
+              onCancel={() => setModal(false)}
+              footer={[
+                  <Button key="back" onClick={() => setModal(false)}>
+                      Cerrar
+                  </Button>,
+                  <Button
+                      key="submit"
+                      type="primary"
+                      loading={confirmLoading}
+                      onClick={onFinish}
+                  >
+                      Confirmar
+                  </Button>
+              ]}
+              // centered
+          >
+              <p>¿Estas seguro de registrar prestamo en la base de datos?</p>
+          </Modal>
+            {contextHolder}
+        </div>
   )
 }
 

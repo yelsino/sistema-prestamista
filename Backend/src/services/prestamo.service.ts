@@ -71,7 +71,8 @@ export class PrestamoService {
             const prestamo = await Prestamo.findById(id)
             .populate("cliente")
             .populate("agente")
-            .populate("moneda");
+            .populate("moneda")
+            .populate("formaPago");
             if (!prestamo) {
                 return {
                     ...respuesta,
@@ -214,7 +215,11 @@ export class PrestamoService {
     generarContrato = async () => {
         // Cargar la plantilla del contrato
         // Load the docx file as binary content
-        const content = fs.readFileSync(path.join(__dirname, 'public', 'ContratoTemplate.docx'), 'binary');
+        const respuesta = new Respuesta();
+        const ubicacion = path.join(__dirname, '..', 'public', 'ContratoTemplate.docx');
+        console.log(ubicacion);
+        
+        const content = fs.readFileSync(ubicacion, 'binary');
         // const content = fs.readFileSync(path.join(__dirname, '..', 'public', 'ContratoTemplate.docx'), 'binary');
         
         const zip = new PizZip(content);
@@ -244,9 +249,9 @@ export class PrestamoService {
             compression: "DEFLATE",
         });
 
-        // buf is a nodejs Buffer, you can either write it to a
-        // file or res.send it with express for example.
         fs.writeFileSync(path.resolve(__dirname, "output.docx"), buf);
+
+        return respuesta;
 
     }
    

@@ -11,6 +11,8 @@ import { PrestamoContext } from '../Context/prestamo/PrestamoContext'
 import { DownOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Link } from 'react-router-dom'
+import PrintFicha from '../partials/clientes/PrintFicha'
+import { IconDownload, IconMoney, IconoClienteOut } from '../Components/iconos'
 
 const Clientes = () => {
   const { clientes, obtenerClientes } = useContext(ClienteContext)
@@ -20,19 +22,17 @@ const Clientes = () => {
     obtenerClientes()
   }, [])
   return (
-      <div>
-          <a
-            onClick={() => generarContrato()}
-          >BTN GENERAR CONTRATO </a>
-          <TablaAntidesing
-            data={clientes}
-            columns={columns}
-            config={{
-              title: 'Clientes',
-              link: '/clientes/nuevo'
-            }}
-          />
-      </div>
+        <div>
+            <button onClick={() => generarContrato()}>BTN GENERAR CONTRATO </button>
+            <TablaAntidesing
+                data={clientes}
+                columns={columns}
+                config={{
+                  title: 'Clientes',
+                  link: '/clientes/nuevo'
+                }}
+            />
+        </div>
   )
 }
 
@@ -119,7 +119,7 @@ const columns: ColumnsType<ICliente> = [
     render: (id) => (
             <Dropdown
                 overlayStyle={{
-                  width: 150,
+                  width: 170,
                   top: 40,
                   left: -50,
                   margin: '0 10 0 0'
@@ -137,24 +137,44 @@ const columns: ColumnsType<ICliente> = [
   }
 ]
 
-const itemsAction = (cliente: string):MenuProps['items'] => {
+const itemsAction = (cliente: string): MenuProps['items'] => {
   return [
     {
       key: '1',
       label: (
-              <Link to={`/clientes/${cliente}`} state={{ cliente }}>
-                  ver cliente
-              </Link>
+                <Link
+                    className="flex gap-x-3"
+                    to={`/clientes/${cliente}`}
+                    state={{ cliente }}
+                >
+                    <IconoClienteOut estilo="w-5 h-5 text-purple-500" />
+                    ver cliente
+                </Link>
       )
-
     },
     {
       key: '2',
-      label: <Link to='/prestamos/nuevo' state={{ cliente }}>prestar</Link>
+      label: (
+                <Link
+                    className="flex gap-x-3"
+                    to="/prestamos/nuevo"
+                    state={{ cliente }}
+                >
+                    <IconMoney estilo="w-5 h-5 text-purple-500" />
+                    prestar dinero
+                </Link>
+      )
     },
     {
       key: '3',
-      label: <Link to="/prestamos/nuevo">ficha cliente</Link>
+      label: (
+                <PrintFicha cliente={cliente}>
+                    <div className="flex gap-x-3 ">
+                        <IconDownload estilo="w-5 h-5 text-purple-500" />
+                        ficha cliente
+                    </div>
+                </PrintFicha>
+      )
     }
   ]
 }

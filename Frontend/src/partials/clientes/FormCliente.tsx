@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Form, Input, Select, Switch } from 'antd'
+import { Button, Form, Input, message, Modal, Select, Switch } from 'antd'
 import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
 import { DireccionContext } from '../../Context/direcciones/DireccionContext'
 import { ClienteContext } from '../../Context/cliente/ClienteContext'
@@ -13,6 +13,9 @@ const FormCliente: React.FC = () => {
   const [form] = Form.useForm()
   const [provincias, setProvincias] = useState([])
   const [distritos, setDistritos] = useState([])
+  const [modal, setModal] = useState(false)
+  const [confirmLoading, setConfirmLoading] = useState(false)
+  const [messageApi, contextHolder] = message.useMessage()
 
   const { departamentos, obtenerDepartamentos, obtenerProvincias, obtenerDistritos } = useContext(DireccionContext)
 
@@ -38,9 +41,37 @@ const FormCliente: React.FC = () => {
     setDistritos(distritoOptions)
   }
 
-  const onFinish = async (values: RegistroCliente) => {
+  // const showModal = () => {
+  //   setModal(true)
+  // }
+
+  const onFinish2 = async (values: RegistroCliente) => {
     await generarCliente(values)
-    navigate('/clientes')
+  }
+
+  console.log(onFinish2)
+
+  const onFinish = async () => {
+    setConfirmLoading(true)
+    const values:RegistroCliente = await form.validateFields()
+
+    const respuesta = await generarCliente(values)
+    setTimeout(() => {
+      setModal(false)
+      setConfirmLoading(false)
+      if (respuesta.ok) {
+        messageApi.open({
+          type: 'success',
+          content: 'Registro existoso!'
+        })
+        navigate('/clientes')
+      } else {
+        messageApi.open({
+          type: 'error',
+          content: 'Error al registrar!'
+        })
+      }
+    }, 1000)
   }
 
   useEffect(() => {
@@ -82,7 +113,7 @@ const FormCliente: React.FC = () => {
                 empresa: '',
                 correo: ''
               }}
-              onFinish={onFinish}
+              onFinish={() => setModal(true)}
           >
               <div className="pt-5 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
                   <Form.Item
@@ -429,6 +460,31 @@ const FormCliente: React.FC = () => {
                   )}
               </Form.Item>
           </Form>
+
+          <Modal
+              title="CONFIRMAR REGISTRO"
+              open={modal}
+              onOk={onFinish}
+              confirmLoading={confirmLoading}
+              onCancel={() => setModal(false)}
+              footer={[
+                  <Button key="back" onClick={() => setModal(false)}>
+                      Cerrar
+                  </Button>,
+                  <Button
+                      key="submit"
+                      type="primary"
+                      loading={confirmLoading}
+                      onClick={onFinish}
+                  >
+                      Confirmar
+                  </Button>
+              ]}
+              // centered
+          >
+              <p>¿Estas seguro de registrar al cliente en la base de datos?</p>
+          </Modal>
+          {contextHolder}
       </div>
   )
 }

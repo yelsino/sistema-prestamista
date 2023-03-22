@@ -6,7 +6,7 @@ import { PrestamoAction } from './prestamoReducer'
 
 interface PropsContext extends PrestamoState {
   dispatch: React.Dispatch<PrestamoAction>
-  generarPrestamo: (prestamo: IPrestamo) => Promise<IRespuesta<IPrestamo>>,
+  generarPrestamo: (prestamo: IPrestamo) => any,
   obtenerPrestamos: () => Promise<IRespuesta<IPrestamo[]>>
   obtenerPrestamo: (id:string) => Promise<IRespuesta<IPrestamo>>
   obtenerDetallePrestamo: (IPrestamo) => Promise<IRespuesta<IPrestamo[]>>
