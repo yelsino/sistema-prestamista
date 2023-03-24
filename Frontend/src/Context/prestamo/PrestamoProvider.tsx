@@ -29,7 +29,7 @@ export const PrestamoProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(prestamoReducer, INITIAL_STATE)
 
   const generarPrestamo = async (prestamo: IPrestamo) => {
-    const respuesta = await fetchConToken<Blob>({
+    const respuesta = await fetchConToken<IRespuesta<IPrestamo>>({
       endpoint: 'prestamos/nuevo',
       method: 'POST',
       body: prestamo

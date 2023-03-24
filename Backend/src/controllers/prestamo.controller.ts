@@ -32,7 +32,6 @@ export class PrestamoController {
 
   obtenerFormasPago = async (req: RQ, res: RES) => responder(await this.prestamo.obtenerFormasPago(), res);
 
-  generarContrato = async (req: RQ, res: RES) => responder(await this.prestamo.generarContrato(), res);
 
 }
 

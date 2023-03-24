@@ -15,7 +15,7 @@ const PrintFicha = ({ cliente, children }: Props) => {
   })
 
   const { obtenerDetalleCliente, clienteDetalle } =
-  useContext(ClienteContext)
+        useContext(ClienteContext)
 
   useEffect(() => {
     if (cliente) {
@@ -26,10 +26,6 @@ const PrintFicha = ({ cliente, children }: Props) => {
   return (
         <>
             <div onClick={handlePrint}>{children}</div>
-            {/* <div onClick={handlePrint}>
-                <IconPrintSolid estilo="text-purple-500 w-7 h-7 hover:text-purple-700 cursor-pointer" />
-            </div> */}
-
             <div style={{ display: 'none' }}>
                 <FichaCliente ref={componentRef} cliente={clienteDetalle} />
             </div>

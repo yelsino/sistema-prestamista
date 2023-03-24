@@ -65,7 +65,7 @@ const Prestamos = () => {
       }
     },
     {
-      title: 'Accion',
+      title: 'Acción',
       key: 'accion',
       dataIndex: '_id',
       fixed: 'right',

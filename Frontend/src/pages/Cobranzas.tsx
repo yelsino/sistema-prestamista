@@ -53,7 +53,7 @@ const Cobranzas = () => {
       align: 'center'
     },
     {
-      title: 'Accion',
+      title: 'Acción',
       key: 'accion',
       dataIndex: 'acciones',
       fixed: 'right',

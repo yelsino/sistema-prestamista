@@ -37,7 +37,7 @@ const FormPrestamos: React.FC = () => {
 
   const { buscarClientes, obtenerCliente, clientes, cliente, dispatch } =
         useContext(ClienteContext)
-  const { generarPrestamo, obtenerFormasPago, formasPago } =
+  const { generarPrestamo, obtenerPrestamo, obtenerFormasPago, formasPago } =
         useContext(PrestamoContext)
   const { obtenerMoneda, monedas } = useContext(MonedaContext)
   const { user } = useContext(AuthContext)
@@ -93,25 +93,28 @@ const FormPrestamos: React.FC = () => {
       montoMora: values.montoMora
     }
 
-    const respuesta = await generarPrestamo(prestamo)
-    await generateDocument({
-      nombrePrestamista: 'Yelsin Pablo Caso Alanya',
-      direccionPrestamista: 'Jr. Los Alamos 123',
-      nombrePrestatario: 'Juan Gabriel Perez Ramos',
-      direccionPrestatario: 'Jr primavera 1555',
-      montoPrestado: 5000,
-      fechaLimiteDias: 255,
-      porcentajePrestamo: 10,
-      formaPago: 'QUINCENAL',
-      garantia: 'TERRENO 255 M2'
-    })
-    setTimeout(() => {
+    const res = await generarPrestamo(prestamo)
+
+    setTimeout(async () => {
       setModal(false)
       setConfirmLoading(false)
-      if (respuesta.ok) {
+      if (res.ok) {
         messageApi.open({
           type: 'success',
           content: 'Registro existoso!'
+        })
+        const prestamo = await obtenerPrestamo(res.data._id)
+        const { cliente, monto, fechaEmision, interes, formaPago } = prestamo.data
+        generateDocument({
+          nombrePrestamista: cliente.nombres + ' ' + cliente.apellidos,
+          direccionPrestamista: cliente.direccion.nombre,
+          nombrePrestatario: user.nombres + ' ' + user.apellidos,
+          direccionPrestatario: 'Jr primavera 1555',
+          montoPrestado: monto,
+          fechaLimiteDias: fechaEmision,
+          porcentajePrestamo: interes,
+          formaPago: formaPago.nombre,
+          garantia: 'TERRENO 255 M2'
         })
         navigate('/prestamos')
       } else {

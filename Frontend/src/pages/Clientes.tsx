@@ -109,7 +109,7 @@ const columns: ColumnsType<ICliente> = [
     }
   },
   {
-    title: 'Accion',
+    title: 'Acción',
     key: 'accion',
     dataIndex: '_id',
     fixed: 'right',

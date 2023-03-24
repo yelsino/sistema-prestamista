@@ -16,6 +16,5 @@ router.get("/obtener-contratos", prestamo.obtenerContratos);
 router.get("/cuotas/:prestamo", prestamo.obtenerCuotasPrestamo);
 router.post("/pagar-cuotas", prestamo.pagarCuotas);
 router.post("/cancelar-pago", prestamo.cancelarPago);
-router.post("/generar-contrato", prestamo.generarContrato);
 
 export { router };
