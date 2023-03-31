@@ -4,6 +4,7 @@ import { IUsuario } from "./usuario.interface";
 
 export interface IPrestamo {
     _id?: string;
+    codigo: string;
     numero: number;
     cliente: ICliente;
     monto: number;

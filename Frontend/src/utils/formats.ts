@@ -7,3 +7,13 @@ export const formatToMoney = (value:number) => {
 
   return Number(format)
 }
+
+export const formatToMoney2 = (monto: number, positivo: boolean = false) => {
+  const signo = positivo ? '-' : ''
+  const num = Math.abs(monto)
+  const formattedNum = num.toLocaleString('es-PE', {
+    style: 'currency',
+    currency: 'PEN'
+  })
+  return `${signo}${formattedNum}`
+}

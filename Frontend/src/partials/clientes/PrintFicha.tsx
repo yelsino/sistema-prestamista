@@ -12,6 +12,7 @@ const PrintFicha = ({ cliente, children }: Props) => {
   const componentRef = useRef()
   const handlePrint = useReactToPrint({
     content: () => componentRef.current
+
   })
 
   const { obtenerDetalleCliente, clienteDetalle } =

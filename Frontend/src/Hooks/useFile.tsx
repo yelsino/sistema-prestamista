@@ -8,7 +8,7 @@ function loadFile (url, callback) {
 }
 
 export const useFile = (url:string) => {
-  const generateDocument = (data) => {
+  const generateDocument = (data, fileName) => {
     loadFile(url, function (error, content) {
       if (error) {
         throw error
@@ -26,7 +26,7 @@ export const useFile = (url:string) => {
         mimeType:
                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       }) // Output the document using Data-URI
-      saveAs(blob, 'output.docx')
+      saveAs(blob, `${fileName}.docx`)
     })
   }
 

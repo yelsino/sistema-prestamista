@@ -2,10 +2,10 @@
 import { Schema,  model } from "mongoose";
 import { ICuota } from "types-prestamista";
 
-
 const CuotaSchema = new Schema<ICuota>(
   {
     cliente: { type: Schema.Types.ObjectId, ref: "clientes" },
+    codigo: String,
     agente: { type: Schema.Types.ObjectId, ref: "usuarios" },
     fechaPago: Date,
     fechaLimite: Date,
@@ -15,7 +15,7 @@ const CuotaSchema = new Schema<ICuota>(
     numeroCuota: Number,
   }
 );
-  
+
 
 const Cuota = model("cuotas", CuotaSchema);
 export default Cuota;

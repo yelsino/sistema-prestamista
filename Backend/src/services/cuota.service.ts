@@ -4,7 +4,7 @@ import FormaPago from "../models/FormaPagoModel";
 import Prestamo from "../models/PrestamoModel";
 import { Respuesta } from "../models/Respuesta";
 import logger from "../utils/logger";
-
+import * as randomstring from 'randomstring';
 export class CuotaService {
 
     obtenerCuotas = async (): Promise<IRespuesta<ICuota[]>> => {
@@ -36,6 +36,12 @@ export class CuotaService {
             const cuotasGeneradas = cuotas.map(async (v,index) => {
                 const fechaActual = new Date();
                 const fechaLimite = fechaActual.setDate(fechaActual.getDate() + (formaPago.dias * index + 1));
+                const codigoGenerado = randomstring.generate({
+                    length: 8,
+                    charset: "alphabetic",
+                    capitalization: "uppercase",
+                    readable: true,
+                  });
                 const cuota = new Cuota( {
                     cliente: prestamo.cliente,
                     agente: prestamo.agente,
@@ -43,6 +49,7 @@ export class CuotaService {
                     monto: (prestamo.monto * (prestamo.interes / 100) + prestamo.monto) / prestamo.numeroCuotas,
                     numeroCuota: v,
                     estado: "PENDIENTE",
+                    codigo:codigoGenerado,
                     fechaLimite: fechaLimite,
                     
                     // fechaPago: new D,

@@ -9,6 +9,7 @@ import Prestamos from '../pages/Prestamos'
 import FormCliente from '../partials/clientes/FormCliente'
 import VerCliente from '../partials/clientes/VerCliente'
 import FormCobranza from '../partials/cobranza/FormCobranza'
+import Vaucher from '../partials/cobranza/Vaucher'
 // import FormCobranza from '../partials/cobranza/FormCobranza'
 import FormMoneda from '../partials/monedas/FormMoneda'
 import FormPrestamos from '../partials/prestamo/FormPrestamo'
@@ -45,6 +46,10 @@ const RouterApp = () => {
         {
           path: '/clientes',
           element: <Clientes />
+        },
+        {
+          path: '/vaucher',
+          element: <Vaucher />
         },
         {
           path: '/clientes/nuevo',

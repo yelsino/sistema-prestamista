@@ -4,6 +4,7 @@ import { IUsuario } from "./usuario.interface";
 
 export interface ICuota {
     _id?: string;
+    codigo: string;
     cliente: ICliente;
     agente: IUsuario;
     fechaPago: Date;

@@ -90,7 +90,8 @@ const FormPrestamos: React.FC = () => {
       numeroCuotas: values.cuotas,
       formaPago: values.formaPago,
       fechaEmision: values.fechaEmision,
-      montoMora: values.montoMora
+      montoMora: values.montoMora,
+      codigo: ''
     }
 
     const res = await generarPrestamo(prestamo)
@@ -105,6 +106,7 @@ const FormPrestamos: React.FC = () => {
         })
         const prestamo = await obtenerPrestamo(res.data._id)
         const { cliente, monto, fechaEmision, interes, formaPago } = prestamo.data
+        const fileName = cliente.nombres + '-' + cliente.apellidos + '/' + monto + '/' + new Date().toLocaleDateString('es-PE')
         generateDocument({
           nombrePrestamista: cliente.nombres + ' ' + cliente.apellidos,
           direccionPrestamista: cliente.direccion.nombre,
@@ -115,7 +117,7 @@ const FormPrestamos: React.FC = () => {
           porcentajePrestamo: interes,
           formaPago: formaPago.nombre,
           garantia: 'TERRENO 255 M2'
-        })
+        }, fileName)
         navigate('/prestamos')
       } else {
         messageApi.open({
@@ -167,7 +169,7 @@ const FormPrestamos: React.FC = () => {
       const monto: number = values.monto || 0
       const interes: number = values.interes || 0
       const cuotas: number = values.cuotas || 0
-      const valorInteres: number = monto * (interes / 100)
+      const valorInteres: number = Math.round(monto * (interes / 100))
       const montoTotal: number = Number(monto) + valorInteres
       const valorCuota: number = Math.round(montoTotal / cuotas)
       form.setFieldsValue({

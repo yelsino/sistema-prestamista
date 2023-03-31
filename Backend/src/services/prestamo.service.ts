@@ -6,7 +6,7 @@ import Prestamo from "../models/PrestamoModel";
 import { Respuesta } from "../models/Respuesta";
 import logger from "../utils/logger";
 import { CuotaService } from "./cuota.service";
-
+import * as randomstring from 'randomstring';
 export class PrestamoService {
 
     cuotas: CuotaService;
@@ -21,7 +21,8 @@ export class PrestamoService {
             .sort({ _id: -1 })
             .populate("cliente")
             .populate("agente")
-            .populate("moneda");
+            .populate("moneda")
+            .populate("formaPago");
 
             return {
                 ...respuesta,
@@ -70,6 +71,9 @@ export class PrestamoService {
             .populate("agente")
             .populate("moneda")
             .populate("formaPago");
+
+            console.log(prestamo);
+            
             if (!prestamo) {
                 return {
                     ...respuesta,
@@ -127,10 +131,18 @@ export class PrestamoService {
             if (!cliente) return { ...respuesta, code: 404, ok: false, data: null, mensaje: "CLIENTE NO ENCONTRADO" };
 
             const numeroPrestamo = await Prestamo.countDocuments();
+            
+            const codigoGenerado = randomstring.generate({
+                length: 6,
+                charset: "alphabetic",
+                capitalization: "uppercase",
+                readable: true,
+              });
             const prestamoCreado = await Prestamo.create({
                 ...prestamo,
                 estado: "PENDIENTE",
                 numero: numeroPrestamo + 1,
+                codigo: codigoGenerado
             });
             await this.cuotas.crearCuotas(prestamoCreado);
 

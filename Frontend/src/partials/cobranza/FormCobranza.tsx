@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { LockOutlined, UserOutlined, DownOutlined } from '@ant-design/icons'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import {
   Form,
   Input,
@@ -13,14 +13,10 @@ import {
   MenuProps
 } from 'antd'
 import Search from 'antd/es/input/Search'
-import {
-  IconDownload,
-  IconMoney,
-  IconoClienteOut
-} from '../../Components/iconos'
+import { IconoClienteOut } from '../../Components/iconos'
 import { TablaAntidesing } from '../dashboard/TableAntidesing'
 import { ColumnsType } from 'antd/es/table'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { PrestamoContext } from '../../Context/prestamo/PrestamoContext'
 import { ICuota } from 'types-prestamista'
 import { dateToEspanish } from '../../utils/Utils'
@@ -28,17 +24,26 @@ import { ClienteContext } from '../../Context/cliente/ClienteContext'
 import { formatToMoney } from '../../utils/formats'
 import PrintFicha from '../clientes/PrintFicha'
 import './estilo.css'
+import Vaucher from './Vaucher'
+// import PrintVaucher from './PrintVaucher'
+import { useReactToPrint } from 'react-to-print'
+import { VaucherPrint } from './VaucherPrint'
 
 const FormCobranza: React.FC = () => {
   //   const [empresaState, setEmpresa] = useState(false)
 
   const [form] = Form.useForm()
   const { id } = useParams()
+  const componentRef = useRef()
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current
+  })
 
   const [pagarModal, setPagarModal] = useState(false)
   const [cancelarModal, setCancelarModal] = useState(false)
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [openDrawer, setOpenDrawer] = useState(false)
+  const [pagado, setPagado] = useState(false)
   //   const [clientesSearch, setClientesSearch] = useState<ICliente[]>([])
 
   const {
@@ -74,6 +79,12 @@ const FormCobranza: React.FC = () => {
   }
 
   const showModal = (cuotas: ICuota[]) => {
+    if (cuotas.length <= 0) {
+      return messageApi.open({
+        type: 'info',
+        content: 'Debes seleccionar cuotas'
+      })
+    }
     setCuotasAPagar(cuotas)
     setPagarModal(true)
   }
@@ -87,7 +98,6 @@ const FormCobranza: React.FC = () => {
     setConfirmLoading(true)
     const respuesta = await pagarCuotas(cuotasAPagar)
     setTimeout(() => {
-      setPagarModal(false)
       setConfirmLoading(false)
       if (!respuesta.ok) {
         return messageApi.open({
@@ -95,11 +105,17 @@ const FormCobranza: React.FC = () => {
           content: 'Ha ocurrido un error'
         })
       }
+      setPagado(true)
       messageApi.open({
         type: 'success',
         content: 'Has realizado un pago'
       })
     }, 1000)
+  }
+
+  const cancelarOperacion = () => {
+    setPagado(false)
+    setPagarModal(false)
   }
 
   const cancelarPagoCuota = () => {
@@ -217,7 +233,9 @@ const FormCobranza: React.FC = () => {
                             overlayStyle={{
                               width: 170
                             }}
-                            menu={{ items: itemsAction(rowCuota, showModalCancelar) }}
+                            menu={{
+                              items: itemsAction(rowCuota, showModalCancelar)
+                            }}
                         >
                             <div
                                 className="flex justify-center cursor-pointer  text-purple-400 hover:text-purple-500 ease-in-out duration-300"
@@ -385,41 +403,46 @@ const FormCobranza: React.FC = () => {
                 </Form.Item>
             </Form>
             <Modal
-                title="CONFIRMA EL PAGO"
+                title="RECIBO DE PAGO"
                 open={pagarModal}
                 onOk={realizarPagos}
                 confirmLoading={confirmLoading}
-                onCancel={() => setPagarModal(false)}
+                onCancel={cancelarOperacion}
                 footer={[
-                    <Button key="back" onClick={() => setPagarModal(false)}>
-                        Cerrar
+                    <Button key="back" onClick={cancelarOperacion}>
+                        Cancelar
                     </Button>,
-                    <Button
-                        key="submit"
-                        type="primary"
-                        loading={confirmLoading}
-                        onClick={realizarPagos}
-                    >
-                        Confirmar
-                    </Button>
+                    !pagado
+                      ? (
+                        <Button
+                            key="submit"
+                            type="primary"
+                            loading={confirmLoading}
+                            onClick={realizarPagos}
+                        >
+                            Pagar
+                        </Button>
+                        )
+                      : (
+                        <Button type="primary" onClick={handlePrint}>
+                            Imprimir
+                            <div style={{ display: 'none' }}>
+                                <VaucherPrint
+                                    ref={componentRef}
+                                    cuotas={cuotas}
+                                    cuotasAPagar={cuotasAPagar}
+                                    prestamo={prestamo}
+                                />
+                            </div>
+                        </Button>
+                        )
                 ]}
-                // centered
             >
-                {cuotasAPagar.map((cuota, index) => (
-                    <div
-                        className={` py-3 ${
-                            index === cuotasAPagar.length - 1 ? '' : 'border-b'
-                        }`}
-                        key={cuota._id}
-                    >
-                        <p>Numero cuota: {cuota?.numeroCuota}</p>
-                        <p>
-                            Fecha de vencimiento:{' '}
-                            {dateToEspanish(cuota?.fechaLimite)}
-                        </p>
-                        <p>Monto de cuota: {formatToMoney(cuota?.monto)}</p>
-                    </div>
-                ))}
+                <Vaucher
+                    cuotasAPagar={cuotasAPagar}
+                    cuotas={cuotas}
+                    prestamo={prestamo}
+                />
             </Modal>
 
             <Modal
@@ -489,12 +512,15 @@ const FormCobranza: React.FC = () => {
 
 export default FormCobranza
 
-const itemsAction = (rowCuota: ICuota, showModalCancelar): MenuProps['items'] => {
+const itemsAction = (
+  rowCuota: ICuota,
+  showModalCancelar
+): MenuProps['items'] => {
   return [
     {
       key: '1',
       label: (
-                <PrintFicha cliente={rowCuota}>
+                <PrintFicha cliente="312321321321">
                     <div className="flex gap-x-3 ">
                         {/* <IconMoney estilo="w-5 h-5 text-purple-500" /> */}
                         <svg
@@ -519,25 +545,26 @@ const itemsAction = (rowCuota: ICuota, showModalCancelar): MenuProps['items'] =>
     {
       key: '2',
       label: (
-                    <div
-                      onClick={() => showModalCancelar(rowCuota)}
-                      className="flex gap-x-3 hover:text-purple-500 ">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={2.5}
-                            stroke="currentColor"
-                            className="w-5 h-5 text-purple-500"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                        </svg>
-                        Cancelar Pago
-                    </div>
+                <div
+                    onClick={() => showModalCancelar(rowCuota)}
+                    className="flex gap-x-3 hover:text-purple-500 "
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
+                        stroke="currentColor"
+                        className="w-5 h-5 text-purple-500"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                    </svg>
+                    Cancelar Pago
+                </div>
       )
     }
   ]

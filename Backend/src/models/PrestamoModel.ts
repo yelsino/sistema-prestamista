@@ -1,11 +1,12 @@
 
 import { Schema,  model } from "mongoose";
-import { IMoneda, IPrestamo } from "types-prestamista";
+import { IPrestamo } from "types-prestamista";
 
 const PrestamoSchema = new Schema<IPrestamo>(
   {
     numero: Number,
     cliente: { type: Schema.Types.ObjectId, ref: "clientes" },
+    codigo: String,
     monto: Number,
     interes: Number,
     montoTotal: Number,
@@ -15,6 +16,9 @@ const PrestamoSchema = new Schema<IPrestamo>(
     numeroCuotas: Number,
     formaPago: String,
     fechaEmision: { type: Date },
+  },
+  {
+    timestamps: true
   }
 );
 
