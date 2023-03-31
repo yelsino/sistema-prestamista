@@ -6,7 +6,7 @@ function DataTable () {
   return (
     <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200">
       <header className="px-5 py-4 border-b border-slate-100 flex justify-between">
-        <h2 className="font-semibold text-slate-800">Clientes</h2>
+        <h2 className="font-semibold text-slate-800">Top Clientes</h2>
         <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white">
                       <svg
                           className="w-3 h-3 fill-current opacity-50 shrink-0"

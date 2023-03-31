@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { AuthContext } from '../Context/auth/AuthContext'
 import SidebarLinkGroup from './SidebarLinkGroup'
 
 // import SidebarLinkGroup from './SidebarLinkGroup'
@@ -13,6 +14,7 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
 
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded')
   const [sidebarExpanded, setSidebarExpanded] = useState(storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true')
+  const { userLogout } = useContext(AuthContext)
 
   // close on click outside
   useEffect(() => {
@@ -364,7 +366,7 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
               <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">Mas</span>
             </h3>
             <ul className="mt-3">
-              <SidebarLinkGroup>
+              {/* <SidebarLinkGroup>
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
@@ -390,8 +392,8 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
                     </React.Fragment>
                   )
                 }}
-              </SidebarLinkGroup>
-              <SidebarLinkGroup>
+              </SidebarLinkGroup> */}
+              {/* <SidebarLinkGroup>
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
@@ -423,19 +425,16 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
                     </React.Fragment>
                   )
                 }}
-              </SidebarLinkGroup>
+              </SidebarLinkGroup> */}
               <SidebarLinkGroup activecondition={pathname.includes('component')}>
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
-                      <Link
-                        to="/"
+                      <button
                         className={`block text-slate-200 truncate transition duration-150 ${
                           pathname.includes('component') ? 'hover:text-slate-200' : 'hover:text-white'
                         }`}
-                        onClick={(e) => {
-                          sidebarExpanded ? handleClick() : setSidebarExpanded(true)
-                        }}
+                        onClick={() => userLogout()}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
@@ -458,7 +457,7 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
                             </span>
                           </div>
                         </div>
-                      </Link>
+                      </button>
                     </React.Fragment>
                   )
                 }}
