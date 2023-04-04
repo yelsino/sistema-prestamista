@@ -13,6 +13,7 @@ import { ClienteProvider } from './Context/cliente/ClienteProvider'
 import { DireccionProvider } from './Context/direcciones/DireccionProvider'
 import { PrestamoProvider } from './Context/prestamo/PrestamoProvider'
 import { MonedaProvider } from './Context/moneda/MonedaProvider'
+import { InterfazProvider } from './Context/interfaz/InterfazProvider'
 
 function App () {
   const firebaseConfig = {
@@ -29,21 +30,23 @@ function App () {
   getAnalytics(app)
 
   return (
-      <AuthProvider>
-          <ClienteProvider>
-              <DireccionProvider>
-                  <MonedaProvider>
-                      <PrestamoProvider>
-                          <StyleProvider hashPriority="high">
-                              <Router>
-                                  <RouterApp />
-                              </Router>
-                          </StyleProvider>
-                      </PrestamoProvider>
-                  </MonedaProvider>
-              </DireccionProvider>
-          </ClienteProvider>
-      </AuthProvider>
+        <InterfazProvider>
+            <AuthProvider>
+                <ClienteProvider>
+                    <DireccionProvider>
+                        <MonedaProvider>
+                            <PrestamoProvider>
+                                <StyleProvider hashPriority="high">
+                                    <Router>
+                                        <RouterApp />
+                                    </Router>
+                                </StyleProvider>
+                            </PrestamoProvider>
+                        </MonedaProvider>
+                    </DireccionProvider>
+                </ClienteProvider>
+            </AuthProvider>
+        </InterfazProvider>
   )
 }
 

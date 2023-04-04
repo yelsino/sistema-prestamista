@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
 import SearchModal from './header/SearchModal'
 import Notifications from './header/Notifications'
 import Help from './header/Help'
 import UserMenu from './header/UserMenu'
+import { useState } from 'react'
 
 function Header ({
   sidebarOpen,
@@ -39,7 +39,7 @@ function Header ({
           <div className="flex items-center">
 
             <button
-              className={`w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 transition duration-150 rounded-full ml-3 ${searchModalOpen && 'bg-slate-200'}`}
+              className={`w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 transition duration-150 rounded-full ml-3 ${sidebarOpen && 'bg-slate-200'}`}
               onClick={(e) => { e.stopPropagation(); setSearchModalOpen(true) }}
               aria-controls="search-modal"
             >

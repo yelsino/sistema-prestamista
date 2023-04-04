@@ -1,26 +1,34 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 
 import Sidebar from '../partials/Sidebar'
 import Header from '../partials/Header'
 import { Link, Outlet } from 'react-router-dom'
+import { InterfazContext } from '../Context/interfaz/InterfazContext'
 
 // interface Props {
 //     children: React.ReactNode;
 // }
 
 export const Background = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { sidebar, dispatchInterfaz } = useContext(InterfazContext)
+
+  const setSearchModalOpen = (estado:boolean) => {
+    dispatchInterfaz({
+      payload: estado,
+      type: 'SHOW_SIDEBAR'
+    })
+  }
 
   return (
       <div className="flex h-screen overflow-hidden">
-          <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <Sidebar sidebarOpen={sidebar} setSidebarOpen={setSearchModalOpen} />
 
           {/* Content area */}
           <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
               {/*  Site header */}
               <Header
-                  sidebarOpen={sidebarOpen}
-                  setSidebarOpen={setSidebarOpen}
+                  sidebarOpen={sidebar}
+                  setSidebarOpen={setSearchModalOpen}
               />
 
               <main>

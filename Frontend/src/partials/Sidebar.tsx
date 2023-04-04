@@ -25,7 +25,7 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
     }
     document.addEventListener('click', clickHandler)
     return () => document.removeEventListener('click', clickHandler)
-  }, [])
+  })
 
   // close if the esc key is pressed
   useEffect(() => {
@@ -35,10 +35,10 @@ function Sidebar ({ sidebarOpen, setSidebarOpen }:any) {
     }
     document.addEventListener('keydown', keyHandler)
     return () => document.removeEventListener('keydown', keyHandler)
-  }, [])
+  })
 
   useEffect(() => {
-    localStorage.setItem('sidebar-expanded', JSON.stringify(sidebarExpanded))
+    localStorage.setItem('sidebar-expanded', sidebarExpanded as any)
     if (sidebarExpanded) {
       document.querySelector('body').classList.add('sidebar-expanded')
     } else {
